@@ -64,7 +64,7 @@ def react_assets(filename):
     return send_from_directory(DIST / "assets", filename)
 
 
-PROJECT_PAGES = {p["page"] for p in SITE["projects"] if "page" in p}
+PROJECT_PAGES = {p["page"]: p for p in SITE["projects"] if "page" in p}
 READMES = {item["readme"]: item for item in SITE["projects"] if "readme" in item}
 TAGS = sorted({tag for p in SITE["projects"] for tag in p.get("tags", [])}, key=str.lower)
 
@@ -121,9 +121,28 @@ def project_page(slug, filename):
     return send_from_directory(ROOT / "pages" / slug, filename)
 
 
+# Each RuneLite plugin's run page also explains loading the other one with this Gradle task.
+RUNELITE_PLUGINS = {
+    "leagues-task-plugin": ("ronovos-sync-tool", "runWithSyncTool"),
+    "ronovos-sync-tool": ("leagues-task-plugin", "runWithLeagues"),
+}
+
+
+def run_page(slug):
+    other, run_both = RUNELITE_PLUGINS[slug]
+    return render_template("run-plugin.html", page="projects", plugin=PROJECT_PAGES[slug],
+                           other=PROJECT_PAGES[other], run_both=run_both,
+                           tracker_url=app_url(SSO_APPS["osrs-tracker"]))
+
+
 @app.get("/projects/leagues-task-plugin/run")
 def run_plugin():
-    return render_template("run-plugin.html", page="projects", tracker_url=app_url(SSO_APPS["osrs-tracker"]))
+    return run_page("leagues-task-plugin")
+
+
+@app.get("/projects/ronovos-sync-tool/run")
+def run_sync_tool():
+    return run_page("ronovos-sync-tool")
 
 
 @app.get("/readme/<slug>")

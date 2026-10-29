@@ -41,8 +41,24 @@ def test_project_page_stays_in_its_folder(client, path):
     assert client.get(path).status_code == 404
 
 
-def test_run_plugin_links_the_tracker(client):
-    assert f'href="{TRACKER}/"'.encode() in client.get("/projects/leagues-task-plugin/run").data
+@pytest.mark.parametrize("slug", ["leagues-task-plugin", "ronovos-sync-tool"])
+def test_run_plugin_links_the_tracker(client, slug):
+    assert f'href="{TRACKER}/"'.encode() in client.get(f"/projects/{slug}/run").data
+
+
+@pytest.mark.parametrize("slug, run_both, other", [
+    ("leagues-task-plugin", "runWithSyncTool", "https://github.com/Ronovo/Ronovos-Sync-Tool"),
+    ("ronovos-sync-tool", "runWithLeagues", "https://github.com/Ronovo/Leagues-Task-Plugin"),
+])
+def test_run_plugin_offers_both_run_commands(client, slug, run_both, other):
+    page = client.get(f"/projects/{slug}/run").data.decode()
+    assert "gradlew.bat run</code>" in page
+    assert f"gradlew.bat {run_both}</code>" in page
+    assert f'href="{other}"' in page
+
+
+def test_sync_tool_has_a_project_page(client):
+    assert client.get("/projects/ronovos-sync-tool/").status_code == 200
 
 
 def test_security_headers(client):

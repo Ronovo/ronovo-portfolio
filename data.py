@@ -54,11 +54,20 @@ SITE = {
         {
             "title": "Leagues Tasks",
             "category": "RuneScape",
-            "desc": "A RuneLite plugin to track every task from past OSRS Leagues events, with optional sync to the Personal RuneScape Tracker.",
+            "desc": "A RuneLite plugin to track every task from past OSRS Leagues events. Pairs with Ronovo's Sync Tool to send them to the Personal RuneScape Tracker.",
             "tags": ["Java", "RuneLite", "OSRS"],
             "source": "https://github.com/Ronovo/Leagues-Task-Plugin",
             "page": "leagues-task-plugin",
             "links": [{"label": "Try it", "endpoint": "run_plugin"}],
+        },
+        {
+            "title": "Ronovo's Sync Tool",
+            "category": "RuneScape",
+            "desc": "A RuneLite plugin that sends quests, diaries, combat achievements, the collection log and Leagues Tasks completions to the Personal RuneScape Tracker.",
+            "tags": ["Java", "RuneLite", "OSRS"],
+            "source": "https://github.com/Ronovo/Ronovos-Sync-Tool",
+            "page": "ronovos-sync-tool",
+            "links": [{"label": "Try it", "endpoint": "run_sync_tool"}],
         },
         {
             "title": "Ronovo's Casino",

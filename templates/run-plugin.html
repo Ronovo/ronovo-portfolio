@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-{% set title = "Run Leagues Tasks" %}
+{% set title = "Run " ~ plugin.title %}
 {% set subtitle = "The plugin isn't on the RuneLite Plugin Hub yet, so for now it runs from its source code in RuneLite's developer mode." %}
-{% set description = "How to run the Leagues Tasks RuneLite plugin in developer mode." %}
+{% set description = "How to run the " ~ plugin.title ~ " RuneLite plugin in developer mode." %}
 {% block content %}
+  {% set other_folder = other.source.rsplit("/", 1)[-1] %}
   <article class="prose readme">
     <h2>1. Install JDK 11</h2>
     <p>RuneLite builds against Java 11. Install a JDK 11, for example
@@ -12,18 +13,22 @@
 $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
 
     <h2>2. Get the plugin</h2>
-    <p>On the <a href="https://github.com/Ronovo/Leagues-Task-Plugin" rel="noopener">GitHub page</a>, choose
+    <p>On the <a href="{{ plugin.source }}" rel="noopener">GitHub page</a>, choose
       <strong>Code → Download ZIP</strong> and extract it, or clone the repository.</p>
 
     <h2>3. Start RuneLite with the plugin</h2>
     <p>In the plugin's folder, run:</p>
     <pre><code>gradlew.bat run</code></pre>
     <p>On macOS or Linux, run <code>./gradlew run</code> instead. Gradle downloads itself the first time, so that
-      run takes a while. It builds the plugin and opens a RuneLite client in developer mode with the plugin already
+      run takes a while. It builds the plugin and opens a RuneLite client in developer mode with just this plugin
       loaded.</p>
+    <p>To load <a href="{{ other.source }}" rel="noopener">{{ other.title }}</a> in the same client, get it the same
+      way into a folder named <code>{{ other_folder }}</code> next to this one, then run:</p>
+    <pre><code>gradlew.bat {{ run_both }}</code></pre>
+    <p>If that folder isn't there, it prints a warning and starts {{ plugin.title }} on its own.</p>
 
     <h2>4. Open the plugin</h2>
-    <p>Log in, then open <strong>Leagues Tasks</strong> from its icon in the sidebar.</p>
+    <p>Log in, then open <strong>{{ plugin.title }}</strong> from its icon in the sidebar.</p>
 
     <h2>Jagex accounts</h2>
     <p>The developer client can't use the Jagex Launcher's login directly. Follow RuneLite's
@@ -37,9 +42,20 @@ $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
       started from the RuneLite or Jagex launcher never runs in developer mode. A copied plugin is ignored.</p>
 
     <h2>Syncing to the Tracker</h2>
-    <p>The plugin can send your progress to the
+    {% if plugin.page == "ronovos-sync-tool" %}
+    <p>The plugin sends your progress to the
       <a href="{{ tracker_url }}" target="_blank" rel="noopener">Personal RuneScape Tracker</a>. Log in there,
       press <strong>Copy plugin token</strong>, and paste it with the Tracker's address into the plugin's
       <strong>Sync Settings</strong>.</p>
+    <p>Its <strong>Sync Tasks</strong> button sends the tasks you completed in {{ other.title }}. The
+      <strong>Sync Progress</strong> button in {{ other.title }} only works when both plugins are loaded, using
+      <code>{{ run_both }}</code> above.</p>
+    {% else %}
+    <p>{{ plugin.title }} doesn't send your progress anywhere itself. To send your completed tasks to the
+      <a href="{{ tracker_url }}" target="_blank" rel="noopener">Personal RuneScape Tracker</a>, also load
+      <a href="{{ other.source }}" rel="noopener">{{ other.title }}</a> with <code>{{ run_both }}</code> above and
+      set it up as <a href="{{ url_for('project_page', slug=other.page) }}">its page</a> explains. The
+      <strong>Sync Progress</strong> button on the start menu then sends them.</p>
+    {% endif %}
   </article>
 {% endblock %}
