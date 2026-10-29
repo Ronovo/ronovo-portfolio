@@ -13,11 +13,12 @@ The portfolio site, and the portfolio account every app logs in with.
   account. At most 20 accounts can be made in any 10 minutes.
 - An app's portfolio login sends the browser to `/sso/authorize`. The portfolio has you log in if needed,
   then posts a login token, valid for 5 minutes and only for that app, back to the app's `/sso/callback`. It is
-  only ever sent to `/sso/callback` on the port of that app's link in `data.py`, on the host serving this site.
+  only ever sent to `/sso/callback` on that app's address: `https://<subdomain>.<PORTFOLIO_APP_DOMAIN>/` from its
+  link in `data.py`, or that link's port on the host serving this site when `PORTFOLIO_APP_DOMAIN` is unset.
   The token carries `iss` (`portfolio`), `aud` (the app's id), `sub` (the account id), `name` (the username) and a
   5-minute `exp`.
 - `/sso/me` tells an app's page which portfolio account the browser is logged in to (`{"username": ...}`, or
-  `null`). Only pages served from an app's port on this host may read it, with the browser's login cookie.
+  `null`). Only pages served from an app's address may read it, with the browser's login cookie.
 - Tokens are signed with `PORTFOLIO_SSO_PRIVATE_KEY`, which only the portfolio has. Apps check them with
   `PORTFOLIO_SSO_PUBLIC_KEY`, so an app can check a token but never make one.
 - Each app keeps its own data, tied to the portfolio account. The first portfolio login in an app asks whether to
@@ -25,8 +26,8 @@ The portfolio site, and the portfolio account every app logs in with.
 - The Python apps get portfolio login, security questions and the login lock from the shared
   [ronovo-portfolio-auth](https://github.com/Ronovo/ronovo-portfolio-auth) package, pinned in each `requirements.txt`.
   The portfolio issues its tokens with the same package, so both sides of the token are written in one place.
-- Browsers don't separate cookies by port, so every app on this host receives the portfolio's login cookie. Giving
-  each app its own host name fixes that, and is planned for when the site opens to the web.
+- With `PORTFOLIO_APP_DOMAIN` set, each app has its own host name, so only the portfolio receives its login cookie.
+  Without it, browsers don't separate cookies by port, so every app on the host receives it.
 
 ## Settings
 
@@ -37,36 +38,45 @@ The portfolio site, and the portfolio account every app logs in with.
 | `PORTFOLIO_SSO_PRIVATE_KEY` | portfolio | Signs login tokens. |
 | `PORTFOLIO_SSO_PUBLIC_KEY` | every app | Checks login tokens. |
 | `PORTFOLIO_SSO_URL` | every app | Where apps send players to log in: the portfolio's address. |
-| `APP_BIND_IP` | compose stack | The address the apps' ports listen on, such as `127.0.0.1` for local testing. |
+| `PORTFOLIO_APP_DOMAIN` | portfolio | `ronovo.io` on the server: each app's link is `https://<subdomain>.ronovo.io/`. Unset, the links use the apps' ports on this host. |
+| `SECURE_COOKIES` | portfolio | `1` marks the login cookie Secure, for a site served over HTTPS. |
+| `RONOVO_TUNNEL_TOKEN` | compose stack | The Cloudflare tunnel's token. |
 | `FLASK_DEBUG` | portfolio | `1` turns on Flask's debugger for a bare `python app.py`. Never set it on the server. |
 
 `python sso.py` prints a new key pair as `.env` lines. `.env.example` lists every key the stack needs.
 
 ## Running
 
-`docker-compose.yml` runs the portfolio and every app, each built from its GitHub `main` branch. Copy `.env.example`
-to `.env`, fill it in, and run:
+`docker-compose.yml` runs the portfolio and every app, each built from its GitHub `main` branch, behind a Cloudflare
+tunnel. No service publishes a port: the `cloudflared` service is the only way in, and Cloudflare routes `ronovo.io`
+and each app's subdomain through it. The apps run the code built into their images, so updating means rebuilding.
+Copy `.env.example` to `.env`, fill it in, and run:
 
 ```
-docker compose up -d --build
+docker compose build --pull
+docker compose up -d
 ```
 
 To test local copies instead, add a `docker-compose.local.yml` (it is git-ignored) that points each `build:` at a
-folder and blanks `REPO_URL`, so the apps don't pull GitHub's code over it when they start:
+folder, publishes each app's port on `127.0.0.1`, turns `SECURE_COOKIES` off for plain HTTP, and leaves the tunnel
+off by giving it a profile:
 
 ```yaml
-x-local-env: &local-env
-  REPO_URL: ""
-
 services:
+  cloudflared:
+    profiles: ["tunnel"]
   portfolio:
     build: .
+    ports: ["127.0.0.1:4482:8000"]
+    environment:
+      SECURE_COOKIES: "0"
   gm-toolbox:
     build: ../Gamemaster-Toolbox
-    environment: *local-env
+    ports: ["127.0.0.1:9000:8080"]
 ```
 
-Then run it with `PORTFOLIO_SSO_URL=http://localhost:4482` and `APP_BIND_IP=127.0.0.1` in `.env`:
+Then run it with `PORTFOLIO_SSO_URL=http://localhost:4482`, `PORTFOLIO_APP_DOMAIN` empty and any value for
+`RONOVO_TUNNEL_TOKEN` in `.env`:
 
 ```
 docker compose -f docker-compose.yml -f docker-compose.local.yml up --build

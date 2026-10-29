@@ -5,13 +5,13 @@ export default function ProjectCard({ project, index }: { project: Project; inde
   const hasLinks = project.source || project.about || project.links.length > 0;
   return (
     <article className="card" style={{ "--i": index } as CSSProperties}>
-      {project.category === "Games" && project.thumb && (
+      {project.thumb && (
         <div className="thumb">
           <img src={project.thumb} alt="" />
         </div>
       )}
       <h3>{project.title}</h3>
-      <p>{project.desc}</p>
+      <p className="desc">{project.desc}</p>
       <ul className="tags">
         {project.tags.map((tag) => (
           <li key={tag}>{tag}</li>

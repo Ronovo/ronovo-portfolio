@@ -38,11 +38,13 @@ app.config.update(
     # so this login cookie needs a name of its own.
     SESSION_COOKIE_NAME="portfolio_session",
     SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=os.environ.get("SECURE_COOKIES") == "1",
     PERMANENT_SESSION_LIFETIME=timedelta(days=7),
 )
 app.jinja_env.globals["MAX_ANSWER_LENGTH"] = MAX_ANSWER_LENGTH
 accounts = Accounts(str(DATA_DIR / "accounts.db"))
 SSO_KEY = sso.private_key()
+APP_DOMAIN = os.environ.get("PORTFOLIO_APP_DOMAIN", "").strip()
 
 DIST = ROOT / "frontend" / "dist"
 if not (DIST / "index.html").exists():
@@ -71,9 +73,9 @@ def react_assets(filename):
 PROJECT_PAGES = {p["page"]: p for p in SITE["projects"] if "page" in p}
 TAGS = sorted({tag for p in SITE["projects"] for tag in p.get("tags", [])}, key=str.lower)
 
-# The port each app with portfolio login is served on, which is the only place its login token is sent.
+# The link of each app with portfolio login. Its address is the only place that app's login token is sent.
 SSO_APPS = {
-    item["app"]: link["port"]
+    item["app"]: link
     for item in SITE["projects"] if "app" in item
     for link in item["links"] if "port" in link
 }
@@ -99,7 +101,7 @@ def link_json(item, link):
     elif link.get("run"):
         href = url_for("run_page", slug=item["page"])
     else:
-        href = app_url(link["port"])
+        href = app_url(link)
     return {"label": link["label"], "href": href, "external": not link.get("run")}
 
 
@@ -148,8 +150,10 @@ def this_host():
 
 
 @app.template_global()
-def app_url(port):
-    host = this_host()
+def app_url(link):
+    if APP_DOMAIN:
+        return f"https://{link['subdomain']}.{APP_DOMAIN}/"
+    host, port = this_host(), link["port"]
     return f"http://[{host}]:{port}/" if ":" in host else f"http://{host}:{port}/"
 
 
@@ -270,21 +274,15 @@ def logout():
     return redirect(url_for("home"))
 
 
-def app_port(url):
-    """The port of url when url is an app with portfolio login on this site's host, else None."""
-    parts = urlsplit(url)
-    try:
-        port = parts.port
-    except ValueError:
-        return None
-    on_this_host = parts.scheme == "http" and parts.hostname == this_host()
-    return port if on_this_host and port in SSO_APPS.values() else None
+def is_app_origin(origin):
+    """Whether origin is the address of an app with portfolio login."""
+    return origin + "/" in {app_url(link) for link in SSO_APPS.values()}
 
 
 def sso_callback_url(app_id):
-    """The only address a login token for app_id is ever posted to: /sso/callback on that app's port."""
-    port = SSO_APPS.get(app_id)
-    return None if port is None else app_url(port) + portfolio_sso.CALLBACK_PATH
+    """The only address a login token for app_id is ever posted to: /sso/callback on that app's address."""
+    link = SSO_APPS.get(app_id)
+    return None if link is None else app_url(link) + portfolio_sso.CALLBACK_PATH
 
 
 @app.get("/sso/authorize")
@@ -309,7 +307,7 @@ def sso_authorize():
 @app.get("/sso/me")
 def sso_me():
     origin = request.headers.get("Origin", "")
-    if app_port(origin) is None:
+    if not is_app_origin(origin):
         abort(403)
     response = jsonify(username=account_name())
     response.headers.update({"Access-Control-Allow-Origin": origin, "Access-Control-Allow-Credentials": "true",

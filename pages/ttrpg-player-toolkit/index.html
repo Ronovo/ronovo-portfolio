@@ -129,7 +129,7 @@ npm run preview   # serves dist/</code></pre>
       <div class="panel-box">
         <h3>With Docker</h3>
         <pre><code>docker build -t ttrpg-player-toolkit .
-docker run -d -p 8080:80 ttrpg-player-toolkit</code></pre>
+docker run -d -p 8080:8080 ttrpg-player-toolkit</code></pre>
         <p class="note">
           The <code>Dockerfile</code> builds the site and serves it with nginx on port 80. It keeps
           no data, so it needs no volume.

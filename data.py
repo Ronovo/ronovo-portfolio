@@ -12,11 +12,12 @@ SITE = {
     },
 
     # category is one of categories. Leave source, page and links out to show a card as "Coming soon".
-    # thumb is optional, relative to static/, and only shown on Games cards. featured puts the card on the home page.
+    # thumb is optional, relative to static/, and shown at the top of the card. featured puts the card on the home page.
     # source is the GitHub repo. The About link goes to page, a folder under pages/ served at /projects/<page>/.
-    # A link with port points at that port on the host serving the site; one with run at the project's Run-it page;
-    # one with url at that address.
-    # app is the id the app logs in to the portfolio with. Its login token is only sent to its port link.
+    # A link with port and subdomain points at https://<subdomain>.<PORTFOLIO_APP_DOMAIN>/, or at that port on the
+    # host serving the site when PORTFOLIO_APP_DOMAIN is unset; one with run at the project's Run-it page; one with
+    # url at that address.
+    # app is the id the app logs in to the portfolio with. Its login token is only sent to its port link's address.
     "projects": [
         {
             "title": "Esoteric Chat",
@@ -27,7 +28,7 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "Docker"],
             "source": "https://github.com/Ronovo/esoteric-chat",
             "page": "esoteric-chat",
-            "links": [{"label": "Try it", "port": 8004}],
+            "links": [{"label": "Try it", "port": 8004, "subdomain": "esoteric-chat"}],
         },
         {
             "title": "Personal RuneScape Tracker",
@@ -38,7 +39,7 @@ SITE = {
             "tags": ["TypeScript", "Node", "Docker"],
             "source": "https://github.com/Ronovo/Personal-RuneScape-Tracker",
             "page": "personal-runescape-tracker",
-            "links": [{"label": "Try it", "port": 4123}],
+            "links": [{"label": "Try it", "port": 4123, "subdomain": "osrs-tracker"}],
         },
         {
             "title": "GM Toolbox",
@@ -49,7 +50,7 @@ SITE = {
             "tags": ["C#", "ASP.NET Core", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/Gamemaster-Toolbox",
             "page": "gamemaster-toolbox",
-            "links": [{"label": "Try it", "port": 9000}],
+            "links": [{"label": "Try it", "port": 9000, "subdomain": "gm-toolbox"}],
         },
         {
             "title": "TTRPG Player Toolkit",
@@ -58,7 +59,7 @@ SITE = {
             "tags": ["JavaScript", "Docker"],
             "source": "https://github.com/Ronovo/ttrpg-player-toolkit",
             "page": "ttrpg-player-toolkit",
-            "links": [{"label": "Try it", "port": 8006}],
+            "links": [{"label": "Try it", "port": 8006, "subdomain": "ttrpg-toolkit"}],
         },
         {
             "title": "TTRPG Adventure Blog",
@@ -95,7 +96,7 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/Casino_Test",
             "page": "casino",
-            "links": [{"label": "Play", "port": 8002}],
+            "links": [{"label": "Play", "port": 8002, "subdomain": "casino"}],
         },
         {
             "title": "Space Station Explorer",
@@ -105,7 +106,7 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "SQLite","Docker"],
             "source": "https://github.com/Ronovo/online-space-station",
             "page": "space-station-explorer",
-            "links": [{"label": "Play", "port": 8003}],
+            "links": [{"label": "Play", "port": 8003, "subdomain": "space"}],
         },
         {
             "title": "Stand Alone Gun System",
@@ -115,7 +116,7 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/standalonegunsystem",
             "page": "stand-alone-gun-system",
-            "links": [{"label": "Play", "port": 8000}],
+            "links": [{"label": "Play", "port": 8000, "subdomain": "gunsystem"}],
         },
         {
             "title": "Dead But Dreaming",
@@ -126,7 +127,7 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/Dead-But-Dreaming",
             "page": "dead-but-dreaming",
-            "links": [{"label": "Play", "port": 8005}],
+            "links": [{"label": "Play", "port": 8005, "subdomain": "dead-but-dreaming"}],
         },
         {
             "title": "Ronovo Portfolio",

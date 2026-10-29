@@ -10,7 +10,8 @@ from ronovo_portfolio_auth import portfolio_sso
 from ronovo_portfolio_auth.login_limiter import MAX_FAILURES
 from ronovo_portfolio_auth.security_questions import MAX_RESET_FAILURES
 
-TRACKER = f"http://localhost:{portfolio.SSO_APPS['osrs-tracker']}"
+TRACKER = f"http://localhost:{portfolio.SSO_APPS['osrs-tracker']['port']}"
+PUBLIC_TRACKER = "https://osrs-tracker.ronovo.io"
 
 
 def test_api_site_shape(client):
@@ -80,7 +81,14 @@ def test_security_headers(client):
 
 def test_app_links_bracket_ipv6_hosts():
     with portfolio.app.test_request_context(base_url="http://[::1]:5000/"):
-        assert portfolio.app_url(8002) == "http://[::1]:8002/"
+        assert portfolio.app_url({"port": 8002, "subdomain": "casino"}) == "http://[::1]:8002/"
+
+
+def test_app_links_use_subdomains_with_an_app_domain(client, monkeypatch):
+    monkeypatch.setattr(portfolio, "APP_DOMAIN", "ronovo.io")
+    hrefs = {link["href"] for p in client.get("/api/site").get_json()["projects"] for link in p["links"]}
+    assert "https://space.ronovo.io/" in hrefs
+    assert not any(href.startswith("http://localhost:") for href in hrefs)
 
 
 def test_post_without_csrf_token_is_refused(client, username):
@@ -252,3 +260,19 @@ def test_sso_me_names_the_account_for_an_app(client, username):
 
 def test_sso_me_says_null_when_logged_out(client):
     assert client.get("/sso/me", headers={"Origin": TRACKER}).get_json() == {"username": None}
+
+
+def test_authorize_posts_to_the_app_subdomain_with_an_app_domain(client, username, monkeypatch):
+    monkeypatch.setattr(portfolio, "APP_DOMAIN", "ronovo.io")
+    register(client, username)
+    assert authorize(client, callback=f"{TRACKER}/sso/callback").status_code == 400
+    page = authorize(client, callback=f"{PUBLIC_TRACKER}/sso/callback").get_data(as_text=True)
+    assert f'action="{PUBLIC_TRACKER}/sso/callback"' in page
+
+
+@pytest.mark.parametrize("origin, status", [(PUBLIC_TRACKER, 200), (TRACKER, 403),
+                                            ("http://osrs-tracker.ronovo.io", 403),
+                                            ("https://osrs-tracker.evil.example", 403)])
+def test_sso_me_checks_app_subdomains_with_an_app_domain(client, monkeypatch, origin, status):
+    monkeypatch.setattr(portfolio, "APP_DOMAIN", "ronovo.io")
+    assert client.get("/sso/me", headers={"Origin": origin}).status_code == status

@@ -19,6 +19,9 @@ export default function Home({ site }: { site: Site }) {
           <Link className="btn btn-ghost" to="/about">
             About me
           </Link>
+          <a className="btn btn-ghost" href="https://ronovo.github.io/">
+            My Github
+          </a>
         </div>
       </Hero>
 
