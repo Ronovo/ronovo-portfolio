@@ -20,7 +20,7 @@ services:
   gm-toolbox:
     build: https://github.com/Ronovo/Gamemaster-Toolbox.git#main
     ports:
-      - "9000:8080"
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:9000:8080"
     environment: *portfolio-sso
     volumes:
       - gmtoolbox-data:/app/App_Data
@@ -29,7 +29,7 @@ services:
   osrs-tracker:
     build: https://github.com/Ronovo/Personal-RuneScape-Tracker.git#main
     ports:
-      - "4123:4123"
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:4123:4123"
     environment:
       <<: *portfolio-sso
       JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
@@ -40,7 +40,7 @@ services:
   casino:
     build: https://github.com/Ronovo/Casino_Test.git#main
     ports:
-      - "8002:8000"
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:8002:8000"
     environment: *portfolio-sso
     volumes:
       - casino-data:/app/data
@@ -49,7 +49,7 @@ services:
   space-online:
     build: https://github.com/Ronovo/online-space-staion.git#main
     ports:
-      - "8003:5000"
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:8003:5000"
     # Its own cookie name, so it does not clash with gunsystem's Flask "session" cookie on the same host.
     command: ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--threads", "8",
               "space_online.webapp:create_app({'SESSION_COOKIE_NAME': 'space_online_session'})"]
@@ -63,7 +63,7 @@ services:
   esoteric-chat:
     build: https://github.com/Ronovo/esoteric-chat.git#main
     ports:
-      - "8004:5000"
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:8004:5000"
     environment:
       <<: *portfolio-sso
       ESOTERIC_CHAT_SECRET_KEY: ${ESOTERIC_CHAT_SECRET_KEY:?set ESOTERIC_CHAT_SECRET_KEY in .env}
@@ -72,7 +72,7 @@ services:
   gunsystem:
     build: https://github.com/Ronovo/standalonegunsystem.git#main
     ports:
-      - "8000:8000"
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:8000:8000"
     environment:
       <<: *portfolio-sso
       GUNSYSTEM_SECRET_KEY: ${GUNSYSTEM_SECRET_KEY:?set GUNSYSTEM_SECRET_KEY in .env}
@@ -83,7 +83,7 @@ services:
   dead-but-dreaming:
     build: https://github.com/Ronovo/Dead-But-Dreaming.git#main
     ports:
-      - "8005:8000"
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:8005:8000"
     environment:
       <<: *portfolio-sso
       DEAD_BUT_DREAMING_SECRET_KEY: ${DEAD_BUT_DREAMING_SECRET_KEY:?set DEAD_BUT_DREAMING_SECRET_KEY in .env}

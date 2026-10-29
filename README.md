@@ -58,7 +58,7 @@ services:
     environment: *local-env
 ```
 
-Then run it with `PORTFOLIO_SSO_URL=http://localhost:4482` in `.env`:
+Then run it with `PORTFOLIO_SSO_URL=http://localhost:4482` and `APP_BIND_IP=127.0.0.1` in `.env`:
 
 ```
 docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
