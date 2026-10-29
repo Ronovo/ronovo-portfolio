@@ -1,5 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import type { Site } from "../types";
+import { categoryHref, categoryKey } from "../category";
 import { usePageTitle } from "../usePageTitle";
 import Hero from "../components/Hero";
 import SectionHead from "../components/SectionHead";
@@ -11,12 +12,12 @@ const UNFILTERED_PER_CATEGORY = 4;
 export default function Projects({ site }: { site: Site }) {
   usePageTitle("Projects", site.name);
   const [params, setParams] = useSearchParams();
-  const category = (params.get("category") ?? "").toLowerCase();
+  const category = categoryKey(params.get("category") ?? "");
   const tag = params.get("tag") ?? "";
   const filtered = Boolean(category || tag);
 
   const shown = site.projects.filter(
-    (p) => (!category || p.category.toLowerCase() === category) && (!tag || p.tags.includes(tag)),
+    (p) => (!category || categoryKey(p.category) === category) && (!tag || p.tags.includes(tag)),
   );
   const groups = site.categories
     .map((c) => ({ name: c.name, projects: shown.filter((p) => p.category === c.name) }))
@@ -37,7 +38,7 @@ export default function Projects({ site }: { site: Site }) {
         <section key={`${g.name}|${category}|${tag}`}>
           <SectionHead
             title={g.name}
-            link={filtered ? undefined : `/projects?category=${g.name.toLowerCase()}`}
+            link={filtered ? undefined : categoryHref(g.name)}
             linkText={`All ${g.name}`}
           />
           <CardGrid projects={filtered ? g.projects : g.projects.slice(0, UNFILTERED_PER_CATEGORY)} />

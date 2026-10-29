@@ -1,4 +1,5 @@
 import type { Site } from "../types";
+import { categoryKey } from "../category";
 
 interface Props {
   site: Site;
@@ -16,7 +17,7 @@ export default function Filters({ site, category, tag, matches, onChange }: Prop
         <select value={category} onChange={(e) => onChange(e.target.value, tag)}>
           <option value="">All</option>
           {site.categories.map((c) => (
-            <option key={c.name} value={c.name.toLowerCase()}>
+            <option key={c.name} value={categoryKey(c.name)}>
               {c.name}
             </option>
           ))}

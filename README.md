@@ -6,8 +6,11 @@ The portfolio site, and the portfolio account every app logs in with.
 
 - Register with a username, a password and a security question. **Forgot password?** resets the password with
   the answer; five wrong answers lock resets for 15 minutes. A question can't be changed once it is set.
-- Five wrong passwords in a row lock a username's logins for a minute. A password reset logs the account out of
-  every other browser.
+- Five wrong passwords in a row lock a username's logins for a minute. The count is kept in memory, which is why
+  the image runs one gunicorn worker: each extra worker would count on its own. A password reset logs the account
+  out of every other browser. A login lasts 7 days.
+- Usernames are public: register says when one is taken, and **Forgot password?** says when there is no such
+  account. At most 20 accounts can be made in any 10 minutes.
 - An app's portfolio login sends the browser to `/sso/authorize`. The portfolio has you log in if needed,
   then posts a login token, valid for 5 minutes and only for that app, back to the app's `/sso/callback`. It is
   only ever sent to `/sso/callback` on the port of that app's link in `data.py`, on the host serving this site.
@@ -21,6 +24,9 @@ The portfolio site, and the portfolio account every app logs in with.
   link an account the player already has there, by logging in to it once, or to make a new one.
 - The Python apps get portfolio login, security questions and the login lock from the shared
   [ronovo-portfolio-auth](https://github.com/Ronovo/ronovo-portfolio-auth) package, pinned in each `requirements.txt`.
+  The portfolio issues its tokens with the same package, so both sides of the token are written in one place.
+- Browsers don't separate cookies by port, so every app on this host receives the portfolio's login cookie. Giving
+  each app its own host name fixes that, and is planned for when the site opens to the web.
 
 ## Settings
 
@@ -31,6 +37,8 @@ The portfolio site, and the portfolio account every app logs in with.
 | `PORTFOLIO_SSO_PRIVATE_KEY` | portfolio | Signs login tokens. |
 | `PORTFOLIO_SSO_PUBLIC_KEY` | every app | Checks login tokens. |
 | `PORTFOLIO_SSO_URL` | every app | Where apps send players to log in: the portfolio's address. |
+| `APP_BIND_IP` | compose stack | The address the apps' ports listen on, such as `127.0.0.1` for local testing. |
+| `FLASK_DEBUG` | portfolio | `1` turns on Flask's debugger for a bare `python app.py`. Never set it on the server. |
 
 `python sso.py` prints a new key pair as `.env` lines. `.env.example` lists every key the stack needs.
 
@@ -71,13 +79,13 @@ pip install -r requirements.txt
 python app.py
 ```
 
-It serves on port 5000. Build the front end first (below) so there is a `frontend/dist` to serve.
+It serves on port 5000. Build the front end first (below): the app won't start without `frontend/dist`.
 
 ## Front end
 
 Home, Projects, About and the 404 page are a React and TypeScript app in `frontend/`, built with Vite. Flask serves
 the built `frontend/dist`, and the app reads everything it shows from `/api/site`, which comes from `data.py`. The
-account, README and Run-it pages are Flask templates. Both share `static/style.css`.
+account and Run-it pages are Flask templates. Both share `static/style.css`.
 
 Each project's About page is a standalone page in `pages/<slug>/`, served at `/projects/<slug>/`. Their shared
 layout is in `static/project-page.css`, and each page keeps its own colors inline. Which projects
@@ -91,8 +99,8 @@ npm install
 npm run dev
 ```
 
-`npm run dev` serves the React pages with live reload and passes `/api`, `/static`, `/account`, `/sso`, `/readme`
-and the project pages through to Flask. To try the built app on Flask alone, run `npm run build` first.
+`npm run dev` serves the React pages with live reload and passes `/api`, `/static`, `/account`, `/sso` and the
+project pages through to Flask. To try the built app on Flask alone, run `npm run build` first.
 
 ## Tests
 

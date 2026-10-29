@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ronovo's Casino &mdash; casino games in the browser</title>
+<title>Ronovo's Casino - casino games in the browser</title>
 <meta name="description" content="A repo for learning how to program casino games, played in the browser: blackjack, Ultimate Texas Hold'em, baccarat, roulette, horse racing and more.">
 <meta name="color-scheme" content="dark light">
 
@@ -20,8 +20,6 @@
     --accent: #d9b44a;
     --on-accent: #1a1405;
     --link: #e3c15a;
-    --radius: 12px;
-    --maxw: 980px;
   }
 
   @media (prefers-color-scheme: light) {
@@ -253,7 +251,7 @@ casino/
     wallet.py           a character's chip rack (saved on every change)
     game.py             Game and Round base classes + TableConfig
     session.py          database, character, wallet, randomness and achievements for one sitting
-    db.py               SQLite schema, migrations, accounts, stats, achievements, saved seasons
+    db.py               SQLite schema, accounts, stats, achievements, saved seasons
   rules/                pure rules per game (no input/output, no database)
   games/                games wired from rules + engine; registry in __init__.py
   web/
@@ -265,7 +263,6 @@ Data/
   horses.json           the racing stable
   achievements.json     achievement definitions (edits reach existing saves)
   Money/chips.json      starting chips per difficulty
-CharacterTool/          export/import scripts
 Tests/</code></pre>
       </div>
       <div class="panel-box">
@@ -281,26 +278,16 @@ Tests/</code></pre>
         <ol class="steps">
           <li><span>Put the rules as pure functions in <code>casino/rules/&lt;game&gt;.py</code> and unit test them.</span></li>
           <li><span>In <code>casino/games/&lt;game&gt;.py</code>, subclass <code>Round</code> (what happens after
-            the bets are down: <code>actions</code>, <code>perform</code>, <code>table_view</code>,
-            <code>staked</code>) and <code>Game</code> (<code>rules_pages</code>, <code>paytable</code>, and
-            <code>start</code>, which validates the bets with <code>read_stake</code>, takes them with
-            <code>take_stakes</code> and returns the round). Pay out with <code>settle</code> and end the
-            round with <code>finish</code>.</span></li>
+            the bets are down: <code>actions</code>, <code>perform</code> and <code>table_view</code>) and
+            <code>Game</code> (<code>rules_pages</code>, <code>paytable</code>, and <code>start</code>, which
+            validates the bets with <code>read_stake</code> and returns the round, built with the total stake).
+            Take later bets with <code>take</code>, pay out with <code>settle</code> and end the round with
+            <code>finish</code>.</span></li>
           <li><span>Register the class in <code>casino/games/__init__.py</code> and add a table JSON with
             <code>"game": "&lt;game_key&gt;"</code>.</span></li>
           <li><span>Add <code>casino/web/static/js/games/&lt;game&gt;.js</code> exporting
             <code>render(ctx, mount)</code> and list it in <code>GAMES</code> in <code>js/app.js</code>.</span></li>
         </ol>
-      </div>
-      <div class="panel-box">
-        <h3>Character Tool</h3>
-        <pre><code>python CharacterTool/export_character.py "Ronovo Ronove"
-python CharacterTool/import_character.py "CharacterTool/Character/Ronovo Ronove.json" [--name "New Name"]</code></pre>
-        <p class="note">
-          Exports from before version 2.0 still import (chips, blackjack/poker records and
-          achievements). An imported character has no owner until it is claimed with
-          <code>python main.py --claim</code>.
-        </p>
       </div>
     </div>
   </div>
@@ -310,7 +297,7 @@ python CharacterTool/import_character.py "CharacterTool/Character/Ronovo Ronove.
 
 <footer>
   <div class="wrap">
-    Built with Python's standard library, SQLite and a plain JavaScript client.
+    Built with Python, SQLite and a plain JavaScript client.
   </div>
 </footer>
 

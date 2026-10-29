@@ -11,7 +11,6 @@ export default defineConfig({
       "/static": flask,
       "/account": flask,
       "/sso": flask,
-      "/readme": flask,
       "^/projects/.+": flask,
     },
   },

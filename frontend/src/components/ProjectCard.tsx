@@ -26,7 +26,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
       {hasLinks ? (
         <div className="links">
           {project.source && (
-            <a href={project.source} rel="noopener">
+            <a href={project.source}>
               Source
             </a>
           )}

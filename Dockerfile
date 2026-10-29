@@ -17,7 +17,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt gunicorn==23.0.0 \
     && useradd --create-home --uid 1000 portfolio
 
-COPY . .
+COPY app.py accounts.py data.py sso.py ./
+COPY templates templates
+COPY static static
+COPY pages pages
 COPY --from=frontend /frontend/dist frontend/dist
 RUN mkdir -p data && chown portfolio data
 

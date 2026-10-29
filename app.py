@@ -1,16 +1,15 @@
 import os
 import secrets
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from urllib.parse import urlsplit
 
-import markdown
-from flask import (Flask, abort, jsonify, make_response, redirect, render_template, request, send_from_directory,
+from flask import (Flask, abort, g, jsonify, make_response, redirect, render_template, request, send_from_directory,
                    session, url_for)
-from markupsafe import Markup
 
 import sso
-from accounts import AccountError, Accounts
+from accounts import NO_ACCOUNT, AccountError, Accounts
+from ronovo_portfolio_auth import portfolio_sso
 from ronovo_portfolio_auth.security_questions import MAX_ANSWER_LENGTH, QUESTIONS
 from data import SITE
 
@@ -39,12 +38,15 @@ app.config.update(
     # so this login cookie needs a name of its own.
     SESSION_COOKIE_NAME="portfolio_session",
     SESSION_COOKIE_SAMESITE="Lax",
+    PERMANENT_SESSION_LIFETIME=timedelta(days=7),
 )
 app.jinja_env.globals["MAX_ANSWER_LENGTH"] = MAX_ANSWER_LENGTH
-accounts = Accounts(str(DATA_DIR / "accounts.db"), app.config["SECRET_KEY"])
+accounts = Accounts(str(DATA_DIR / "accounts.db"))
 SSO_KEY = sso.private_key()
 
 DIST = ROOT / "frontend" / "dist"
+if not (DIST / "index.html").exists():
+    raise RuntimeError("frontend/dist is missing: run npm run build in frontend/ first")
 PAGES = [
     ("home", "/", "Home"),
     ("projects", "/projects", "Projects"),
@@ -63,11 +65,10 @@ for endpoint, rule, _ in PAGES:
 
 @app.get("/assets/<path:filename>")
 def react_assets(filename):
-    return send_from_directory(DIST / "assets", filename)
+    return send_from_directory(DIST / "assets", filename, max_age=365 * 24 * 60 * 60)
 
 
 PROJECT_PAGES = {p["page"]: p for p in SITE["projects"] if "page" in p}
-READMES = {item["readme"]: item for item in SITE["projects"] if "readme" in item}
 TAGS = sorted({tag for p in SITE["projects"] for tag in p.get("tags", [])}, key=str.lower)
 
 # The port each app with portfolio login is served on, which is the only place its login token is sent.
@@ -79,11 +80,6 @@ SSO_APPS = {
 
 
 def project_json(item):
-    about = None
-    if "page" in item:
-        about = url_for("project_page", slug=item["page"])
-    elif "readme" in item:
-        about = url_for("readme", slug=item["readme"])
     return {
         "title": item["title"],
         "category": item["category"],
@@ -92,9 +88,9 @@ def project_json(item):
         "featured": item.get("featured", False),
         "thumb": url_for("static", filename=item["thumb"]) if "thumb" in item else None,
         "source": item.get("source"),
-        "about": about,
+        "about": url_for("project_page", slug=item["page"]) if "page" in item else None,
         "links": [{"label": link["label"],
-                   "href": url_for(link["endpoint"]) if "endpoint" in link else app_url(link["port"]),
+                   "href": url_for("run_page", slug=item["page"]) if link.get("run") else app_url(link["port"]),
                    "external": "port" in link}
                   for link in item.get("links", [])],
     }
@@ -130,34 +126,14 @@ RUNELITE_PLUGINS = {
 }
 
 
+@app.get("/projects/<slug>/run")
 def run_page(slug):
+    if slug not in RUNELITE_PLUGINS:
+        abort(404)
     other, run_both = RUNELITE_PLUGINS[slug]
     return render_template("run-plugin.html", page="projects", plugin=PROJECT_PAGES[slug],
                            other=PROJECT_PAGES[other], run_both=run_both,
                            tracker_url=app_url(SSO_APPS["osrs-tracker"]))
-
-
-@app.get("/projects/leagues-task-plugin/run")
-def run_plugin():
-    return run_page("leagues-task-plugin")
-
-
-@app.get("/projects/ronovos-sync-tool/run")
-def run_sync_tool():
-    return run_page("ronovos-sync-tool")
-
-
-@app.get("/readme/<slug>")
-def readme(slug):
-    item = READMES.get(slug)
-    if item is None:
-        abort(404)
-    text = (ROOT / "readmes" / f"{slug}.md").read_text(encoding="utf-8")
-    # The page heading already shows the title, so the README's own top heading is dropped.
-    if text.startswith("# "):
-        text = text.split("\n", 1)[1] if "\n" in text else ""
-    body = Markup(markdown.markdown(text, extensions=["fenced_code", "tables"]))
-    return render_template("readme.html", page="projects", item=item, body=body)
 
 
 def this_host():
@@ -166,7 +142,8 @@ def this_host():
 
 @app.template_global()
 def app_url(port):
-    return f"http://{this_host()}:{port}/"
+    host = this_host()
+    return f"http://[{host}]:{port}/" if ":" in host else f"http://{host}:{port}/"
 
 
 @app.template_global()
@@ -183,14 +160,15 @@ def check_csrf():
 
 
 def current_user():
-    user_id = session.get("user_id")
-    if user_id is None:
-        return None
-    key = accounts.session_key(user_id)
-    if key is None or not secrets.compare_digest(session.get("session_key", ""), key):
-        session.clear()
-        return None
-    return user_id
+    """The logged-in account's id, checked once per request."""
+    if "user_id" not in g:
+        g.user_id = session.get("user_id")
+        if g.user_id is not None:
+            key = accounts.session_key(g.user_id)
+            if key is None or not secrets.compare_digest(session.get("session_key", ""), key):
+                session.clear()
+                g.user_id = None
+    return g.user_id
 
 
 def account_name():
@@ -203,6 +181,14 @@ def log_in(user_id, username):
     session["user_id"] = user_id
     session["username"] = username
     session["session_key"] = accounts.session_key(user_id)
+    g.user_id = user_id
+
+
+def new_password():
+    password = request.form.get("password", "")
+    if password != request.form.get("confirm_password"):
+        raise AccountError("Passwords do not match")
+    return password
 
 
 def next_url(default="account"):
@@ -230,12 +216,9 @@ def account_form(mode):
         password = request.form.get("password", "")
         try:
             if mode == "login":
-                user_id = accounts.check_login(username, password)
-                username = accounts.username(user_id)
-            elif password != request.form.get("confirm_password"):
-                raise AccountError("Passwords do not match")
+                user_id, username = accounts.check_login(username, password)
             else:
-                user_id = accounts.register(username, password, question, request.form.get("answer", ""))
+                user_id = accounts.register(username, new_password(), question, request.form.get("answer", ""))
             log_in(user_id, username)
             return redirect(next_url("home" if mode == "register" else "account"))
         except AccountError as e:
@@ -261,22 +244,22 @@ def reset_password():
         check_csrf()
         if "answer" in request.form:
             try:
-                if request.form.get("password", "") != request.form.get("confirm_password"):
-                    raise AccountError("Passwords do not match")
-                accounts.reset_password(username, request.form["answer"], request.form.get("password", ""))
+                accounts.reset_password(username, request.form["answer"], new_password())
                 return redirect(url_for("login", reset=1))
             except AccountError as e:
                 error = str(e)
-        if username:
-            return render_template("account/reset.html", page="account", error=error, username=username,
-                                   question=accounts.security_question(username))
-    return render_template("account/reset.html", page="account", error=error, username="", question=None)
+    question = accounts.security_question(username) if username else None
+    if username and question is None:
+        error = NO_ACCOUNT
+    return render_template("account/reset.html", page="account", error=error, username=username if question else "",
+                           question=question)
 
 
 @app.post("/account/logout")
 def logout():
     check_csrf()
     session.clear()
+    g.pop("user_id", None)
     return redirect(url_for("home"))
 
 
@@ -287,30 +270,30 @@ def app_port(url):
         port = parts.port
     except ValueError:
         return None
-    on_this_host = parts.scheme in ("http", "https") and parts.hostname == this_host()
+    on_this_host = parts.scheme == "http" and parts.hostname == this_host()
     return port if on_this_host and port in SSO_APPS.values() else None
 
 
 def sso_callback_url(app_id):
     """The only address a login token for app_id is ever posted to: /sso/callback on that app's port."""
     port = SSO_APPS.get(app_id)
-    return None if port is None else app_url(port) + "sso/callback"
+    return None if port is None else app_url(port) + portfolio_sso.CALLBACK_PATH
 
 
 @app.get("/sso/authorize")
 def sso_authorize():
     if SSO_KEY is None:
         abort(503)
-    app_id = request.args.get("app", "")
+    app_id = request.args.get(portfolio_sso.APP_PARAM, "")
     callback = sso_callback_url(app_id)
-    if callback is None or request.args.get("return", "") != callback:
+    if callback is None or request.args.get(portfolio_sso.RETURN_PARAM, "") != callback:
         abort(400)
     user_id = current_user()
     if user_id is None:
         return redirect(url_for("login", next=request.full_path))
-    token = sso.issue(SSO_KEY, app_id, user_id, session["username"])
+    token = portfolio_sso.issue(SSO_KEY, app_id, user_id, session["username"])
     response = make_response(render_template("account/sso.html", page="account", return_url=callback, token=token,
-                                             state=request.args.get("state", "")))
+                                             state=request.args.get(portfolio_sso.STATE_PARAM, "")))
     response.headers["Cache-Control"] = "no-store"
     return response
 
@@ -341,4 +324,4 @@ def not_found(_error):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=os.environ.get("FLASK_DEBUG") == "1")

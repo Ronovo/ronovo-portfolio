@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import type { Site } from "../types";
+import { categoryHref } from "../category";
 
 export default function CategoryTiles({ site }: { site: Site }) {
   return (
@@ -11,7 +12,7 @@ export default function CategoryTiles({ site }: { site: Site }) {
           <Link
             key={c.name}
             className="card tile"
-            to={`/projects?category=${c.name.toLowerCase()}`}
+            to={categoryHref(c.name)}
             style={{ "--i": i } as CSSProperties}
           >
             <h3>{c.name}</h3>

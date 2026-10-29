@@ -1,16 +1,23 @@
+import sqlite3
+from urllib.parse import unquote
+
 import jwt
 import pytest
 
 from conftest import PASSWORD, QUESTION, SSO_KEY, csrf, log_in, portfolio, register
+from data import SITE
+from ronovo_portfolio_auth import portfolio_sso
+from ronovo_portfolio_auth.login_limiter import MAX_FAILURES
+from ronovo_portfolio_auth.security_questions import MAX_RESET_FAILURES
 
-TRACKER = "http://localhost:4123"
+TRACKER = f"http://localhost:{portfolio.SSO_APPS['osrs-tracker']}"
 
 
 def test_api_site_shape(client):
     site = client.get("/api/site").get_json()
     assert {"name", "tagline", "intro", "nav", "account", "categories", "tags", "projects"} <= site.keys()
     assert site["account"] is None
-    assert [c["name"] for c in site["categories"]][0] == "General"
+    assert [c["name"] for c in site["categories"]] == list(SITE["categories"])
     for project in site["projects"]:
         assert project["category"] in [c["name"] for c in site["categories"]]
         for link in project["links"]:
@@ -29,10 +36,16 @@ def test_react_pages(client, path):
     assert b'<div id="root">' in response.data
 
 
-def test_project_page(client):
-    assert client.get("/projects/casino/").status_code == 200
-    assert client.get("/projects/casino").status_code == 308
+@pytest.mark.parametrize("slug", sorted(portfolio.PROJECT_PAGES))
+def test_project_page(client, slug):
+    assert client.get(f"/projects/{slug}/").status_code == 200
+    assert client.get(f"/projects/{slug}").status_code == 308
+
+
+def test_unknown_pages_are_missing(client):
     assert client.get("/projects/not-a-project/").status_code == 404
+    assert client.get("/projects/casino/run").status_code == 404
+    assert client.get("/readme/casino").status_code == 404
 
 
 @pytest.mark.parametrize("path", ["/projects/casino/../../app.py", "/projects/casino/..%2f..%2fapp.py",
@@ -57,14 +70,16 @@ def test_run_plugin_offers_both_run_commands(client, slug, run_both, other):
     assert f'href="{other}"' in page
 
 
-def test_sync_tool_has_a_project_page(client):
-    assert client.get("/projects/ronovos-sync-tool/").status_code == 200
-
-
 def test_security_headers(client):
     headers = client.get("/").headers
     assert headers["X-Content-Type-Options"] == "nosniff"
     assert headers["X-Frame-Options"] == "DENY"
+    assert headers["Referrer-Policy"] == "same-origin"
+
+
+def test_app_links_bracket_ipv6_hosts():
+    with portfolio.app.test_request_context(base_url="http://[::1]:5000/"):
+        assert portfolio.app_url(8002) == "http://[::1]:8002/"
 
 
 def test_post_without_csrf_token_is_refused(client, username):
@@ -102,7 +117,7 @@ def test_register_rejects_taken_username_and_mismatched_passwords(client, userna
 
 def test_wrong_passwords_lock_the_login(client, username):
     register(portfolio.app.test_client(), username)
-    for _ in range(5):
+    for _ in range(MAX_FAILURES):
         assert b"Wrong username or password" in log_in(client, username, "wrong password").data
     assert b"Wrong username or password" not in log_in(client, username).data
     assert client.get("/account").status_code == 302
@@ -138,19 +153,41 @@ def test_reset_password_logs_out_other_browsers(client, username):
 
 def test_wrong_answers_lock_resets(username):
     register(portfolio.app.test_client(), username)
-    for _ in range(5):
+    for _ in range(MAX_RESET_FAILURES):
         assert b"That answer is wrong" in reset(portfolio.app.test_client(), username, "red").data
     assert b"Too many wrong answers" in reset(portfolio.app.test_client(), username, "blue").data
 
 
-def test_reset_shows_a_question_for_unknown_usernames(client):
+def test_reset_says_when_there_is_no_such_account(client):
     response = client.post("/account/reset", data={"csrf_token": csrf(client), "username": "nobody-here"})
-    assert response.status_code == 200
-    assert b'name="answer"' in response.data
+    assert b"There is no account with that username" in response.data
+    assert b'name="answer"' not in response.data
+    assert b"There is no account with that username" in reset(client, "nobody-here", "blue").data
+
+
+def test_registrations_are_limited(client, username, monkeypatch):
+    monkeypatch.setattr(portfolio.accounts, "max_registrations", 0)
+    assert b"Too many new accounts" in register(client, username).data
+
+
+def test_logout_needs_the_csrf_token(client, username):
+    register(client, username)
+    assert client.post("/account/logout").status_code == 400
+    assert client.get("/account").status_code == 200
+
+
+def test_a_deleted_account_is_logged_out(client, username):
+    register(client, username)
+    with sqlite3.connect(portfolio.accounts.path) as db:
+        db.execute("DELETE FROM users WHERE username = ?", (username,))
+    assert client.get("/account").status_code == 302
+    assert client.get("/api/site").get_json()["account"] is None
 
 
 def authorize(client, app_id="osrs-tracker", callback=f"{TRACKER}/sso/callback"):
-    return client.get("/sso/authorize", query_string={"app": app_id, "return": callback, "state": "s1"})
+    return client.get("/sso/authorize", query_string={portfolio_sso.APP_PARAM: app_id,
+                                                      portfolio_sso.RETURN_PARAM: callback,
+                                                      portfolio_sso.STATE_PARAM: "s1"})
 
 
 @pytest.mark.parametrize("app_id, callback", [
@@ -169,6 +206,20 @@ def test_authorize_sends_logged_out_browsers_to_log_in(client):
     assert response.headers["Location"].startswith("/account/login?next=")
 
 
+def test_authorize_needs_a_signing_key(client, monkeypatch):
+    monkeypatch.setattr(portfolio, "SSO_KEY", None)
+    assert authorize(client).status_code == 503
+
+
+def test_logging_in_finishes_the_app_login(client, username):
+    register(portfolio.app.test_client(), username)
+    login_page = authorize(client).headers["Location"]
+    next_path = login_page.split("next=", 1)[1]
+    back = log_in(client, username, next=unquote(next_path)).headers["Location"]
+    assert back.startswith("/sso/authorize?")
+    assert b'name="token"' in client.get(back).data
+
+
 def test_authorize_posts_a_token_to_the_app(client, username):
     register(client, username)
     response = authorize(client)
@@ -178,11 +229,13 @@ def test_authorize_posts_a_token_to_the_app(client, username):
     assert 'name="state" value="s1"' in page
     token = page.split('name="token" value="', 1)[1].split('"', 1)[0]
     claims = jwt.decode(token, SSO_KEY.public_key(), algorithms=["RS256"], audience="osrs-tracker",
-                        issuer="portfolio")
+                        issuer=portfolio_sso.ISSUER)
     assert claims["name"] == username
+    assert claims["exp"] - claims["iat"] == portfolio_sso.TOKEN_SECONDS
 
 
-@pytest.mark.parametrize("origin", [None, "http://evil.example:4123", "http://localhost:9999"])
+@pytest.mark.parametrize("origin", [None, "http://evil.example:4123", "http://localhost:9999",
+                                    "http://localhost:99999", "https://localhost:4123"])
 def test_sso_me_refuses_other_origins(client, origin):
     headers = {"Origin": origin} if origin else {}
     assert client.get("/sso/me", headers=headers).status_code == 403
@@ -194,3 +247,7 @@ def test_sso_me_names_the_account_for_an_app(client, username):
     assert response.get_json() == {"username": username}
     assert response.headers["Access-Control-Allow-Origin"] == TRACKER
     assert response.headers["Access-Control-Allow-Credentials"] == "true"
+
+
+def test_sso_me_says_null_when_logged_out(client):
+    assert client.get("/sso/me", headers={"Origin": TRACKER}).get_json() == {"username": None}

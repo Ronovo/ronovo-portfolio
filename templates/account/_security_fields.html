@@ -4,5 +4,5 @@
         {% for q in questions %}<option{% if q == question %} selected{% endif %}>{{ q }}</option>{% endfor %}
       </select>
     </label>
-    <label>Answer <input name="answer" maxlength="{{ MAX_ANSWER_LENGTH }}" autocomplete="off" required></label>
+{% include "account/_answer_field.html" %}
     <p>You need this answer to reset your password.</p>

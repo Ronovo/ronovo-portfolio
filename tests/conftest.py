@@ -1,19 +1,20 @@
-import base64
 import itertools
 import os
 import tempfile
 
 import pytest
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import rsa
 
-SSO_KEY = rsa.generate_private_key(public_exponent=65537, key_size=2048)
-os.environ["DATA_DIR"] = tempfile.mkdtemp()
+from ronovo_portfolio_auth import portfolio_sso
+
+SSO_KEY, SSO_PUBLIC_KEY = portfolio_sso.new_key_pair()
+_data_dir = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
+os.environ["DATA_DIR"] = _data_dir.name
 os.environ["PORTFOLIO_SECRET_KEY"] = "test"
-os.environ["PORTFOLIO_SSO_PRIVATE_KEY"] = base64.b64encode(SSO_KEY.private_bytes(
-    serialization.Encoding.DER, serialization.PrivateFormat.PKCS8, serialization.NoEncryption())).decode()
+os.environ["PORTFOLIO_SSO_PRIVATE_KEY"] = portfolio_sso.private_key_text(SSO_KEY)
 
 import app as portfolio  # noqa: E402
+
+portfolio.accounts.max_registrations = 10_000
 
 QUESTION = portfolio.QUESTIONS[0]
 PASSWORD = "correct horse"

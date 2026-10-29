@@ -7,13 +7,13 @@
   <article class="prose readme">
     <h2>1. Install JDK 11</h2>
     <p>RuneLite builds against Java 11. Install a JDK 11, for example
-      <a href="https://adoptium.net/temurin/releases/?version=11" rel="noopener">Eclipse Temurin 11</a>,
+      <a href="https://adoptium.net/temurin/releases/?version=11">Eclipse Temurin 11</a>,
       and set <code>JAVA_HOME</code> to it. On Windows, in PowerShell:</p>
     <pre><code>$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-11.0.x-hotspot"
 $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
 
     <h2>2. Get the plugin</h2>
-    <p>On the <a href="{{ plugin.source }}" rel="noopener">GitHub page</a>, choose
+    <p>On the <a href="{{ plugin.source }}">GitHub page</a>, choose
       <strong>Code → Download ZIP</strong> and extract it, or clone the repository.</p>
 
     <h2>3. Start RuneLite with the plugin</h2>
@@ -22,7 +22,7 @@ $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
     <p>On macOS or Linux, run <code>./gradlew run</code> instead. Gradle downloads itself the first time, so that
       run takes a while. It builds the plugin and opens a RuneLite client in developer mode with just this plugin
       loaded.</p>
-    <p>To load <a href="{{ other.source }}" rel="noopener">{{ other.title }}</a> in the same client, get it the same
+    <p>To load <a href="{{ other.source }}">{{ other.title }}</a> in the same client, get it the same
       way into a folder named <code>{{ other_folder }}</code> next to this one, then run:</p>
     <pre><code>gradlew.bat {{ run_both }}</code></pre>
     <p>If that folder isn't there, it prints a warning and starts {{ plugin.title }} on its own.</p>
@@ -32,7 +32,7 @@ $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
 
     <h2>Jagex accounts</h2>
     <p>The developer client can't use the Jagex Launcher's login directly. Follow RuneLite's
-      <a href="https://github.com/runelite/runelite/wiki/Using-Jagex-Accounts" rel="noopener">Using Jagex Accounts</a>
+      <a href="https://github.com/runelite/runelite/wiki/Using-Jagex-Accounts">Using Jagex Accounts</a>
       guide once: add <code>--insecure-write-credentials</code> under <strong>Client arguments</strong> in
       <strong>RuneLite (configure)</strong>, then launch RuneLite through the Jagex Launcher. That saves a login file
       the developer client then uses. Anyone with that file can log in as you, so never share it.</p>
@@ -53,7 +53,7 @@ $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
     {% else %}
     <p>{{ plugin.title }} doesn't send your progress anywhere itself. To send your completed tasks to the
       <a href="{{ tracker_url }}" target="_blank" rel="noopener">Personal RuneScape Tracker</a>, also load
-      <a href="{{ other.source }}" rel="noopener">{{ other.title }}</a> with <code>{{ run_both }}</code> above and
+      <a href="{{ other.source }}">{{ other.title }}</a> with <code>{{ run_both }}</code> above and
       set it up as <a href="{{ url_for('project_page', slug=other.page) }}">its page</a> explains. The
       <strong>Sync Progress</strong> button on the start menu then sends them.</p>
     {% endif %}

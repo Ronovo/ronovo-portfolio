@@ -11,11 +11,10 @@ SITE = {
         "Games": "Browser games, from a casino to an idle game for an Old One.",
     },
 
-    # category is one of categories. Leave source, page, readme and links out to show a card as "Coming soon".
+    # category is one of categories. Leave source, page and links out to show a card as "Coming soon".
     # thumb is optional, relative to static/, and only shown on Games cards. featured puts the card on the home page.
-    # source is the GitHub repo. The About link goes to page, a folder under pages/ served at /projects/<page>/,
-    # or else to readme, a file in readmes/ (without .md) served at /readme/<readme>.
-    # A link with port points at that port on the host serving the site; one with endpoint at that page here.
+    # source is the GitHub repo. The About link goes to page, a folder under pages/ served at /projects/<page>/.
+    # A link with port points at that port on the host serving the site; one with run at the project's Run-it page.
     # app is the id the app logs in to the portfolio with. Its login token is only sent to its port link.
     "projects": [
         {
@@ -58,7 +57,7 @@ SITE = {
             "tags": ["Java", "RuneLite", "OSRS"],
             "source": "https://github.com/Ronovo/Leagues-Task-Plugin",
             "page": "leagues-task-plugin",
-            "links": [{"label": "Try it", "endpoint": "run_plugin"}],
+            "links": [{"label": "Try it", "run": True}],
         },
         {
             "title": "Ronovo's Sync Tool",
@@ -67,7 +66,7 @@ SITE = {
             "tags": ["Java", "RuneLite", "OSRS"],
             "source": "https://github.com/Ronovo/Ronovos-Sync-Tool",
             "page": "ronovos-sync-tool",
-            "links": [{"label": "Try it", "endpoint": "run_sync_tool"}],
+            "links": [{"label": "Try it", "run": True}],
         },
         {
             "title": "Ronovo's Casino",

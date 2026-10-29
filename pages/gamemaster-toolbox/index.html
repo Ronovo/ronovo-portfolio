@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GM Toolbox &mdash; a toolkit for tabletop gamemasters</title>
+<title>GM Toolbox - a toolkit for tabletop gamemasters</title>
 <meta name="description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, and share them as JSON.">
 <meta name="color-scheme" content="dark light">
 
@@ -20,8 +20,6 @@
     --accent: #b394ff;
     --on-accent: #1a1230;
     --link: #c4adff;
-    --radius: 12px;
-    --maxw: 980px;
   }
 
   @media (prefers-color-scheme: light) {
@@ -157,7 +155,7 @@
         </tbody>
       </table>
       <p class="note">
-        A dependent chain &mdash; roll A, then roll whatever A landed on &mdash; is two
+        A dependent chain - roll A, then roll whatever A landed on - is two
         steps: a <code>Roll</code> whose outcomes each pick a table, then a
         <code>RollChosen</code>. A run stops after 200 steps, so a branch that points
         backwards can't loop forever.

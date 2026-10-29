@@ -290,13 +290,9 @@ a.card { color: inherit; text-decoration: none; }
 .prose ul { margin: 0 0 16px; padding-left: 22px; }
 .prose li::marker { color: var(--magenta); }
 .readme { overflow-wrap: anywhere; }
-.readme h3 { margin: 24px 0 8px; }
-.readme ol { margin: 0 0 16px; padding-left: 24px; }
 .readme code { font-size: 0.9em; }
 code, pre { font-family: var(--font-mono); }
 .readme pre { margin: 0 0 16px; padding: 12px 16px; overflow-x: auto; background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--cyan); }
-.readme table { margin: 0 0 16px; border-collapse: collapse; display: block; overflow-x: auto; }
-.readme th, .readme td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; }
 
 .site-footer { padding: 28px 0 36px; color: var(--muted); font: 13px var(--font-mono); border-top: 1px solid var(--border); }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; }

@@ -1,3 +1,8 @@
+:root {
+  --radius: 12px;
+  --maxw: 980px;
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 

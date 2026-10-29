@@ -1,7 +1,7 @@
 import hashlib
-import hmac
 import re
 import sqlite3
+import threading
 import time
 from contextlib import contextmanager
 from typing import Optional
@@ -13,9 +13,8 @@ from ronovo_portfolio_auth.login_limiter import LockedOut, LoginLimiter
 
 USERNAME_PATTERN = re.compile(r"[A-Za-z0-9_-]{3,20}")
 MIN_PASSWORD_LENGTH = 8
-
-# Checked against when the username doesn't exist, so a wrong username takes as long as a wrong password
-DUMMY_HASH = generate_password_hash("not a real password")
+REGISTRATION_WINDOW_SECONDS = 600
+MAX_REGISTRATIONS = 20
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -30,21 +29,25 @@ CREATE TABLE IF NOT EXISTS users (
 """
 
 
+NO_ACCOUNT = "There is no account with that username"
+
+
 class AccountError(Exception):
     pass
 
 
-def check_password(password: str):
+def validate_new_password(password: str):
     if len(password) < MIN_PASSWORD_LENGTH:
         raise AccountError(f"Passwords need at least {MIN_PASSWORD_LENGTH} characters")
 
 
 class Accounts:
-    def __init__(self, path: str, secret_key: str):
+    def __init__(self, path: str):
         self.path = path
-        # Its own key, made from the session key, so the stand-in questions never sign with the session key itself.
-        self.stand_in_key = hmac.new(secret_key.encode("utf-8"), b"stand-in security questions", hashlib.sha256).digest()
         self._logins = LoginLimiter()
+        self.max_registrations = MAX_REGISTRATIONS
+        self._registrations: list[float] = []
+        self._registrations_lock = threading.Lock()
         with self._db() as db:
             db.execute("PRAGMA journal_mode=WAL")
             db.executescript(SCHEMA)
@@ -58,13 +61,23 @@ class Accounts:
         finally:
             db.close()
 
+    def _count_registration(self):
+        """Allows max_registrations new accounts per window across the whole site."""
+        with self._registrations_lock:
+            now = time.monotonic()
+            self._registrations = [t for t in self._registrations if t > now - REGISTRATION_WINDOW_SECONDS]
+            if len(self._registrations) >= self.max_registrations:
+                raise AccountError("Too many new accounts right now. Try again in a few minutes.")
+            self._registrations.append(now)
+
     def register(self, username: str, password: str, question: str, answer: str) -> int:
         if not USERNAME_PATTERN.fullmatch(username):
             raise AccountError("Usernames are 3-20 letters, numbers, _ or -")
-        check_password(password)
+        validate_new_password(password)
         problem = security_questions.problem(question, answer)
         if problem:
             raise AccountError(problem)
+        self._count_registration()
         try:
             with self._db() as db:
                 cursor = db.execute(
@@ -76,22 +89,18 @@ class Accounts:
         except sqlite3.IntegrityError:
             raise AccountError("That username is taken")
 
-    def check_login(self, username: str, password: str) -> int:
+    def check_login(self, username: str, password: str) -> tuple[int, str]:
+        """The account's id and username as registered."""
         with self._db() as db:
-            row = db.execute("SELECT id, password_hash FROM users WHERE username = ?", (username,)).fetchone()
+            row = db.execute("SELECT id, username, password_hash FROM users WHERE username = ?",
+                             (username,)).fetchone()
         try:
-            valid = self._logins.attempt(username, lambda: check_password_hash(row[1] if row else DUMMY_HASH, password)
-                                         and row is not None)
+            valid = self._logins.attempt(username, lambda: row is not None and check_password_hash(row[2], password))
         except LockedOut as locked:
             raise AccountError(str(locked)) from None
         if not valid:
             raise AccountError("Wrong username or password")
-        return row[0]
-
-    def username(self, user_id: int) -> Optional[str]:
-        with self._db() as db:
-            row = db.execute("SELECT username FROM users WHERE id = ?", (user_id,)).fetchone()
-        return row[0] if row else None
+        return row[0], row[1]
 
     def session_key(self, user_id: int) -> Optional[str]:
         """Changes whenever the password does, so a login session stored with it ends when the password is
@@ -100,19 +109,18 @@ class Accounts:
             row = db.execute("SELECT password_hash FROM users WHERE id = ?", (user_id,)).fetchone()
         return hashlib.sha256(row[0].encode("utf-8")).hexdigest()[:16] if row else None
 
-    def security_question(self, username: str) -> str:
+    def security_question(self, username: str) -> Optional[str]:
         with self._db() as db:
             row = db.execute("SELECT security_question FROM users WHERE username = ?", (username,)).fetchone()
-        return row[0] if row else security_questions.stand_in_question(username, self.stand_in_key)
+        return row[0] if row else None
 
     def reset_password(self, username: str, answer: str, new_password: str):
         """Sets a new password when the security answer is right. Too many wrong answers lock resets for a while."""
-        check_password(new_password)
+        validate_new_password(new_password)
         with self._db() as db:
             row = db.execute("SELECT id, security_answer_hash FROM users WHERE username = ?", (username,)).fetchone()
         if row is None:
-            check_password_hash(DUMMY_HASH, answer)
-            raise AccountError("That answer is wrong")
+            raise AccountError(NO_ACCOUNT)
         user_id, answer_hash = row
         # Each try is counted before the answer is checked, in one statement, so answers sent at the same
         # moment can't all slip in under the limit.
@@ -121,7 +129,8 @@ class Accounts:
                                     WHERE id = ? AND reset_locked_until <= ? RETURNING reset_failures""",
                                  (user_id, time.time())).fetchone()
         if counted is None or counted[0] > security_questions.MAX_RESET_FAILURES:
-            raise AccountError("Too many wrong answers. Try again in 15 minutes.")
+            raise AccountError(f"Too many wrong answers. Try again in "
+                               f"{security_questions.RESET_LOCK_SECONDS // 60} minutes.")
         if not check_password_hash(answer_hash, security_questions.normalize_answer(answer)):
             if counted[0] == security_questions.MAX_RESET_FAILURES:
                 with self._db() as db:
