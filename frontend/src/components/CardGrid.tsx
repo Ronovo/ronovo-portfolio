@@ -3,7 +3,7 @@ import ProjectCard from "./ProjectCard";
 
 export default function CardGrid({ projects }: { projects: Project[] }) {
   return (
-    <div className="grid">
+    <div className="grid two-up">
       {projects.map((p, i) => (
         <ProjectCard key={p.title} project={p} index={i} />
       ))}

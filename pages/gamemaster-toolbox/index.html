@@ -5,57 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GM Toolbox - a toolkit for tabletop gamemasters</title>
 <meta name="description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, and share them as JSON.">
-<meta name="color-scheme" content="dark light">
-
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="GM Toolbox - a toolkit for tabletop gamemasters">
+<meta property="og:description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, and share them as JSON.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ronovo.github.io/projects/gamemaster-toolbox/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  :root {
-    --bg: #15131c;
-    --bg-2: #1b1824;
-    --panel: #221e2d;
-    --panel-2: #2a2537;
-    --border: #3a3349;
-    --text: #ece8f4;
-    --muted: #aaa2bd;
-    --accent: #b394ff;
-    --on-accent: #1a1230;
-    --link: #c4adff;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f6f4fa;
-      --bg-2: #efebf6;
-      --panel: #ffffff;
-      --panel-2: #f3f0f9;
-      --border: #dcd5e8;
-      --text: #231e2f;
-      --muted: #645b78;
-      --accent: #6a46c9;
-      --on-accent: #ffffff;
-      --link: #5a37b8;
-    }
-  }
-  @media (max-width: 620px) {
-    .nav a.link { display: none; }
-  }
+  :root { --accent: #b394ff; }
 </style>
 </head>
 <body>
 
 <header>
   <nav class="wrap nav">
-    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="back" href="/projects">&larr; All projects</a>
     <a class="brand" href="#top">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z" stroke="var(--accent)" stroke-width="1.8" stroke-linejoin="round"/>
         <path d="M12 2.8v18.4M4 7.4l16 9.2M20 7.4L4 16.6" stroke="var(--accent)" stroke-width="1.2" stroke-linejoin="round" opacity=".6"/>
       </svg>
-      GM Toolbox
+      <span>GM Toolbox</span>
     </a>
     <a class="link" href="#features">Features</a>
     <a class="link" href="#flows">Flows</a>
     <a class="link" href="#run">Run it</a>
+    <a class="link gh" href="https://github.com/Ronovo/Gamemaster-Toolbox" rel="noopener">Source</a>
   </nav>
 </header>
 
@@ -63,6 +39,7 @@
 
 <div class="hero">
   <div class="wrap">
+    <p class="eyebrow">TTRPG</p>
     <h1>Your random tables, rolled for you</h1>
     <p class="tag">
       Build dice and card oracles for any game system, chain them into flows that ask
@@ -70,13 +47,14 @@
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
-      <a class="btn btn-ghost" href="#features">What it does</a>
+      <a class="btn btn-ghost" href="https://github.com/Ronovo/Gamemaster-Toolbox" rel="noopener">Source on GitHub</a>
     </div>
-    <p class="meta-line">
-      <span>ASP.NET Core on .NET 10</span> &nbsp;&middot;&nbsp;
-      <span>SQLite, one file</span> &nbsp;&middot;&nbsp;
-      <span>Runs in Docker</span>
-    </p>
+    <dl class="facts">
+      <div><dt>Stack</dt><dd>ASP.NET Core on .NET 10</dd></div>
+      <div><dt>Saves</dt><dd>SQLite, one file</dd></div>
+      <div><dt>Runs in</dt><dd>Docker</dd></div>
+      <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
+    </dl>
   </div>
 </div>
 
@@ -204,7 +182,13 @@
 
 <footer>
   <div class="wrap">
-    Built with ASP.NET Core MVC, Entity Framework Core and SQLite, Bootstrap and jQuery.
+    <div class="links">
+      <a href="/projects">All projects</a>
+      <a href="https://github.com/Ronovo/Gamemaster-Toolbox">Source</a>
+      <a href="https://github.com/Ronovo/Gamemaster-Toolbox#readme">README</a>
+      <a href="https://github.com/Ronovo/Gamemaster-Toolbox/blob/main/LICENSE">License (BSD 2-Clause)</a>
+    </div>
+    <p>Built with ASP.NET Core MVC, Entity Framework Core and SQLite, Bootstrap and jQuery.</p>
   </div>
 </footer>
 

@@ -5,57 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Space Station Explorer Online - a text-based space station game</title>
 <meta name="description" content="A text-based exploration game set on a space station, played in the browser: pick a job, manage power and oxygen, trade stocks, tend the bar and more.">
-<meta name="color-scheme" content="dark light">
-
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Space Station Explorer Online - a text-based space station game">
+<meta property="og:description" content="A text-based exploration game set on a space station, played in the browser: pick a job, manage power and oxygen, trade stocks, tend the bar and more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ronovo.github.io/projects/space-station-explorer/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  :root {
-    --bg: #08090b;
-    --bg-2: #0e1014;
-    --panel: #16181d;
-    --panel-2: #1e2128;
-    --border: #33373f;
-    --text: #f2f4f7;
-    --muted: #a7adb6;
-    --accent: #00ccff;
-    --on-accent: #001a22;
-    --link: #4ddbff;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f3f6f8;
-      --bg-2: #e8eef2;
-      --panel: #ffffff;
-      --panel-2: #eef3f6;
-      --border: #d2dbe2;
-      --text: #11161b;
-      --muted: #56616c;
-      --accent: #0077a3;
-      --on-accent: #ffffff;
-      --link: #006a91;
-    }
-  }
-  .panel-box p { margin: 0; }
-  .card ul.plain { color: var(--muted); font-size: 15px; }
+  :root { --accent: #00ccff; }
 </style>
 </head>
 <body>
 
 <header>
   <nav class="wrap nav">
-    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="back" href="/projects">&larr; All projects</a>
     <a class="brand" href="#top">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <rect x="4.5" y="4.5" width="15" height="15" rx="2" stroke="var(--accent)" stroke-width="1.8"/>
         <rect x="9" y="9" width="6" height="6" rx="1" stroke="var(--accent)" stroke-width="1.4" opacity=".7"/>
       </svg>
-      Space Station Explorer
+      <span>Space Station Explorer</span>
     </a>
     <a class="link" href="#features">Features</a>
     <a class="link" href="#systems">Systems</a>
     <a class="link" href="#run">Run it</a>
-    <a class="link gh" href="https://github.com/Ronovo/online-space-staion" rel="noopener">Source</a>
+    <a class="link gh" href="https://github.com/Ronovo/online-space-station" rel="noopener">Source</a>
   </nav>
 </header>
 
@@ -63,6 +39,7 @@
 
 <div class="hero">
   <div class="wrap">
+    <p class="eyebrow">Games</p>
     <h1>Space Station Explorer Online</h1>
     <p class="tag">
       A text-based exploration game set on a space station, played in the browser. It is a Flask web
@@ -70,14 +47,14 @@
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
-      <a class="btn btn-ghost" href="#features">What it does</a>
+      <a class="btn btn-ghost" href="https://github.com/Ronovo/online-space-station" rel="noopener">Source on GitHub</a>
     </div>
-    <p class="meta-line">
-      <span>Python 3.10+</span> &nbsp;&middot;&nbsp;
-      <span>Flask</span> &nbsp;&middot;&nbsp;
-      <span>SQLite</span> &nbsp;&middot;&nbsp;
-      <span>Runs in Docker</span>
-    </p>
+    <dl class="facts">
+      <div><dt>Stack</dt><dd>Python 3.10+ / Flask</dd></div>
+      <div><dt>Saves</dt><dd>SQLite</dd></div>
+      <div><dt>Runs in</dt><dd>Docker</dd></div>
+      <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
+    </dl>
   </div>
 </div>
 
@@ -349,7 +326,13 @@ instance/                Created on first run: the database and secret key (not 
 
 <footer>
   <div class="wrap">
-    Built with Python, Flask and SQLite, with a plain JavaScript client.
+    <div class="links">
+      <a href="/projects">All projects</a>
+      <a href="https://github.com/Ronovo/online-space-station">Source</a>
+      <a href="https://github.com/Ronovo/online-space-station#readme">README</a>
+      <a href="https://github.com/Ronovo/online-space-station/blob/main/LICENSE">License (BSD 2-Clause)</a>
+    </div>
+    <p>Built with Python, Flask and SQLite, with a plain JavaScript client.</p>
   </div>
 </footer>
 

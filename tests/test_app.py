@@ -18,10 +18,11 @@ def test_api_site_shape(client):
     assert {"name", "tagline", "intro", "nav", "account", "categories", "tags", "projects"} <= site.keys()
     assert site["account"] is None
     assert [c["name"] for c in site["categories"]] == list(SITE["categories"])
+    urls = {link["url"] for p in SITE["projects"] for link in p.get("links", []) if "url" in link}
     for project in site["projects"]:
         assert project["category"] in [c["name"] for c in site["categories"]]
         for link in project["links"]:
-            assert link["href"].startswith(("/", "http://localhost:"))
+            assert link["href"] in urls or link["href"].startswith(("/", "http://localhost:"))
 
 
 def test_api_site_names_the_logged_in_account(client, username):

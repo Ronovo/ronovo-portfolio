@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
 
   space-online:
-    build: https://github.com/Ronovo/online-space-staion.git#main
+    build: https://github.com/Ronovo/online-space-station.git#main
     ports:
       - "${APP_BIND_IP:?set APP_BIND_IP in .env}:8003:5000"
     # Its own cookie name, so it does not clash with gunsystem's Flask "session" cookie on the same host.

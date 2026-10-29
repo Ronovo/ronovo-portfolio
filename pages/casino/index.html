@@ -5,52 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ronovo's Casino - casino games in the browser</title>
 <meta name="description" content="A repo for learning how to program casino games, played in the browser: blackjack, Ultimate Texas Hold'em, baccarat, roulette, horse racing and more.">
-<meta name="color-scheme" content="dark light">
-
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Ronovo's Casino - casino games in the browser">
+<meta property="og:description" content="A repo for learning how to program casino games, played in the browser: blackjack, Ultimate Texas Hold'em, baccarat, roulette, horse racing and more.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ronovo.github.io/projects/casino/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  :root {
-    --bg: #0b0f14;
-    --bg-2: #10161e;
-    --panel: #151c26;
-    --panel-2: #1d2633;
-    --border: #2c3848;
-    --text: #ece8dd;
-    --muted: #94a0b2;
-    --accent: #d9b44a;
-    --on-accent: #1a1405;
-    --link: #e3c15a;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f6f3ea;
-      --bg-2: #eee8d9;
-      --panel: #fffdf7;
-      --panel-2: #f5efe0;
-      --border: #ddd3bb;
-      --text: #1f2430;
-      --muted: #5f6878;
-      --accent: #8f6c12;
-      --on-accent: #ffffff;
-      --link: #7d5c0c;
-    }
-  }
-  .panel-box p { margin: 0; }
+  :root { --accent: #d9b44a; }
 </style>
 </head>
 <body>
 
 <header>
   <nav class="wrap nav">
-    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="back" href="/projects">&larr; All projects</a>
     <a class="brand" href="#top">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <circle cx="12" cy="12" r="8.5" stroke="var(--accent)" stroke-width="1.8"/>
         <circle cx="12" cy="12" r="4" stroke="var(--accent)" stroke-width="1.4" opacity=".7"/>
         <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
-      Ronovo's Casino
+      <span>Ronovo's Casino</span>
     </a>
     <a class="link" href="#tables">Tables</a>
     <a class="link" href="#accounts">Accounts</a>
@@ -63,6 +40,7 @@
 
 <div class="hero">
   <div class="wrap">
+    <p class="eyebrow">Games</p>
     <h1>Ronovo's Casino</h1>
     <p class="tag">
       A repo for learning how to program casino games, played in the browser. One person runs
@@ -70,13 +48,14 @@
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
-      <a class="btn btn-ghost" href="#tables">The tables</a>
+      <a class="btn btn-ghost" href="https://github.com/Ronovo/Casino_Test" rel="noopener">Source on GitHub</a>
     </div>
-    <p class="meta-line">
-      <span>Python 3.10+</span> &nbsp;&middot;&nbsp;
-      <span>No extra packages</span> &nbsp;&middot;&nbsp;
-      <span>SQLite saves</span>
-    </p>
+    <dl class="facts">
+      <div><dt>Stack</dt><dd>Python 3.10+</dd></div>
+      <div><dt>Saves</dt><dd>SQLite</dd></div>
+      <div><dt>Server</dt><dd>Flask</dd></div>
+      <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
+    </dl>
   </div>
 </div>
 
@@ -165,8 +144,6 @@
             out everywhere. Five wrong answers lock resets for 15 minutes.</li>
           <li>An account holds up to 8 characters. Each character has its own chips, record,
             achievements and racing season.</li>
-          <li>Characters saved before accounts existed belong to nobody. Register an account, then hand
-            one over: <code>python main.py --claim "Ronovo Ronove" your_username</code></li>
           <li>The server uses plain HTTP, which is fine on a home network. To open it to the internet,
             put it behind an HTTPS reverse proxy.</li>
         </ul>
@@ -198,7 +175,7 @@
       <div class="panel-box">
         <h3>How to run</h3>
         <ol class="steps">
-          <li><span>Install Python 3.10 or newer (no extra packages needed).</span></li>
+          <li><span>Install Python 3.10 or newer, then <code>pip install -r requirements.txt</code></span></li>
           <li><span>From a terminal: <code>python main.py</code></span></li>
           <li><span>Open the address it prints. <code>http://localhost:8000</code> on your own computer;
             other players use the "For other players" address (your computer's address on the local
@@ -297,7 +274,13 @@ Tests/</code></pre>
 
 <footer>
   <div class="wrap">
-    Built with Python, SQLite and a plain JavaScript client.
+    <div class="links">
+      <a href="/projects">All projects</a>
+      <a href="https://github.com/Ronovo/Casino_Test">Source</a>
+      <a href="https://github.com/Ronovo/Casino_Test#readme">README</a>
+      <a href="https://github.com/Ronovo/Casino_Test/blob/main/LICENSE">License (BSD 2-Clause)</a>
+    </div>
+    <p>Built with Python, SQLite and a plain JavaScript client.</p>
   </div>
 </footer>
 

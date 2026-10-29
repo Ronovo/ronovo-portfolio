@@ -89,11 +89,18 @@ def project_json(item):
         "thumb": url_for("static", filename=item["thumb"]) if "thumb" in item else None,
         "source": item.get("source"),
         "about": url_for("project_page", slug=item["page"]) if "page" in item else None,
-        "links": [{"label": link["label"],
-                   "href": url_for("run_page", slug=item["page"]) if link.get("run") else app_url(link["port"]),
-                   "external": "port" in link}
-                  for link in item.get("links", [])],
+        "links": [link_json(item, link) for link in item.get("links", [])],
     }
+
+
+def link_json(item, link):
+    if "url" in link:
+        href = link["url"]
+    elif link.get("run"):
+        href = url_for("run_page", slug=item["page"])
+    else:
+        href = app_url(link["port"])
+    return {"label": link["label"], "href": href, "external": not link.get("run")}
 
 
 @app.get("/api/site")

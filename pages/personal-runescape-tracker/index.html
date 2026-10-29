@@ -5,148 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Personal RuneScape Tracker</title>
 <meta name="description" content="A self-hosted Old School RuneScape dashboard: character hiscores, quests, diaries, combat achievements and collection log synced from RuneLite, plus Grand Exchange views and a Flip Helper.">
-<meta name="color-scheme" content="dark light">
-
+<meta name="color-scheme" content="dark">
 <meta property="og:title" content="Personal RuneScape Tracker">
-<meta property="og:description" content="A self-hosted OSRS character log and Grand Exchange tool you run yourself.">
+<meta property="og:description" content="A self-hosted Old School RuneScape dashboard: character hiscores, quests, diaries, combat achievements and collection log synced from RuneLite, plus Grand Exchange views and a Flip Helper.">
 <meta property="og:type" content="website">
-
+<meta property="og:url" content="https://ronovo.github.io/projects/personal-runescape-tracker/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  @font-face {
-    font-family: 'Cinzel';
-    src: url('fonts/cinzel-latin.woff2') format('woff2');
-    font-weight: 400 900;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Rubik';
-    src: url('fonts/rubik-latin.woff2') format('woff2');
-    font-weight: 300 900;
-    font-display: swap;
-  }
-
-  /* Dark palette matches the app's own public/style.css. */
-  :root {
-    --bg: #1b1712;
-    --bg-2: #201b15;
-    --panel: #26211a;
-    --panel-2: #2e281f;
-    --border: #4a3f2f;
-    --text: #f4ecd8;
-    --muted: #ccbd97;
-    --accent: #d9c27e;
-    --on-accent: #241d13;
-    --link: #e6cf8c;
-    --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
-    --font-ui: 'Rubik', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f5f0e3;
-      --bg-2: #eee6d2;
-      --panel: #fffcf4;
-      --panel-2: #f6efdd;
-      --border: #d9cba8;
-      --text: #2f281b;
-      --muted: #6b5f45;
-      --accent: #8f6a1c;
-      --on-accent: #fffcf4;
-      --link: #7f5c12;
-    }
-  }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 400 16px/1.6 var(--font-ui);
-    -webkit-font-smoothing: antialiased;
-  }
-
-  h1, h2, h3 { font-family: var(--font-display); }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    color: var(--text);
-    text-decoration: none;
-    margin-right: auto;
-  }
-  @media (max-width: 700px) {
-    .nav a.link:not(.gh) { display: none; }
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 20px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition: transform .06s ease, background .15s ease, border-color .15s ease;
-  }
-  .btn:active { transform: translateY(1px); }
-
-  .hero {
-    padding: 72px 0 40px;
-    background:
-      radial-gradient(60% 120% at 50% -10%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
-      var(--bg);
-    text-align: center;
-  }
-  .hero h1 {
-    margin: 0 0 14px;
-    font-size: clamp(28px, 6vw, 44px);
-    line-height: 1.15;
-  }
-  section h2 { margin: 0 0 8px; font-size: clamp(22px, 4vw, 30px); }
-  .card ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 15px; }
-  .card li { margin: 2px 0; }
-  .panel-box ul { margin: 12px 0 0; padding-left: 20px; color: var(--muted); }
-  .panel-box li { margin: 4px 0; }
-
-  table.postures { width: 100%; border-collapse: collapse; font-size: 15px; }
-  table.postures th, table.postures td {
-    text-align: left;
-    padding: 10px 8px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  table.postures th { color: var(--text); font-weight: 600; }
-  table.postures td { color: var(--muted); }
-  table.postures tr:last-child td { border-bottom: 0; }
-  @media (max-width: 480px) {
-    table.postures, table.postures tbody, table.postures tr, table.postures td { display: block; }
-    table.postures thead { display: none; }
-    table.postures tr { padding: 10px 0; border-bottom: 1px solid var(--border); }
-    table.postures tr:last-child { border-bottom: 0; }
-    table.postures td { border: 0; padding: 2px 0; }
-  }
+  :root { --accent: #d9c27e; }
 </style>
 </head>
 <body>
 
 <header>
   <nav class="wrap nav">
-    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="back" href="/projects">&larr; All projects</a>
     <a class="brand" href="#top">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <rect x="2.5" y="3.5" width="19" height="17" rx="3" stroke="var(--accent)" stroke-width="1.8"/>
         <path d="M6.5 16.5l3.5-4 3 2.5 4.5-6" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Personal RuneScape Tracker
+      <span>Personal RuneScape Tracker</span>
     </a>
     <a class="link" href="#features">Features</a>
     <a class="link" href="#sync">Plugin sync</a>
     <a class="link" href="#run">Run it</a>
-    <a class="link gh" href="https://github.com/Ronovo/Personal-RuneScape-Tracker">GitHub</a>
+    <a class="link gh" href="https://github.com/Ronovo/Personal-RuneScape-Tracker" rel="noopener">Source</a>
   </nav>
 </header>
 
@@ -154,6 +39,7 @@
 
 <div class="hero">
   <div class="wrap">
+    <p class="eyebrow">RuneScape</p>
     <h1>Your OSRS character log and GE tool, on your own server</h1>
     <p class="tag">
       Hiscores, quests, diaries, combat achievements and your collection log in one
@@ -162,15 +48,13 @@
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
-      <a class="btn btn-ghost" href="https://github.com/Ronovo/Personal-RuneScape-Tracker">View source</a>
+      <a class="btn btn-ghost" href="https://github.com/Ronovo/Personal-RuneScape-Tracker" rel="noopener">Source on GitHub</a>
     </div>
-    <p class="meta-line">
-      <span>Free &amp; open source</span> &nbsp;&middot;&nbsp;
-      <span>BSD 2-Clause</span> &nbsp;&middot;&nbsp;
-      <span>Node + TypeScript</span> &nbsp;&middot;&nbsp;
-      <span>No API keys needed</span>
-    </p>
-
+    <dl class="facts">
+      <div><dt>Stack</dt><dd>Node + TypeScript</dd></div>
+      <div><dt>API keys</dt><dd>None needed</dd></div>
+      <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
+    </dl>
   </div>
 </div>
 
@@ -225,7 +109,7 @@
         </ul>
       </div>
     </div>
-    <p class="lede" style="margin-top:22px; margin-bottom:0;">
+    <p class="lede">
       Prices come from completed trades, not live offers. Always check the in-game
       GE offer box before committing money.
     </p>
@@ -303,7 +187,7 @@ docker run -d --name osrs-tracker --restart unless-stopped \
 
       <div class="panel-box">
         <h3>Who can sync</h3>
-        <table class="postures">
+        <table class="kinds">
           <thead>
             <tr><th>Setup</th><th>Good for</th><th>How tokens work</th></tr>
           </thead>
@@ -340,17 +224,19 @@ docker run -d --name osrs-tracker --restart unless-stopped \
 <footer>
   <div class="wrap">
     <div class="links">
-      <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker">Source code</a>
+      <a href="/projects">All projects</a>
+      <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker">Source</a>
       <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker#readme">README</a>
       <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker/blob/main/LICENSE">License (BSD 2-Clause)</a>
-      <a href="https://github.com/Ronovo/Leagues-Task-Plugin">Leagues Tasks plugin</a>
+      <a href="/projects/leagues-task-plugin/">Leagues Tasks plugin</a>
+      <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a>
     </div>
+    <p>Built with Node, Express and TypeScript.</p>
     <p class="disclaimer">
       Market data from the <a href="https://oldschool.runescape.wiki/w/RuneScape:Real-time_Prices">OSRS Wiki
       Real-time Prices</a> API; character data from the Jagex hiscores. Not affiliated
       with, endorsed by, or sponsored by Jagex Ltd. Old School RuneScape and RuneScape
       are trademarks of Jagex Ltd. RuneLite is a trademark of its respective owners.
-      Cinzel and Rubik fonts are used under the SIL Open Font License 1.1.
     </p>
   </div>
 </footer>

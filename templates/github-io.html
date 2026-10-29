@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ronovo</title>
+<meta name="description" content="{{ site.tagline }}">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Ronovo">
+<meta property="og:description" content="{{ site.tagline }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ronovo.github.io/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/project-page.css">
+<style>
+  .hero h1 { font-size: clamp(44px, 11vw, 88px); letter-spacing: 0.12em; text-transform: uppercase; }
+  .hero .intro { margin: -12px 0 28px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .chips a {
+    display: inline-flex;
+    gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    text-decoration: none;
+    font: 600 13px var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .chips a:hover { border-color: var(--accent); color: var(--accent); }
+  .chips b { color: var(--magenta); }
+
+  .project { display: flex; flex-direction: column; }
+  .project p { margin: 0 0 14px; }
+  .thumb {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    margin: -20px -20px 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgb(255 43 214 / 0.18), rgb(0 240 255 / 0.12)), var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+  .thumb img { display: block; max-width: 100%; height: 100%; object-fit: contain; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: auto 0 16px; padding: 0; list-style: none; }
+  .tags li {
+    padding: 2px 8px;
+    border: 1px solid rgb(255 43 214 / 0.45);
+    color: var(--magenta);
+    font: 500 11px var(--font-mono);
+    text-transform: uppercase;
+  }
+  .project .links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+  .project .links .btn { padding: 8px 16px; font-size: 12px; }
+  .project .links a:not(.btn) { font: 600 13px var(--font-mono); text-transform: uppercase; text-decoration: none; }
+  .project .links a:not(.btn):hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a class="brand" href="#top"><span>Ronovo</span></a>
+    {% for category, projects in groups %}
+    <a class="link" href="#{{ category|lower }}">{{ category }}</a>
+    {% endfor %}
+    <a class="link gh" href="https://github.com/Ronovo" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<a id="top"></a>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Ian Kent</p>
+    <h1>Ronovo</h1>
+    <p class="tag">{{ site.tagline }}</p>
+    <p class="intro">{{ site.intro }}</p>
+    <ul class="chips">
+      {% for category, projects in groups %}
+      <li><a href="#{{ category|lower }}">{{ category }} <b>{{ projects|length }}</b></a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<main>
+{% for category, projects in groups %}
+<section id="{{ category|lower }}"{% if loop.index is even %} class="alt"{% endif %}>
+  <div class="wrap">
+    <h2>{{ category }}</h2>
+    <p class="lede">{{ site.categories[category] }}</p>
+    <div class="grid">
+      {% for p in projects %}
+      <article class="card project">
+        {% if p.category == "Games" and p.thumb %}
+        <div class="thumb"><img src="/static/{{ p.thumb }}" alt=""></div>
+        {% endif %}
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.desc }}</p>
+        <ul class="tags">{% for tag in p.tags %}<li>{{ tag }}</li>{% endfor %}</ul>
+        <div class="links">
+          {% if p.page %}
+          <a class="btn btn-primary" href="/projects/{{ p.page }}/">About</a>
+          {% endif %}
+          {% if p.source %}
+          <a href="{{ p.source }}">Source</a>
+          {% endif %}
+          {% for link in p.links if link.url %}
+          <a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.label }}</a>
+          {% endfor %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/Ronovo">GitHub</a>
+    </div>
+    <p>&copy; Ronovo</p>
+  </div>
+</footer>
+
+</body>
+</html>

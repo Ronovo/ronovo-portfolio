@@ -5,107 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ronovo's Sync Tool - RuneLite plugin</title>
 <meta name="description" content="A RuneLite plugin that sends your quests, achievement diaries, combat achievements, collection log and Leagues Tasks completions to a Personal RuneScape Tracker you host yourself.">
-<meta name="color-scheme" content="dark light">
-
+<meta name="color-scheme" content="dark">
 <meta property="og:title" content="Ronovo's Sync Tool - RuneLite plugin">
-<meta property="og:description" content="Sync your OSRS progress from RuneLite to a tracker you host yourself.">
+<meta property="og:description" content="A RuneLite plugin that sends your quests, achievement diaries, combat achievements, collection log and Leagues Tasks completions to a Personal RuneScape Tracker you host yourself.">
 <meta property="og:type" content="website">
-
+<meta property="og:url" content="https://ronovo.github.io/projects/ronovos-sync-tool/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  :root {
-    --bg: #14150f;
-    --bg-2: #1c1d15;
-    --panel: #24261c;
-    --panel-2: #2c2e22;
-    --border: #3a3d2d;
-    --text: #e7e3d4;
-    --muted: #a8a690;
-    --accent: #e0b34a;
-    --gold-dim: #b8923a;
-    --link: #f0c766;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f5f1e4;
-      --bg-2: #efe9d6;
-      --panel: #fffdf6;
-      --panel-2: #f7f1df;
-      --border: #ddd2b2;
-      --text: #33301f;
-      --muted: #6c6650;
-      --accent: #9a6f16;
-      --gold-dim: #b8923a;
-      --link: #8a5e0c;
-    }
-  }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    letter-spacing: .2px;
-    color: var(--text);
-    text-decoration: none;
-    margin-right: auto;
-  }
-  .brand svg { display: block; }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 20px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition: transform .06s ease, background .15s ease, border-color .15s ease;
-  }
-  .btn:active { transform: translateY(1px); }
-  .btn-primary { background: var(--accent); color: #1a1500; }
-  .btn-primary:hover { background: #eec063; color: #1a1500; }
-  .btn-ghost:hover { border-color: var(--gold-dim); color: var(--text); }
-
-  .hero {
-    padding: 72px 0 40px;
-    background:
-      radial-gradient(60% 120% at 50% -10%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
-      var(--bg);
-    text-align: center;
-  }
-  .hero .tag {
-    margin: 0 auto 26px;
-    max-width: 620px;
-    font-size: clamp(16px, 2.4vw, 19px);
-    color: var(--muted);
-  }
-  section .lede { margin: 0 0 28px; color: var(--muted); max-width: 640px; }
-  .panel-box ul { margin: 12px 0 0; padding-left: 20px; color: var(--muted); }
-  .panel-box li { margin: 4px 0; }
-  .panel-box .note {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    font-size: 14px;
-    color: var(--muted);
-  }
-  code {
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1px 6px;
-    font: 500 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  }
+  :root { --accent: #e0b34a; }
 </style>
 </head>
 <body>
 
 <header>
   <nav class="wrap nav">
-    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="back" href="/projects">&larr; All projects</a>
     <a class="brand" href="#top">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M19.5 9.5A7.5 7.5 0 0 0 6 6.8L4.5 8.3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -113,12 +28,12 @@
         <path d="M4.5 14.5A7.5 7.5 0 0 0 18 17.2l1.5-1.5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M19.5 19.5v-3.8h-3.8" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Ronovo's Sync Tool
+      <span>Ronovo's Sync Tool</span>
     </a>
     <a class="link" href="#features">Features</a>
     <a class="link" href="#data">What it sends</a>
     <a class="link" href="#install">Install</a>
-    <a class="link gh" href="https://github.com/Ronovo/Ronovos-Sync-Tool">GitHub</a>
+    <a class="link gh" href="https://github.com/Ronovo/Ronovos-Sync-Tool" rel="noopener">Source</a>
   </nav>
 </header>
 
@@ -126,6 +41,7 @@
 
 <div class="hero">
   <div class="wrap">
+    <p class="eyebrow">RuneScape</p>
     <h1>Your OSRS progress, on a tracker you run</h1>
     <p class="tag">
       Send your quests, achievement diaries, combat achievements, collection log and
@@ -134,16 +50,15 @@
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#install">How to install</a>
-      <a class="btn btn-ghost" href="https://github.com/Ronovo/Ronovos-Sync-Tool">View source</a>
+      <a class="btn btn-ghost" href="https://github.com/Ronovo/Ronovos-Sync-Tool" rel="noopener">Source on GitHub</a>
     </div>
-    <p class="meta-line">Not on the Plugin Hub yet. For now it runs from source.</p>
-    <p class="meta-line">
-      <span>Free &amp; open source</span> &nbsp;&middot;&nbsp;
-      <span>BSD 2-Clause</span> &nbsp;&middot;&nbsp;
-      <span>Java 11</span> &nbsp;&middot;&nbsp;
-      <span>Needs your own tracker</span>
-    </p>
-
+    <p class="note">Not on the Plugin Hub yet. For now it runs from source.</p>
+    <dl class="facts">
+      <div><dt>Type</dt><dd>RuneLite plugin</dd></div>
+      <div><dt>Stack</dt><dd>Java 11</dd></div>
+      <div><dt>Needs</dt><dd>Your own tracker</dd></div>
+      <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
+    </dl>
   </div>
 </div>
 
@@ -193,7 +108,7 @@
   </div>
 </section>
 
-<section id="data" style="background:var(--bg-2);">
+<section id="data" class="alt">
   <div class="wrap">
     <h2>What a sync sends</h2>
     <p class="lede">
@@ -225,10 +140,10 @@
       source: a small Gradle command builds it and opens a RuneLite client with the
       plugin already loaded, on its own or together with Leagues Tasks.
     </p>
-    <div class="cta" style="justify-content:flex-start;">
+    <div class="cta">
       <a class="btn btn-primary" href="run">Step-by-step: run it in RuneLite</a>
     </div>
-    <p class="lede" style="margin-top:22px;">
+    <p class="lede">
       It needs your own
       <a href="/projects/personal-runescape-tracker/">Personal RuneScape Tracker</a>
       instance - a self-hosted character log and Grand Exchange tool. See the
@@ -242,12 +157,14 @@
 <footer>
   <div class="wrap">
     <div class="links">
-      <a href="https://github.com/Ronovo/Ronovos-Sync-Tool">Source code</a>
+      <a href="/projects">All projects</a>
+      <a href="https://github.com/Ronovo/Ronovos-Sync-Tool">Source</a>
       <a href="https://github.com/Ronovo/Ronovos-Sync-Tool#readme">README</a>
       <a href="https://github.com/Ronovo/Ronovos-Sync-Tool/blob/main/LICENSE">License (BSD 2-Clause)</a>
-      <a href="https://github.com/Ronovo/Leagues-Task-Plugin">Leagues Tasks plugin</a>
-      <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker">Personal RuneScape Tracker</a>
+      <a href="/projects/leagues-task-plugin/">Leagues Tasks plugin</a>
+      <a href="/projects/personal-runescape-tracker/">Personal RuneScape Tracker</a>
     </div>
+    <p>Built with Java for RuneLite.</p>
     <p class="disclaimer">
       Not affiliated with, endorsed by, or sponsored by Jagex Ltd. Old School RuneScape
       and RuneScape are trademarks of Jagex Ltd. RuneLite is a trademark of its

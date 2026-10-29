@@ -5,68 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stand Alone Gun System - a text-based weapons system</title>
 <meta name="description" content="A simple weapons system built in Python: an importable gunsystem library plus a range demo you can play in the browser or the terminal.">
-<meta name="color-scheme" content="dark light">
-
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Stand Alone Gun System - a text-based weapons system">
+<meta property="og:description" content="A simple weapons system built in Python: an importable gunsystem library plus a range demo you can play in the browser or the terminal.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ronovo.github.io/projects/stand-alone-gun-system/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  :root {
-    --bg: #11130f;
-    --bg-2: #161913;
-    --panel: #191c16;
-    --panel-2: #21251d;
-    --border: #343a2d;
-    --text: #dadccf;
-    --muted: #8f9581;
-    --accent: #e3a63c;
-    --on-accent: #1b1407;
-    --link: #ebb75a;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f4f3ec;
-      --bg-2: #ebe9df;
-      --panel: #fffef9;
-      --panel-2: #f3f1e7;
-      --border: #d8d5c5;
-      --text: #23251e;
-      --muted: #62665a;
-      --accent: #9a6a12;
-      --on-accent: #ffffff;
-      --link: #85590a;
-    }
-  }
-  .panel-box p { margin: 0; }
+  :root { --accent: #e3a63c; }
   .hero .tag code { font-size: .85em; }
   .card h3 .class { margin-left: auto; font-size: 13px; font-weight: 500; color: var(--muted); }
-  .card ul.plain { color: var(--muted); font-size: 15px; }
-  .shots {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px;
-    margin-top: 36px;
-  }
-  .shots img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-  }
 </style>
 </head>
 <body>
 
 <header>
   <nav class="wrap nav">
-    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="back" href="/projects">&larr; All projects</a>
     <a class="brand" href="#top">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.8"/>
         <circle cx="12" cy="12" r="2" fill="var(--accent)"/>
         <path d="M12 2v5M12 17v5M2 12h5M17 12h5" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
-      Stand Alone Gun System
+      <span>Stand Alone Gun System</span>
     </a>
     <a class="link" href="#features">Features</a>
     <a class="link" href="#guns">Guns</a>
@@ -79,6 +42,7 @@
 
 <div class="hero">
   <div class="wrap">
+    <p class="eyebrow">Games</p>
     <h1>Stand Alone Gun System</h1>
     <p class="tag">
       A simple, text-based weapons system built in Python. The <code>gunsystem</code> library can be
@@ -87,13 +51,13 @@
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
-      <a class="btn btn-ghost" href="#features">What it does</a>
+      <a class="btn btn-ghost" href="https://github.com/Ronovo/standalonegunsystem" rel="noopener">Source on GitHub</a>
     </div>
-    <p class="meta-line">
-      <span>Python 3.10+</span> &nbsp;&middot;&nbsp;
-      <span>Flask</span> &nbsp;&middot;&nbsp;
-      <span>Runs in Docker</span>
-    </p>
+    <dl class="facts">
+      <div><dt>Stack</dt><dd>Python 3.10+ / Flask</dd></div>
+      <div><dt>Runs in</dt><dd>Docker</dd></div>
+      <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
+    </dl>
     <div class="shots">
       <img src="MainMenu.png" alt="The main menu">
       <img src="Range%20Menu.png" alt="The range menu">
@@ -293,7 +257,13 @@ result = resolve_shot(gun, Target(distance=100, size="m"))</code></pre>
 
 <footer>
   <div class="wrap">
-    Built with Python and Flask.
+    <div class="links">
+      <a href="/projects">All projects</a>
+      <a href="https://github.com/Ronovo/standalonegunsystem">Source</a>
+      <a href="https://github.com/Ronovo/standalonegunsystem#readme">README</a>
+      <a href="https://github.com/Ronovo/standalonegunsystem/blob/main/LICENSE">License (BSD 2-Clause)</a>
+    </div>
+    <p>Built with Python and Flask.</p>
   </div>
 </footer>
 

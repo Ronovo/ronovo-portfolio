@@ -102,6 +102,21 @@ npm run dev
 `npm run dev` serves the React pages with live reload and passes `/api`, `/static`, `/account`, `/sso` and the
 project pages through to Flask. To try the built app on Flask alone, run `npm run build` first.
 
+## Publishing to ronovo.github.io
+
+`export_github_io.py` writes a basic copy of the Projects page to a checkout of
+[ronovo.github.io](https://github.com/Ronovo/ronovo.github.io), along with every About page and
+`static/project-page.css`:
+
+```
+python export_github_io.py ../ronovo.github.io
+```
+
+The cards come from `data.py` and `templates/github-io.html`. They show Source, About and `url` links only, since
+port and Run-it links don't work off this host. The About pages go to `projects/<slug>/`; their back link points at
+the home page, and a Run-it link points at the repo README's Installing section. The script replaces `projects/`
+each time, so pages removed here are removed there too.
+
 ## Tests
 
 ```
@@ -111,3 +126,7 @@ pytest
 
 The tests cover the site API, project pages, accounts, CSRF, login redirects and portfolio login.
 They serve the React pages from `frontend/dist`, so build the front end first.
+
+## License
+
+BSD 2-Clause. See [LICENSE](LICENSE).

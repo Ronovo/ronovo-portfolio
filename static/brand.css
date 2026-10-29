@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Orbitron";
+  src: url("fonts/orbitron-latin.woff2") format("woff2");
+  font-weight: 400 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/jetbrains-mono-latin.woff2") format("woff2");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #07070d;
+  --panel: #0e0e1a;
+  --panel-hover: #141428;
+  --border: #262642;
+  --text: #e6e8ff;
+  --muted: #9195bd;
+  --cyan: #00f0ff;
+  --magenta: #ff2bd6;
+  --yellow: #f5e663;
+  --on-accent: #00161a;
+  --danger: #ff4d6d;
+  --glow: 0 0 18px rgb(0 240 255 / 0.35);
+  --radius: 4px;
+  --maxw: 1040px;
+  --font-display: "Orbitron", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}

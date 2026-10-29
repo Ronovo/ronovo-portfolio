@@ -5,41 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dead But Dreaming - an idle game for an Old One</title>
 <meta name="description" content="An idle game where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.">
-<meta name="color-scheme" content="dark light">
-
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Dead But Dreaming - an idle game for an Old One">
+<meta property="og:description" content="An idle game where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ronovo.github.io/projects/dead-but-dreaming/">
+<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  :root {
-    --bg: #07060a;
-    --bg-2: #0d0b12;
-    --panel: #13101c;
-    --panel-2: #1b1726;
-    --border: #2f2840;
-    --text: #f1eef6;
-    --muted: #a39cb3;
-    --accent: #3ee66b;
-    --on-accent: #041a0a;
-    --link: #c58be6;
-    --title: #c06ad8;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f5f2f7;
-      --bg-2: #ece6f0;
-      --panel: #ffffff;
-      --panel-2: #f3eef6;
-      --border: #dad0e2;
-      --text: #1e1726;
-      --muted: #625a70;
-      --accent: #1b8a3a;
-      --on-accent: #ffffff;
-      --link: #7a1f8f;
-      --title: #800080;
-    }
-  }
-  .panel-box p { margin: 0; }
-  .hero h1 { color: var(--title); }
+  :root { --accent: #3ee66b; }
+  .hero h1 { color: #c06ad8; }
   .hero .quote { margin: 0 0 14px; color: var(--muted); font-size: 17px; }
 </style>
 </head>
@@ -47,14 +22,14 @@
 
 <header>
   <nav class="wrap nav">
-    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="back" href="/projects">&larr; All projects</a>
     <a class="brand" href="#top">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 3c-4 0-7 3-7 7 0 2.5 1 4 2.5 5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
         <path d="M12 3c4 0 7 3 7 7 0 2.5-1 4-2.5 5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
         <path d="M8 15c0 3 1 5 1 6M12 15v6M16 15c0 3-1 5-1 6" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
       </svg>
-      Dead But Dreaming
+      <span>Dead But Dreaming</span>
     </a>
     <a class="link" href="#features">Features</a>
     <a class="link" href="#play">How to play</a>
@@ -67,6 +42,7 @@
 
 <div class="hero">
   <div class="wrap">
+    <p class="eyebrow">Games</p>
     <h1>Dead But Dreaming</h1>
     <p class="quote"><i>In his house at R'lyeh dead Cthulhu waits dreaming.</i></p>
     <p class="tag">
@@ -78,13 +54,14 @@
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
-      <a class="btn btn-ghost" href="#play">How to play</a>
+      <a class="btn btn-ghost" href="https://github.com/Ronovo/Dead-But-Dreaming" rel="noopener">Source on GitHub</a>
     </div>
-    <p class="meta-line">
-      <span>Runs in the browser</span> &nbsp;&middot;&nbsp;
-      <span>Python/Flask server</span> &nbsp;&middot;&nbsp;
-      <span>Runs in Docker</span>
-    </p>
+    <dl class="facts">
+      <div><dt>Plays in</dt><dd>The browser</dd></div>
+      <div><dt>Server</dt><dd>Python / Flask</dd></div>
+      <div><dt>Runs in</dt><dd>Docker</dd></div>
+      <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
+    </dl>
   </div>
 </div>
 
@@ -287,7 +264,13 @@ python Game_Logic/webapp.py</code></pre>
 
 <footer>
   <div class="wrap">
-    Built with Python and Flask, with a plain JavaScript client.
+    <div class="links">
+      <a href="/projects">All projects</a>
+      <a href="https://github.com/Ronovo/Dead-But-Dreaming">Source</a>
+      <a href="https://github.com/Ronovo/Dead-But-Dreaming#readme">README</a>
+      <a href="https://github.com/Ronovo/Dead-But-Dreaming/blob/main/LICENSE">License (BSD 2-Clause)</a>
+    </div>
+    <p>Built with Python and Flask, with a plain JavaScript client.</p>
   </div>
 </footer>
 
