@@ -25,7 +25,9 @@ def load_secret_key() -> str:
         return key
     path = DATA_DIR / "secret_key"
     if not path.exists():
-        path.write_text(secrets.token_hex(32))
+        # Readable only by the account the app runs as.
+        with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "w") as f:
+            f.write(secrets.token_hex(32))
     return path.read_text().strip()
 
 

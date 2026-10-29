@@ -1,4 +1,5 @@
 import hashlib
+import hmac
 import re
 import sqlite3
 import time
@@ -41,7 +42,8 @@ def check_password(password: str):
 class Accounts:
     def __init__(self, path: str, secret_key: str):
         self.path = path
-        self.secret_key = secret_key.encode("utf-8")
+        # Its own key, made from the session key, so the stand-in questions never sign with the session key itself.
+        self.stand_in_key = hmac.new(secret_key.encode("utf-8"), b"stand-in security questions", hashlib.sha256).digest()
         self._logins = LoginLimiter()
         with self._db() as db:
             db.execute("PRAGMA journal_mode=WAL")
@@ -101,7 +103,7 @@ class Accounts:
     def security_question(self, username: str) -> str:
         with self._db() as db:
             row = db.execute("SELECT security_question FROM users WHERE username = ?", (username,)).fetchone()
-        return row[0] if row else security_questions.stand_in_question(username, self.secret_key)
+        return row[0] if row else security_questions.stand_in_question(username, self.stand_in_key)
 
     def reset_password(self, username: str, answer: str, new_password: str):
         """Sets a new password when the security answer is right. Too many wrong answers lock resets for a while."""
