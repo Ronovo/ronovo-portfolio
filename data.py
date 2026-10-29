@@ -52,6 +52,15 @@ SITE = {
             "links": [{"label": "Try it", "port": 9000}],
         },
         {
+            "title": "TTRPG Player Toolkit",
+            "category": "TTRPG",
+            "desc": "A browser table for tabletop players: 3D dice, playing card and tarot decks, a notepad and a Jenga tower, in ten styles.",
+            "tags": ["JavaScript", "Docker"],
+            "source": "https://github.com/Ronovo/ttrpg-player-toolkit",
+            "page": "ttrpg-player-toolkit",
+            "links": [{"label": "Try it", "port": 8006}],
+        },
+        {
             "title": "TTRPG Adventure Blog",
             "category": "TTRPG",
             "desc": "An Obsidian overlay that publishes solo tabletop RPG play reports from your vault as a website.",
@@ -118,6 +127,13 @@ SITE = {
             "source": "https://github.com/Ronovo/Dead-But-Dreaming",
             "page": "dead-but-dreaming",
             "links": [{"label": "Play", "port": 8005}],
+        },
+        {
+            "title": "Ronovo Portfolio",
+            "category": "General",
+            "desc": "The code this site is currently running on",
+            "tags": ["Python", "Flask", "TypeScript", "SQLite", "Docker"],
+            "source": "https://github.com/Ronovo/ronovo-portfolio",
         },
     ],
 }

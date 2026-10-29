@@ -91,6 +91,12 @@ services:
       - dead-but-dreaming-data:/app/data
     restart: unless-stopped
 
+  ttrpg-toolkit:
+    build: https://github.com/Ronovo/ttrpg-player-toolkit.git#main
+    ports:
+      - "${APP_BIND_IP:?set APP_BIND_IP in .env}:8006:80"
+    restart: unless-stopped
+
 volumes:
   portfolio-data:
   space-online-data:
