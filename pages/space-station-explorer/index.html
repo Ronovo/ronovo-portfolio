@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Space Station Explorer Online &mdash; a text-based space station game</title>
+<meta name="description" content="A text-based exploration game set on a space station, played in the browser: pick a job, manage power and oxygen, trade stocks, tend the bar and more.">
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="/static/project-page.css">
+<style>
+  :root {
+    --bg: #08090b;
+    --bg-2: #0e1014;
+    --panel: #16181d;
+    --panel-2: #1e2128;
+    --border: #33373f;
+    --text: #f2f4f7;
+    --muted: #a7adb6;
+    --accent: #00ccff;
+    --on-accent: #001a22;
+    --link: #4ddbff;
+    --radius: 12px;
+    --maxw: 980px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f3f6f8;
+      --bg-2: #e8eef2;
+      --panel: #ffffff;
+      --panel-2: #eef3f6;
+      --border: #d2dbe2;
+      --text: #11161b;
+      --muted: #56616c;
+      --accent: #0077a3;
+      --on-accent: #ffffff;
+      --link: #006a91;
+    }
+  }
+  .panel-box p { margin: 0; }
+  .card ul.plain { color: var(--muted); font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="brand" href="#top">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="4.5" y="4.5" width="15" height="15" rx="2" stroke="var(--accent)" stroke-width="1.8"/>
+        <rect x="9" y="9" width="6" height="6" rx="1" stroke="var(--accent)" stroke-width="1.4" opacity=".7"/>
+      </svg>
+      Space Station Explorer
+    </a>
+    <a class="link" href="#features">Features</a>
+    <a class="link" href="#systems">Systems</a>
+    <a class="link" href="#run">Run it</a>
+    <a class="link gh" href="https://github.com/Ronovo/online-space-staion" rel="noopener">Source</a>
+  </nav>
+</header>
+
+<a id="top"></a>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Space Station Explorer Online</h1>
+    <p class="tag">
+      A text-based exploration game set on a space station, played in the browser. It is a Flask web
+      app with accounts, where each account owns one character whose progress is saved on the server.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#run">How to run it</a>
+      <a class="btn btn-ghost" href="#features">What it does</a>
+    </div>
+    <p class="meta-line">
+      <span>Python 3.9+</span> &nbsp;&middot;&nbsp;
+      <span>Flask</span> &nbsp;&middot;&nbsp;
+      <span>SQLite</span> &nbsp;&middot;&nbsp;
+      <span>Runs in Docker</span>
+    </p>
+  </div>
+</div>
+
+<main>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Core features</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot"></span>Accounts</h3>
+        <p>Register with a username, a password and a security question; each account owns exactly one
+          character. <b>Forgot password?</b> resets the password with the security answer, and five wrong
+          answers lock resets for 15 minutes.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Character system</h3>
+        <p>Create a character with unique jobs (Staff Assistant to Captain), each with special access and
+          starting credits.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Station navigation</h3>
+        <p>Explore a donut-shaped ring of hallways and department rooms with random events.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Inventory system</h3>
+        <p>Carry items, store them in your quarters locker, and examine, read, drop, or drink them.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Health system</h3>
+        <p>Track limb damage plus burns, poison, and oxygen; seek treatment in MedBay.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Crew roster</h3>
+        <p>Start alongside procedurally staffed NPC crew (department heads and assistants).</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Persistent progress</h3>
+        <p>Your character's progress is saved to the server after every action. Deleting the character
+          erases that progress so you can roll a new one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="systems" class="alt">
+  <div class="wrap">
+    <h2>Station systems</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot"></span>Power Management</h3>
+        <ul class="plain">
+          <li>Monitor and manage station battery levels</li>
+          <li>Control system power allocation (life support, lighting, security, communications)</li>
+          <li>Solar panel charging system</li>
+          <li>Power modes including emergency settings</li>
+          <li>Engineering panel access for Engineers and the Captain</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Medical System</h3>
+        <ul class="plain">
+          <li>Health tracking for limbs, burns, poison, and oxygen</li>
+          <li>Paid medical treatment and health assessments in MedBay</li>
+          <li>Free self-treatment and crew vitals monitoring for Doctors</li>
+          <li>Oxygen damage when life support is underpowered, with emergency revive if it reaches critical levels</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Security System</h3>
+        <ul class="plain">
+          <li>Access control for restricted areas</li>
+          <li>Door locking and unlocking for authorized personnel</li>
+          <li>Crew manifest for Security staff</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Stock Market</h3>
+        <ul class="plain">
+          <li>Real-time market simulation with automatic updates</li>
+          <li>Buy and sell shares in various companies from your quarters computer</li>
+          <li>Price history tracking and visualization</li>
+          <li>Portfolio management and profit tracking</li>
+          <li>Filtering options and detailed transaction history</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Bar System</h3>
+        <ul class="plain">
+          <li>Order drinks from the menu</li>
+          <li>Bartender drink mixing and recipe list</li>
+          <li>Alcohol tracking on your character sheet</li>
+          <li>Social interactions</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Botany System</h3>
+        <ul class="plain">
+          <li>Seed collection from the botanist station</li>
+          <li>Plant seeds across multiple planters</li>
+          <li>Planter status monitoring</li>
+          <li>Special access for Botanists</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Life Support</h3>
+        <ul class="plain">
+          <li>Oxygen levels tied to power allocation</li>
+          <li>Emergency protocols from Engineering</li>
+          <li>Effects on player and crew safety when systems are underpowered</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Bridge and Personnel</h3>
+        <ul class="plain">
+          <li>Talk to ship leadership when present</li>
+          <li>Crew manifest and NPC job assignment for the Head of Personnel</li>
+          <li>Public Access Control terminal for job-change requests</li>
+          <li>Captain and HoP door control for the Bridge</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Engineering</h3>
+        <ul class="plain">
+          <li>Fabricator for creating tools, books, and components</li>
+          <li>Full power management panel for authorized staff</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="station">
+  <div class="wrap">
+    <h2>The station</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>Station layout</h3>
+        <p>The station uses a hollow-square hallway ring with special rooms branching off it:</p>
+        <ul class="plain">
+          <li>Quarters attached at the hallway junction</li>
+          <li>Connected hallways forming a complete circuit</li>
+          <li>Special rooms: Bridge, MedBay, Security, Engineering Bay, Bar, Botany Lab</li>
+        </ul>
+      </div>
+      <div class="panel-box">
+        <h3>Job access levels</h3>
+        <table class="kinds">
+          <thead>
+            <tr><th>Job</th><th>Access</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Staff Assistant</td><td>Basic access</td></tr>
+            <tr><td>Engineer</td><td>Engineering Bay + power management</td></tr>
+            <tr><td>Security Guard</td><td>Security systems + door control</td></tr>
+            <tr><td>Doctor</td><td>MedBay + advanced treatment</td></tr>
+            <tr><td>Bartender</td><td>Bar + drink mixing</td></tr>
+            <tr><td>Botanist</td><td>Botany Lab + plant cultivation</td></tr>
+            <tr><td>Head of Personnel</td><td>Multiple department access + personnel tools</td></tr>
+            <tr><td>Captain</td><td>Full station access</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-box">
+        <h3>Tips</h3>
+        <ul class="plain">
+          <li>Monitor your health and seek treatment in MedBay when needed</li>
+          <li>Keep track of power levels and oxygen status from Engineering</li>
+          <li>Use the stock market on your quarters computer to earn additional credits</li>
+          <li>Explore all rooms to discover features, items, and job-specific stations</li>
+          <li>Progress saves automatically; Save and Exit returns you to your account page</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="run" class="alt">
+  <div class="wrap">
+    <h2>Run it</h2>
+    <p class="lede">Requires Python 3.9 or newer.</p>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>From source</h3>
+        <pre><code>python -m venv .venv
+.venv\Scripts\activate          # Windows; use `source .venv/bin/activate` elsewhere
+pip install -r requirements.txt
+python run_server.py</code></pre>
+        <p class="note">
+          Open <code>http://127.0.0.1:5000</code>, register an account, and create your character.
+          <code>run_server.py</code> uses Flask's built-in server, which is fine for playing on your own
+          machine or a LAN.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Settings</h3>
+        <table class="kinds">
+          <thead>
+            <tr><th>Environment variable</th><th>Default</th><th>What it does</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>HOST</code></td><td><code>127.0.0.1</code></td><td>Interface to bind. Use <code>0.0.0.0</code> so other machines on your network can connect.</td></tr>
+            <tr><td><code>PORT</code></td><td><code>5000</code></td><td>Port to listen on.</td></tr>
+            <tr><td><code>SPACE_ONLINE_SECRET_KEY</code></td><td>generated</td><td>Session signing key. If unset, one is generated once into <code>instance/secret_key</code>.</td></tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Accounts and characters are stored in <code>instance/space_online.sqlite3</code>, next to
+          <code>run_server.py</code>. The <code>instance/</code> folder is the game's only data: back it
+          up to keep your players, delete it to start fresh.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Log in with a portfolio account</h3>
+        <p>
+          With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
+          portfolio's <code>python sso.py</code>) set, the login page offers to log in with a portfolio
+          account. It reads <b>Log In as</b> and the portfolio username when this browser is logged in to
+          the portfolio. The first portfolio login here asks whether to link an account the player already
+          has, by logging in to it once, or to make a new one named after the portfolio username, with a
+          number added if that name is taken. Every later portfolio login from any device opens the linked
+          account.
+        </p>
+        <p class="note">
+          A new account has no password of its own, so the portfolio is the only way into it. Without
+          those two settings the app runs on its own.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>With Docker</h3>
+        <pre><code>docker build -t space-station-explorer-online .
+docker run -d -p 5000:5000 -v space-online-data:/app/instance space-station-explorer-online</code></pre>
+        <p class="note">
+          The <code>Dockerfile</code> runs the game under gunicorn on port 5000, with the data in a volume
+          at <code>/app/instance</code>. Set <code>SPACE_ONLINE_SECRET_KEY</code> with <code>-e</code> so
+          logins survive the key file being lost.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dev">
+  <div class="wrap">
+    <h2>For developers</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>Tests</h3>
+        <pre><code>pip install -r requirements-dev.txt
+python -m pytest</code></pre>
+        <p class="note">
+          The tests cover accounts, character creation, playing and saving, and the core game rules
+          (jobs, door access, inventory).
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Project layout</h3>
+        <pre><code>run_server.py            Starts the game with Flask's built-in server
+space_online/webapp/     Flask app: routes, accounts, SQLite storage, templates, static files
+space_online/game/       The game itself: station map, rooms, items, crew, jobs, power, market
+tests/                   pytest suite
+instance/                Created on first run: the database and secret key (not committed)</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Built with Python, Flask and SQLite, with a plain JavaScript client.
+  </div>
+</footer>
+
+</body>
+</html>

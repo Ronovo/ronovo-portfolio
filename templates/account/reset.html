@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set title = "Reset password" %}
+{% block content %}
+  <form class="form" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    {% if question %}
+    <input type="hidden" name="username" value="{{ username }}">
+    <p>{{ question }}</p>
+    <label>Answer <input name="answer" maxlength="{{ MAX_ANSWER_LENGTH }}" autocomplete="off" required></label>
+    <label>New password <input type="password" name="password" autocomplete="new-password" required></label>
+    <label>Confirm new password <input type="password" name="confirm_password" autocomplete="new-password" required></label>
+    <button>Reset password</button>
+    {% else %}
+    <label>Username <input name="username" autocomplete="username" required></label>
+    <button>Next</button>
+    {% endif %}
+  </form>
+{% endblock %}

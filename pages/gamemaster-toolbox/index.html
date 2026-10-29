@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GM Toolbox &mdash; a toolkit for tabletop gamemasters</title>
+<meta name="description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, and share them as JSON.">
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="/static/project-page.css">
+<style>
+  :root {
+    --bg: #15131c;
+    --bg-2: #1b1824;
+    --panel: #221e2d;
+    --panel-2: #2a2537;
+    --border: #3a3349;
+    --text: #ece8f4;
+    --muted: #aaa2bd;
+    --accent: #b394ff;
+    --on-accent: #1a1230;
+    --link: #c4adff;
+    --radius: 12px;
+    --maxw: 980px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f4fa;
+      --bg-2: #efebf6;
+      --panel: #ffffff;
+      --panel-2: #f3f0f9;
+      --border: #dcd5e8;
+      --text: #231e2f;
+      --muted: #645b78;
+      --accent: #6a46c9;
+      --on-accent: #ffffff;
+      --link: #5a37b8;
+    }
+  }
+  @media (max-width: 620px) {
+    .nav a.link { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="brand" href="#top">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z" stroke="var(--accent)" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M12 2.8v18.4M4 7.4l16 9.2M20 7.4L4 16.6" stroke="var(--accent)" stroke-width="1.2" stroke-linejoin="round" opacity=".6"/>
+      </svg>
+      GM Toolbox
+    </a>
+    <a class="link" href="#features">Features</a>
+    <a class="link" href="#flows">Flows</a>
+    <a class="link" href="#run">Run it</a>
+  </nav>
+</header>
+
+<a id="top"></a>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Your random tables, rolled for you</h1>
+    <p class="tag">
+      Build dice and card oracles for any game system, chain them into flows that ask
+      questions and branch, and take the whole set with you as one JSON file.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#run">How to run it</a>
+      <a class="btn btn-ghost" href="#features">What it does</a>
+    </div>
+    <p class="meta-line">
+      <span>ASP.NET Core on .NET 10</span> &nbsp;&middot;&nbsp;
+      <span>SQLite, one file</span> &nbsp;&middot;&nbsp;
+      <span>Runs in Docker</span>
+    </p>
+  </div>
+</div>
+
+<main>
+
+<section id="features">
+  <div class="wrap">
+    <h2>What it does</h2>
+    <p class="lede">
+      A web app for the tables a gamemaster rolls on mid-session, kept in one place
+      instead of scattered across books and notes.
+    </p>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot"></span>Game systems</h3>
+        <p>Group oracles and flows by the game they belong to.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Oracle builder</h3>
+        <p>Dice oracles use any die from d4 to d100, or several dice such as 2d6. Card
+          oracles use a full playing-card deck or a tarot deck.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Rolling and drawing</h3>
+        <p>Roll a dice table, or draw from a deck shuffled for your session. Which cards
+          are left is per person and per sitting.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Flows</h3>
+        <p>Chain oracles together and run them a step at a time, with questions and
+          branches along the way.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Export and import</h3>
+        <p>Download every game system, oracle and flow as a single versioned JSON file,
+          and read one back in on another instance.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Color themes</h3>
+        <p>Pick a theme from the dropdown in the top right.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flows" class="alt">
+  <div class="wrap">
+    <h2>Flows</h2>
+    <p class="lede">
+      A flow is an ordered list of steps. Running it works through one step at a time;
+      any outcome can branch to another step or end the run early, so a flow can fork,
+      skip ahead or loop back.
+    </p>
+    <div class="panel-box">
+      <table class="kinds">
+        <thead>
+          <tr><th>Step</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Roll</code></td>
+            <td>Rolls the oracle it names. Each outcome can also pick a table for a later step.</td>
+          </tr>
+          <tr>
+            <td><code>Choice</code></td>
+            <td>Asks a question with a dropdown of options you write. An option can name an oracle.</td>
+          </tr>
+          <tr>
+            <td><code>Text</code></td>
+            <td>Asks a question and takes a typed answer.</td>
+          </tr>
+          <tr>
+            <td><code>RollChosen</code></td>
+            <td>Rolls whichever oracle an earlier step picked.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">
+        A dependent chain &mdash; roll A, then roll whatever A landed on &mdash; is two
+        steps: a <code>Roll</code> whose outcomes each pick a table, then a
+        <code>RollChosen</code>. A run stops after 200 steps, so a branch that points
+        backwards can't loop forever.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="run">
+  <div class="wrap">
+    <h2>Run it</h2>
+    <p class="lede">
+      There's no database server to install. The whole toolbox lives in one SQLite file.
+    </p>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>With Docker</h3>
+        <pre><code>docker compose up -d</code></pre>
+        <p class="note">
+          Open <code>http://localhost:9000</code>. <code>docker compose down</code> stops
+          it, and your data stays in its volume. Other people on your network can reach
+          it at <code>http://&lt;your-machine's-ip&gt;:9000</code>.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>With the .NET SDK</h3>
+        <ol class="steps">
+          <li><span>Install the <a href="https://dotnet.microsoft.com/download">.NET 10 SDK</a>.</span></li>
+          <li><span>In the project folder, run <code>dotnet run</code>.</span></li>
+          <li><span>Open <code>http://localhost:9000</code>. This way only your own machine can reach it.</span></li>
+        </ol>
+      </div>
+      <div class="panel-box">
+        <h3>Who it's for</h3>
+        <p>
+          A machine on your own network, shared with the people at your table. There are
+          no permissions yet: everyone who can reach it can edit everything, so it isn't
+          set up to be exposed to the internet.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Built with ASP.NET Core MVC, Entity Framework Core and SQLite, Bootstrap and jQuery.
+  </div>
+</footer>
+
+</body>
+</html>

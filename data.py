@@ -1,0 +1,107 @@
+SITE = {
+    "name": "Ronovo",
+    "tagline": "Self-hosted tools and browser games for tabletop gamemasters, OSRS players, and anyone who likes to tinker.",
+    "intro": "I am Ian Kent, also known as Ronovo most places online.",
+
+    # The Projects page groups projects under these, in this order. The home page shows each one's blurb.
+    "categories": {
+        "General": "Odds and ends that don't fit anywhere else, like a chat that runs esoteric languages.",
+        "TTRPG": "Tools for tabletop gamemasters.",
+        "RuneScape": "Grand Exchange and account tracking tools for Old School RuneScape.",
+        "Games": "Browser games, from a casino to an idle game for an Old One.",
+    },
+
+    # category is one of categories. Leave source, page, readme and links out to show a card as "Coming soon".
+    # thumb is optional, relative to static/, and only shown on Games cards. featured puts the card on the home page.
+    # source is the GitHub repo. The About link goes to page, a folder under pages/ served at /projects/<page>/,
+    # or else to readme, a file in readmes/ (without .md) served at /readme/<readme>.
+    # A link with port points at that port on the host serving the site; one with endpoint at that page here.
+    # app is the id the app logs in to the portfolio with. Its login token is only sent to its port link.
+    "projects": [
+        {
+            "title": "Esoteric Chat",
+            "featured": True,
+            "category": "General",
+            "app": "esoteric-chat",
+            "desc": "A chat app that runs code in esoteric languages like Brainfart, HQ9+ and DeadSimple. Ported from my Discord bot.",
+            "tags": ["Python", "Flask", "JavaScript"],
+            "source": "https://github.com/Ronovo/esoteric-chat",
+            "page": "esoteric-chat",
+            "links": [{"label": "Try it", "port": 8004}],
+        },
+        {
+            "title": "Personal RuneScape Tracker",
+            "featured": True,
+            "category": "RuneScape",
+            "app": "osrs-tracker",
+            "desc": "A self-hosted Old School RuneScape dashboard.",
+            "tags": ["Node", "TypeScript", "OSRS"],
+            "source": "https://github.com/Ronovo/Personal-RuneScape-Tracker",
+            "page": "personal-runescape-tracker",
+            "links": [{"label": "Try it", "port": 4123}],
+        },
+        {
+            "title": "GM Toolbox",
+            "featured": True,
+            "category": "TTRPG",
+            "app": "gm-toolbox",
+            "desc": "A web toolkit for tabletop gamemasters: dice and card oracles, branching flows, and JSON import/export.",
+            "tags": ["C#", "ASP.NET Core", "SQLite"],
+            "source": "https://github.com/Ronovo/Gamemaster-Toolbox",
+            "page": "gamemaster-toolbox",
+            "links": [{"label": "Try it", "port": 9000}],
+        },
+        {
+            "title": "Leagues Tasks",
+            "category": "RuneScape",
+            "desc": "A RuneLite plugin to track every task from past OSRS Leagues events, with optional sync to the Personal RuneScape Tracker.",
+            "tags": ["Java", "RuneLite", "OSRS"],
+            "source": "https://github.com/Ronovo/Leagues-Task-Plugin",
+            "page": "leagues-task-plugin",
+            "links": [{"label": "Try it", "endpoint": "run_plugin"}],
+        },
+        {
+            "title": "Ronovo's Casino",
+            "category": "Games",
+            "app": "casino",
+            "desc": "Blackjack, Ultimate Texas Hold'em, baccarat, roulette, horse racing and more, with accounts, characters and achievements.",
+            "tags": ["Python", "JavaScript", "SQLite"],
+            "source": "https://github.com/Ronovo/Casino_Test",
+            "page": "casino",
+            "links": [{"label": "Play", "port": 8002}],
+        },
+        {
+            "title": "Space Station Explorer",
+            "category": "Games",
+            "app": "space-online",
+            "desc": "A text-based exploration game on a space station: pick a job, manage power and oxygen, trade stocks, tend the bar and more.",
+            "tags": ["Python", "Flask", "JavaScript", "SQLite"],
+            "thumb": "games/space-station-explorer.png",
+            "source": "https://github.com/Ronovo/online-space-staion",
+            "page": "space-station-explorer",
+            "links": [{"label": "Play", "port": 8003}],
+        },
+        {
+            "title": "Stand Alone Gun System",
+            "category": "Games",
+            "app": "gunsystem",
+            "desc": "A text-based weapons system for games: an armory of 26 guns across 6 classes, a firing range with distance, dummy sizes and fire modes, and bulk-fire balance reports.",
+            "tags": ["Python", "Flask", "Docker"],
+            "thumb": "games/stand-alone-gun-system.svg",
+            "source": "https://github.com/Ronovo/standalonegunsystem",
+            "page": "stand-alone-gun-system",
+            "links": [{"label": "Play", "port": 8000}],
+        },
+        {
+            "title": "Dead But Dreaming",
+            "featured": True,
+            "category": "Games",
+            "app": "dead-but-dreaming",
+            "desc": "An idle game where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.",
+            "tags": ["Python", "Flask", "JavaScript"],
+            "source": "https://github.com/Ronovo/Dead-But-Dreaming",
+            "page": "dead-but-dreaming",
+            "links": [{"label": "Play", "port": 8005}],
+        },
+    ],
+}

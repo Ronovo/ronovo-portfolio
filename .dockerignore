@@ -1,0 +1,14 @@
+.env
+**/__pycache__
+**/*.db
+**/tests
+**/Tests
+Dockerfile
+.dockerignore
+docker-compose.yml
+data
+frontend/node_modules
+frontend/dist
+pytest.ini
+requirements-dev.txt
+.gitignore

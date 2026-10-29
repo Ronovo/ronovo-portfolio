@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ronovo's Casino &mdash; casino games in the browser</title>
+<meta name="description" content="A repo for learning how to program casino games, played in the browser: blackjack, Ultimate Texas Hold'em, baccarat, roulette, horse racing and more.">
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="/static/project-page.css">
+<style>
+  :root {
+    --bg: #0b0f14;
+    --bg-2: #10161e;
+    --panel: #151c26;
+    --panel-2: #1d2633;
+    --border: #2c3848;
+    --text: #ece8dd;
+    --muted: #94a0b2;
+    --accent: #d9b44a;
+    --on-accent: #1a1405;
+    --link: #e3c15a;
+    --radius: 12px;
+    --maxw: 980px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f3ea;
+      --bg-2: #eee8d9;
+      --panel: #fffdf7;
+      --panel-2: #f5efe0;
+      --border: #ddd3bb;
+      --text: #1f2430;
+      --muted: #5f6878;
+      --accent: #8f6c12;
+      --on-accent: #ffffff;
+      --link: #7d5c0c;
+    }
+  }
+  .panel-box p { margin: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="brand" href="#top">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="8.5" stroke="var(--accent)" stroke-width="1.8"/>
+        <circle cx="12" cy="12" r="4" stroke="var(--accent)" stroke-width="1.4" opacity=".7"/>
+        <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      Ronovo's Casino
+    </a>
+    <a class="link" href="#tables">Tables</a>
+    <a class="link" href="#accounts">Accounts</a>
+    <a class="link" href="#run">Run it</a>
+    <a class="link gh" href="https://github.com/Ronovo/Casino_Test" rel="noopener">Source</a>
+  </nav>
+</header>
+
+<a id="top"></a>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Ronovo's Casino</h1>
+    <p class="tag">
+      A repo for learning how to program casino games, played in the browser. One person runs
+      the server; anyone on the network can log in and play.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#run">How to run it</a>
+      <a class="btn btn-ghost" href="#tables">The tables</a>
+    </div>
+    <p class="meta-line">
+      <span>Python 3.10+</span> &nbsp;&middot;&nbsp;
+      <span>No extra packages</span> &nbsp;&middot;&nbsp;
+      <span>SQLite saves</span>
+    </p>
+  </div>
+</div>
+
+<main>
+
+<section id="tables">
+  <div class="wrap">
+    <h2>Games featured</h2>
+    <p class="lede">
+      Each table is a JSON file in <code>Data/Tables</code>. Several tables can share one game engine.
+    </p>
+    <div class="stack">
+      <div class="panel-box">
+        <table class="kinds">
+          <thead>
+            <tr><th>Table</th><th>Game</th><th>Highlights</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Blackjack: Ronovo Classic</td><td>Blackjack</td><td>Any winning 21 pays 2:1, natural with a black Jack pays 3:1, double, split, surrender</td></tr>
+            <tr><td>Blackjack: High Roller</td><td>Blackjack</td><td>6 decks, dealer hits soft 17, blackjack 3:2, 100 cr minimum</td></tr>
+            <tr><td>Ultimate Texas Hold'em (+ High Roller)</td><td>Poker</td><td>Ante/Blind/Play, Trips and Pairs Bonus side bets, full kicker comparison</td></tr>
+            <tr><td>EZ Baccarat</td><td>Baccarat</td><td>Commission-free, Dragon 7 and Panda 8 bonus bets</td></tr>
+            <tr><td>Guess the Number</td><td>Guess the Number</td><td>Easy to Impossible, five bet types</td></tr>
+            <tr><td>Roulette: European / American</td><td>Roulette</td><td>Straight up, red/black, odd/even, low/high, dozens, columns</td></tr>
+            <tr><td>Ronovo Downs: Horse Racing</td><td>Horse Racing</td><td>Win/Place/Show on any number of horses, 40-race season, standings, handicapping</td></tr>
+          </tbody>
+        </table>
+        <p class="note">
+          Also included: accounts, achievements, per-game win/loss records, a chip exchange, and a
+          fresh start for broke characters.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Future ideas</h3>
+        <ul class="plain">
+          <li>Day Trading, Big 6 Wheel</li>
+          <li>Day/Night cycle (a certain number of games a day)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="racing" class="alt">
+  <div class="wrap">
+    <h2>Horse racing</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot"></span>The stable</h3>
+        <p>Every horse in <code>Data/horses.json</code> has a rating, a preferred trip (sprinter or
+          stayer), a preferred surface (firm or mud) and a running style. Each race draws a distance
+          and a going.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Real odds</h3>
+        <p>A horse runs to its strength on the day plus random luck. The luck is Gumbel-distributed,
+          which makes the chance of every finishing order exactly calculable, so the prices on the
+          board come from real probabilities less the house margin (<code>margin</code> in the table file).</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Seasons</h3>
+        <p>A season is 40 races. Points are 10/5/3/1 for the first four; the standings are shown
+          before and after every race, and the leader after race 40 is champion.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Handicapping</h3>
+        <p>A horse that wins with 2 or more wins in its last 8 runs carries 6 lb more (up to 30 lb),
+          and each pound costs half a rating point. A weighted horse sheds 1 lb for every finish
+          outside the first three. All of these numbers are in
+          <code>Data/Tables/09_horse_racing.json</code>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="accounts">
+  <div class="wrap">
+    <h2>Accounts and characters</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <ul class="plain">
+          <li>Each player creates an account (username and password) on the login page, and picks a
+            security question. Passwords and answers are stored as salted PBKDF2 hashes, and a login
+            lasts 30 days per browser.</li>
+          <li><b>Forgot password?</b> resets the password with the security answer and logs the account
+            out everywhere. Five wrong answers lock resets for 15 minutes.</li>
+          <li>An account holds up to 8 characters. Each character has its own chips, record,
+            achievements and racing season.</li>
+          <li>Characters saved before accounts existed belong to nobody. Register an account, then hand
+            one over: <code>python main.py --claim "Ronovo Ronove" your_username</code></li>
+          <li>The server uses plain HTTP, which is fine on a home network. To open it to the internet,
+            put it behind an HTTPS reverse proxy.</li>
+        </ul>
+      </div>
+      <div class="panel-box">
+        <h3>Log in with a portfolio account</h3>
+        <p>
+          With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
+          portfolio's <code>python sso.py</code>) set, the login page offers to log in with a portfolio
+          account. It reads <b>Log in as</b> and the portfolio username when this browser is logged in
+          to the portfolio. The first portfolio login here asks whether to link a casino account the
+          player already has, by logging in to it once, or to make a new one named after the portfolio
+          username, with a number added if that name is taken. Every later portfolio login from any
+          device opens the linked account.
+        </p>
+        <p class="note">
+          A new account has no password of its own, so the portfolio is the only way into it. Without
+          those two settings the app runs on its own.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="run" class="alt">
+  <div class="wrap">
+    <h2>Run it</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>How to run</h3>
+        <ol class="steps">
+          <li><span>Install Python 3.10 or newer (no extra packages needed).</span></li>
+          <li><span>From a terminal: <code>python main.py</code></span></li>
+          <li><span>Open the address it prints. <code>http://localhost:8000</code> on your own computer;
+            other players use the "For other players" address (your computer's address on the local
+            network). Windows may ask once to allow Python through the firewall.</span></li>
+        </ol>
+        <pre><code>python main.py --port 8080          # a different port
+python main.py --host 127.0.0.1     # private: only this computer can connect
+python main.py --verbose            # log every request</code></pre>
+      </div>
+      <div class="panel-box">
+        <h3>Saves</h3>
+        <p>
+          Progress lives in <code>casino.db</code> next to <code>main.py</code> (set the
+          <code>CASINO_DB</code> environment variable to use another file).
+        </p>
+        <p class="note">
+          Older databases upgrade automatically on launch: characters, chips and achievements are kept.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dev">
+  <div class="wrap">
+    <h2>For developers</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>Tests</h3>
+        <pre><code>python -m unittest discover -s Tests -t .</code></pre>
+        <p class="note">
+          Game rules are pure functions (<code>casino/rules</code>). Full rounds are played through each
+          game's <code>start</code>/<code>act</code> interface with stacked decks
+          (<code>Tests/test_games.py</code>), thousands of random rounds check that no credit is ever
+          created or lost (<code>Tests/test_soak.py</code>), and <code>EDGE_CASES.md</code> lists what
+          that turned up.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Project layout</h3>
+        <pre><code>main.py                 entry point: starts the web server
+casino/
+  accounts.py           sign-up, password hashing, login tokens, character ownership
+  cashier.py            chip exchange maths (break / color up)
+  transfer.py           character JSON export/import
+  engine/               shared engine used by every game
+    chips.py            chip values, Chips type, change-making
+    cards.py            Card and Shoe
+    bets.py             Bet, Outcome, stake validation, settle(): the one place winnings are paid
+    wallet.py           a character's chip rack (saved on every change)
+    game.py             Game and Round base classes + TableConfig
+    session.py          database, character, wallet, randomness and achievements for one sitting
+    db.py               SQLite schema, migrations, accounts, stats, achievements, saved seasons
+  rules/                pure rules per game (no input/output, no database)
+  games/                games wired from rules + engine; registry in __init__.py
+  web/
+    floor.py            every request a seated player can make, as plain functions returning JSON
+    server.py           HTTP server, routing, cookies, static files
+    static/             the browser client: index.html, css/, js/ (one module per game in js/games/)
+Data/
+  Tables/*.json         one file per table (scenario)
+  horses.json           the racing stable
+  achievements.json     achievement definitions (edits reach existing saves)
+  Money/chips.json      starting chips per difficulty
+CharacterTool/          export/import scripts
+Tests/</code></pre>
+      </div>
+      <div class="panel-box">
+        <h3>Adding a table (new scenario, no code)</h3>
+        <p>
+          Copy a file in <code>Data/Tables</code>, change <code>key</code>, <code>title</code>,
+          <code>order</code>, limits, <code>settings</code> and <code>paytable</code>. It appears on the
+          casino floor the next time the server starts.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Adding a game</h3>
+        <ol class="steps">
+          <li><span>Put the rules as pure functions in <code>casino/rules/&lt;game&gt;.py</code> and unit test them.</span></li>
+          <li><span>In <code>casino/games/&lt;game&gt;.py</code>, subclass <code>Round</code> (what happens after
+            the bets are down: <code>actions</code>, <code>perform</code>, <code>table_view</code>,
+            <code>staked</code>) and <code>Game</code> (<code>rules_pages</code>, <code>paytable</code>, and
+            <code>start</code>, which validates the bets with <code>read_stake</code>, takes them with
+            <code>take_stakes</code> and returns the round). Pay out with <code>settle</code> and end the
+            round with <code>finish</code>.</span></li>
+          <li><span>Register the class in <code>casino/games/__init__.py</code> and add a table JSON with
+            <code>"game": "&lt;game_key&gt;"</code>.</span></li>
+          <li><span>Add <code>casino/web/static/js/games/&lt;game&gt;.js</code> exporting
+            <code>render(ctx, mount)</code> and list it in <code>GAMES</code> in <code>js/app.js</code>.</span></li>
+        </ol>
+      </div>
+      <div class="panel-box">
+        <h3>Character Tool</h3>
+        <pre><code>python CharacterTool/export_character.py "Ronovo Ronove"
+python CharacterTool/import_character.py "CharacterTool/Character/Ronovo Ronove.json" [--name "New Name"]</code></pre>
+        <p class="note">
+          Exports from before version 2.0 still import (chips, blackjack/poker records and
+          achievements). An imported character has no owner until it is claimed with
+          <code>python main.py --claim</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Built with Python's standard library, SQLite and a plain JavaScript client.
+  </div>
+</footer>
+
+</body>
+</html>

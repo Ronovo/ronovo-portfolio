@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dead But Dreaming &mdash; an idle game for an Old One</title>
+<meta name="description" content="An idle game where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.">
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="/static/project-page.css">
+<style>
+  :root {
+    --bg: #07060a;
+    --bg-2: #0d0b12;
+    --panel: #13101c;
+    --panel-2: #1b1726;
+    --border: #2f2840;
+    --text: #f1eef6;
+    --muted: #a39cb3;
+    --accent: #3ee66b;
+    --on-accent: #041a0a;
+    --link: #c58be6;
+    --title: #c06ad8;
+    --radius: 12px;
+    --maxw: 980px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f5f2f7;
+      --bg-2: #ece6f0;
+      --panel: #ffffff;
+      --panel-2: #f3eef6;
+      --border: #dad0e2;
+      --text: #1e1726;
+      --muted: #625a70;
+      --accent: #1b8a3a;
+      --on-accent: #ffffff;
+      --link: #7a1f8f;
+      --title: #800080;
+    }
+  }
+  .panel-box p { margin: 0; }
+  .hero h1 { color: var(--title); }
+  .hero .quote { margin: 0 0 14px; color: var(--muted); font-size: 17px; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="brand" href="#top">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 3c-4 0-7 3-7 7 0 2.5 1 4 2.5 5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M12 3c4 0 7 3 7 7 0 2.5-1 4-2.5 5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M8 15c0 3 1 5 1 6M12 15v6M16 15c0 3-1 5-1 6" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      Dead But Dreaming
+    </a>
+    <a class="link" href="#features">Features</a>
+    <a class="link" href="#play">How to play</a>
+    <a class="link" href="#run">Run it</a>
+    <a class="link gh" href="https://github.com/Ronovo/Dead-But-Dreaming" rel="noopener">Source</a>
+  </nav>
+</header>
+
+<a id="top"></a>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Dead But Dreaming</h1>
+    <p class="quote"><i>In his house at R'lyeh dead Cthulhu waits dreaming.</i></p>
+    <p class="tag">
+      You are an Old One, inert and buried deep beneath the earth. You cannot move and you cannot wake,
+      but you can dream, and your dreams reach the surface. Cultists answer them. Tomes are written,
+      sacrifices are made, rituals are performed and gates are opened, and every scrap of sanity the
+      world loses flows down to you. Gather enough and you will devour the world and be reborn. Then
+      Azathoth spins up a fresh worldline, and the dreaming begins again.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#run">How to run it</a>
+      <a class="btn btn-ghost" href="#play">How to play</a>
+    </div>
+    <p class="meta-line">
+      <span>Runs in the browser</span> &nbsp;&middot;&nbsp;
+      <span>Python/Flask server</span> &nbsp;&middot;&nbsp;
+      <span>Runs in Docker</span>
+    </p>
+  </div>
+</div>
+
+<main>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Features</h2>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot"></span>Great Old Ones</h3>
+        <p>Choose from 9 different Great Old Ones to play as, or create your own name.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Eldritch resources</h3>
+        <p>10 different eldritch resources to collect and manage, with animated progress bars for
+          resource gathering.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Managers</h3>
+        <p>Manager upgrades to automate resource collection.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Upgrades</h3>
+        <p>Two types of upgrades per resource: speed upgrades (2x, 3x, 5x) and production upgrades (2x, 5x).</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Multiple worlds</h3>
+        <p>Complete all upgrades to devour the current world, then choose to let Azathoth reset the world
+          for a new run. Your save counts how many worlds you've destroyed.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Saves</h3>
+        <p>Saves are kept in your browser, and the game catches up on the time it was closed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="play" class="alt">
+  <div class="wrap">
+    <h2>How to play</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <ol class="steps">
+          <li><span>Click on resources to start gathering them.</span></li>
+          <li><span>Purchase managers to automate resource collection.</span></li>
+          <li><span>Buy upgrades to increase speed and production.</span></li>
+          <li><span>Complete all upgrades to devour the world.</span></li>
+          <li><span>Choose to continue in infinite mode or reset for a new world.</span></li>
+        </ol>
+      </div>
+      <div class="panel-box">
+        <h3>Game mechanics</h3>
+        <ul class="plain">
+          <li>Resources with managers produce automatically, including while the game is closed.</li>
+          <li>Each resource has 5 upgrades to discover.</li>
+          <li>The game saves to your browser continuously while you play.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="lede">
+      The game logic is Python. The browser keeps the save and shows the game; it doesn't run any of
+      the rules.
+    </p>
+    <div class="panel-box">
+      <ol class="steps">
+        <li><span>The browser stores each save as JSON in <code>localStorage</code>, including when it was
+          last saved.</span></li>
+        <li><span>About four times a second, and whenever you click, the browser sends its save and your
+          clicks to <code>POST /api/play</code>.</span></li>
+        <li><span>Flask rebuilds the <code>Game</code> from the save, advances it by the time since
+          <code>last_saved</code>, applies the clicks, and sends back the new save plus what to display.
+          Time spent with the game closed is covered by that same step: resources with a manager keep
+          producing, and a resource you clicked by hand finishes its one cycle.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="accounts" class="alt">
+  <div class="wrap">
+    <h2>Accounts</h2>
+    <p class="lede">
+      Logging in is optional. Without it, everything stays in the browser. With it, progress follows
+      you to any browser you log in from.
+    </p>
+    <div class="stack">
+      <div class="panel-box">
+        <ul class="plain">
+          <li>Logging in merges this browser's saves, achievements and devour counts with the account's.
+            For saves with the same name the newer one wins; devour counts keep the higher number for
+            each difficulty.</li>
+          <li>While logged in, every save is also stored in the account, and deleting a world deletes it
+            from the account too.</li>
+          <li>Logging out keeps this browser's copy.</li>
+          <li>Creating an account asks for a security question. <b>Forgot Password</b> resets the password
+            with its answer, and five wrong answers lock resets for 15 minutes.</li>
+        </ul>
+        <p class="note">
+          Accounts are kept in a SQLite database in the data folder (<code>DATA_DIR</code>,
+          <code>/app/data</code> in the container). Passwords are stored as salted hashes.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Log in with a portfolio account</h3>
+        <p>
+          With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
+          portfolio's <code>python sso.py</code>) set, the top bar offers to log in with a portfolio
+          account. It reads <b>Log In as</b> and the portfolio username when this browser is logged in to
+          the portfolio. The first portfolio login here asks whether to link a Dead But Dreaming account
+          the player already has, by logging in to it once, or to make a new one named after the portfolio
+          username, with a number added if that name is taken. Every later portfolio login from any device
+          opens the linked account.
+        </p>
+        <p class="note">
+          A new account has no password of its own, so the portfolio is the only way into it. Without
+          those two settings the app runs on its own.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Security caveats</h3>
+        <ul class="plain">
+          <li><b>Unencrypted connections:</b> unless the site is served over HTTPS, passwords cross the
+            network in plain text. The login screen warns about this whenever the page isn't on HTTPS.
+            Use a password you don't use anywhere else.</li>
+          <li><b>No rate limit</b> on login attempts.</li>
+          <li><b>Security answers:</b> anyone who knows or can guess your answer can reset your password,
+            so pick an answer that isn't public.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="run">
+  <div class="wrap">
+    <h2>Run it</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>From source</h3>
+        <p>Requires Python 3.10+.</p>
+        <pre><code>pip install -r requirements.txt
+python Game_Logic/webapp.py</code></pre>
+        <p class="note">Then open <code>http://localhost:5000</code>.</p>
+      </div>
+      <div class="panel-box">
+        <h3>With Docker</h3>
+        <pre><code>docker compose up -d --build</code></pre>
+        <p class="note">
+          Then open <code>http://localhost:8005</code>. The local compose file runs your working copy
+          as-is, and keeps accounts in the <code>dead-but-dreaming-data</code> volume.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Settings</h3>
+        <ul class="plain">
+          <li>Logins are signed with <code>DEAD_BUT_DREAMING_SECRET_KEY</code>. If it isn't set, a key is
+            generated once and kept in the data folder, so set it explicitly when the data folder isn't
+            kept between runs.</li>
+          <li>When <code>REPO_URL</code> is set (the image sets it to this repository), the container
+            updates itself from GitHub every time it starts: the first start fetches <code>main</code>
+            over the code baked into the image, and later starts pull again. If GitHub can't be reached it
+            starts with the code it already has. To pick up new commits on a running container, restart it.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dev" class="alt">
+  <div class="wrap">
+    <h2>Project structure</h2>
+    <div class="panel-box">
+      <pre><code>Dead-But-Dreaming/
+├── Game_Logic/
+│   ├── main.py          # Game state, resources, production and saves
+│   ├── upgrades.py      # Upgrade management
+│   ├── menu.py          # Great Old One names
+│   ├── achievements.py  # Achievement definitions and checks
+│   ├── accounts.py      # Optional logins and account storage
+│   ├── webapp.py        # Flask app and API
+│   ├── templates/       # Page markup
+│   └── static/          # CSS, display script, font, icon
+├── docker/git-sync.sh   # Pulls the latest code when the container starts
+├── Dockerfile
+├── docker-compose.yml   # Local testing
+└── requirements.txt</code></pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Built with Python and Flask, with a plain JavaScript client.
+  </div>
+</footer>
+
+</body>
+</html>

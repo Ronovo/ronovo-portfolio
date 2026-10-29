@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% set title = "Logging in" %}
+{% block content %}
+  <form class="form" method="post" action="{{ return_url }}" id="sso">
+    <input type="hidden" name="token" value="{{ token }}">
+    <input type="hidden" name="state" value="{{ state }}">
+    <button>Continue</button>
+  </form>
+  <script>document.getElementById("sso").submit();</script>
+{% endblock %}

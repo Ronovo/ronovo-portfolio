@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esoteric Chat &mdash; a chat that runs esoteric languages</title>
+<meta name="description" content="A Flask chat web app that interprets esoteric languages like Brainfart, HQ9+ and DeadSimple. A port of the esoteric-bot Discord bot.">
+<meta name="color-scheme" content="dark light">
+
+<link rel="stylesheet" href="/static/project-page.css">
+<style>
+  :root {
+    --bg: #15151c;
+    --bg-2: #1b1b24;
+    --panel: #22222e;
+    --panel-2: #2a2a38;
+    --border: #383848;
+    --text: #ecebf5;
+    --muted: #a6a6bd;
+    --accent: #8e8ef0;
+    --on-accent: #14143a;
+    --link: #a5a5f5;
+    --radius: 12px;
+    --maxw: 980px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f5f5f7;
+      --bg-2: #ececf0;
+      --panel: #ffffff;
+      --panel-2: #f2f2f6;
+      --border: #d2d2d7;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --accent: #5b5bd6;
+      --on-accent: #ffffff;
+      --link: #4a4ac4;
+    }
+  }
+  .panel-box p { margin: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a class="back" href="/projects">&larr; Projects</a>
+    <a class="brand" href="#top">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 5h16v11H9l-5 4z" stroke="var(--accent)" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M9 9l-2 2 2 2M15 9l2 2-2 2" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Esoteric Chat
+    </a>
+    <a class="link" href="#chat">Using it</a>
+    <a class="link" href="#commands">Commands</a>
+    <a class="link" href="#run">Run it</a>
+    <a class="link gh" href="https://github.com/Ronovo/esoteric-chat" rel="noopener">Source</a>
+  </nav>
+</header>
+
+<a id="top"></a>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>A chat that runs esoteric languages</h1>
+    <p class="tag">
+      A Flask chat web app that interprets esoteric languages. It is a port of my
+      esoteric-bot Discord bot.
+    </p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#run">How to run it</a>
+      <a class="btn btn-ghost" href="#chat">How to use it</a>
+    </div>
+    <p class="meta-line">
+      <span>Python 3.9+</span> &nbsp;&middot;&nbsp;
+      <span>Flask</span> &nbsp;&middot;&nbsp;
+      <span>Runs in Docker</span>
+    </p>
+  </div>
+</div>
+
+<main>
+
+<section id="chat">
+  <div class="wrap">
+    <h2>Using the chat</h2>
+    <p class="lede">
+      Pick a language from the dropdown, type code, and press <b>Enter</b>
+      (Shift+Enter adds a new line).
+    </p>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="dot"></span>Try example</h3>
+        <p>Lists sample programs for the selected language and fills in the one you pick.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Commands</h3>
+        <p>Shows the language's valid characters.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Language Explained</h3>
+        <p>Opens the language's esolangs.org page.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>$ commands</h3>
+        <p>Messages starting with <code>$</code> are commands and run regardless of the
+          selected language, except Kallisti: with Kallisti selected, every message is
+          repeated back exactly, <code>$</code> included.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot"></span>Exact input</h3>
+        <p>Everything after the command name and one space (or new line) is passed on
+          exactly as typed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="commands" class="alt">
+  <div class="wrap">
+    <h2>Commands</h2>
+    <div class="panel-box">
+      <table class="kinds">
+        <thead>
+          <tr><th>Command</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>$ping</code></td><td>Returns pong in Brainfart</td></tr>
+          <tr><td><code>$hi</code> / <code>$hello</code></td><td>Returns hello in Brainfart</td></tr>
+          <tr><td><code>$fivecommand &lt;code&gt;</code></td><td>5command</td></tr>
+          <tr><td><code>$bf &lt;code&gt;</code></td><td>Brainfart</td></tr>
+          <tr><td><code>$deadsimple &lt;code&gt;</code></td><td>DeadSimple</td></tr>
+          <tr><td><code>$hatemath &lt;code&gt;</code></td><td>Hatemath</td></tr>
+          <tr><td><code>$hq9plus &lt;code&gt;</code></td><td>HQ9+</td></tr>
+          <tr><td><code>$kallisti &lt;code&gt;</code></td><td>Kallisti</td></tr>
+          <tr><td><code>$unnecessary &lt;code&gt;</code></td><td>Unnecessary (an empty program or <code>#</code> is a successful call)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="bot">
+  <div class="wrap">
+    <h2>Differences from the Discord bot</h2>
+    <div class="panel-box">
+      <ul class="plain">
+        <li>Brainfart supports nested loops, uses 8-bit wrapping cells and stops after 1,000,000 steps.</li>
+        <li>HQ9+ accepts upper- and lowercase commands, and the <code>+</code> accumulator is kept in
+          memory per server process instead of in <code>index.json</code>.</li>
+        <li><code>$close</code> was dropped because there is no bot connection to close.</li>
+        <li>Kallisti reverses each message, swaps its upper and lower case and shifts every letter 5
+          places, then undoes all three, so the message still comes back exactly as sent.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="run" class="alt">
+  <div class="wrap">
+    <h2>Run it</h2>
+    <p class="lede">Requires Python 3.9 or newer.</p>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>From source</h3>
+        <pre><code>python -m venv .venv
+.venv\Scripts\activate        # Windows; use `source .venv/bin/activate` elsewhere
+pip install -r requirements.txt
+python -m esoteric_chat.server   # http://127.0.0.1:5000  (--host, --port, --debug)</code></pre>
+        <p class="note">
+          <code>python -m esoteric_chat.server</code> uses Flask's built-in server, which is fine
+          on your own machine or a LAN. Use <code>--host 0.0.0.0</code> so other machines can connect.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>With Docker</h3>
+        <pre><code>docker build -t esoteric-chat .
+docker run -d -p 5000:5000 esoteric-chat</code></pre>
+        <p class="note">
+          The <code>Dockerfile</code> runs the app under gunicorn on port 5000. It keeps no data,
+          so it needs no volume.
+        </p>
+      </div>
+      <div class="panel-box">
+        <h3>Log in with a portfolio account</h3>
+        <p>
+          With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
+          portfolio's <code>python sso.py</code>) set, the header offers to log in with a portfolio
+          account and shows who is logged in. It reads <b>Log in as</b> and the portfolio username
+          when this browser is logged in to the portfolio.
+        </p>
+        <p class="note">
+          Nothing is saved to the account yet. Set <code>ESOTERIC_CHAT_SECRET_KEY</code> to keep
+          logins across restarts.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dev">
+  <div class="wrap">
+    <h2>For developers</h2>
+    <div class="stack">
+      <div class="panel-box">
+        <h3>API</h3>
+        <ul class="plain">
+          <li><code>GET /api/languages</code> returns
+            <code>{"languages": [{"id", "name", "examples", "intro", "info_url", "help"}]}</code> in
+            picker order; the first is selected on load. <code>examples</code> is a list of
+            <code>{"label", "code"}</code>, <code>intro</code> is shown when the language is selected
+            (or <code>null</code>), and <code>help</code> is the card the <b>Commands</b> button shows.</li>
+          <li><code>POST /api/chat</code> with <code>{"message": "...", "language": "bf"}</code> returns
+            <code>{"replies": [...]}</code>. Each reply is <code>{"type": "text" | "error", "text"}</code> or
+            <code>{"type": "help", "title", "color", "fields": [{"name", "value"}]}</code>.</li>
+        </ul>
+      </div>
+      <div class="panel-box">
+        <h3>Tests</h3>
+        <pre><code>pip install -r requirements-dev.txt
+python -m pytest</code></pre>
+        <p class="note">The tests cover every interpreter, the <code>$</code> commands, and the HTTP API.</p>
+      </div>
+      <div class="panel-box">
+        <h3>Project layout</h3>
+        <pre><code>esoteric_chat/interpreters.py   The esoteric language interpreters
+esoteric_chat/commands.py       ChatEngine: $commands, language metadata, help cards
+esoteric_chat/server.py         Flask app and the command-line entry point
+esoteric_chat/templates/        The chat page
+esoteric_chat/static/           Client script and styles
+tests/                          pytest suite</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Built with Python and Flask, with a plain JavaScript client.
+  </div>
+</footer>
+
+</body>
+</html>
