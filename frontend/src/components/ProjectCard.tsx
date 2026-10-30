@@ -1,8 +1,10 @@
 import type { CSSProperties } from "react";
 import type { Project } from "../types";
+import { useKit } from "../theme/kits";
 
 export default function ProjectCard({ project, index }: { project: Project; index: number }) {
   const hasLinks = project.source || project.about || project.links.length > 0;
+  const kit = useKit();
   return (
     <article className="card" style={{ "--i": index } as CSSProperties}>
       {project.thumb && (
@@ -34,6 +36,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
       ) : (
         <p className="soon">Coming soon</p>
       )}
+      {kit.CardOverlay && <kit.CardOverlay />}
     </article>
   );
 }

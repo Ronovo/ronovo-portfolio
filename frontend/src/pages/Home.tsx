@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Site } from "../types";
 import { usePageTitle } from "../usePageTitle";
+import { useKit } from "../theme/kits";
 import Hero from "../components/Hero";
 import SectionHead from "../components/SectionHead";
 import CategoryTiles from "../components/CategoryTiles";
@@ -9,9 +10,10 @@ import AccountCallout from "../components/AccountCallout";
 
 export default function Home({ site }: { site: Site }) {
   usePageTitle(site.name, site.name);
+  const kit = useKit();
   return (
     <>
-      <Hero title={site.name} subtitle={site.tagline} kicker="// portfolio online" home>
+      <Hero title={site.name} subtitle={<kit.Tagline site={site} />} kicker="// portfolio online" home>
         <div className="cta">
           <Link className="btn" to="/projects">
             Browse projects
@@ -23,6 +25,7 @@ export default function Home({ site }: { site: Site }) {
             My Github
           </a>
         </div>
+        {kit.HomeExtra && <kit.HomeExtra site={site} />}
       </Hero>
 
       <section>

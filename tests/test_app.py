@@ -16,9 +16,10 @@ PUBLIC_TRACKER = "https://osrs-tracker.ronovo.io"
 
 def test_api_site_shape(client):
     site = client.get("/api/site").get_json()
-    assert {"name", "tagline", "intro", "nav", "account", "categories", "tags", "projects"} <= site.keys()
+    assert {"name", "tagline", "intro", "nav", "account", "categories", "themes", "tags", "projects"} <= site.keys()
     assert site["account"] is None
     assert [c["name"] for c in site["categories"]] == list(SITE["categories"])
+    assert [g["name"] for g in site["themes"]] == list(SITE["themes"])
     urls = {link["url"] for p in SITE["projects"] for link in p.get("links", []) if "url" in link}
     for project in site["projects"]:
         assert project["category"] in [c["name"] for c in site["categories"]]

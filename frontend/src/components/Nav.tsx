@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import type { Site } from "../types";
-import Glitch from "./Glitch";
+import { useKit } from "../theme/kits";
+import ThemePicker from "../theme/ThemePicker";
 
 export default function Nav({ site }: { site: Site }) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const kit = useKit();
 
   useEffect(() => setOpen(false), [location]);
 
@@ -13,7 +15,7 @@ export default function Nav({ site }: { site: Site }) {
     <nav className={`site-nav${open ? " open" : ""}`} aria-label="Main">
       <div className="wrap">
         <Link className="brand" to="/">
-          <Glitch text={site.name} />
+          <kit.Brand text={site.name} />
         </Link>
         <button className="menu-toggle" aria-expanded={open} aria-controls="nav-links" onClick={() => setOpen(!open)}>
           Menu
@@ -28,6 +30,9 @@ export default function Nav({ site }: { site: Site }) {
           ))}
           <li>
             <a href="/account">{site.account ?? "Log in"}</a>
+          </li>
+          <li>
+            <ThemePicker site={site} />
           </li>
         </ul>
       </div>

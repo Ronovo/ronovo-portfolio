@@ -101,6 +101,15 @@ Each project's About page is a standalone page in `pages/<slug>/`, served at `/p
 layout is in `static/project-page.css`, and each page keeps its own colors inline. Which projects
 show, and how, is set in `data.py`; the comment at its top lists every field.
 
+### Themes
+
+The theme picker lists `themes` in `data.py`. Every page loads `static/theme.js`, which saves the choice and sets
+`data-theme` on `<html>` before the page paints. Each theme but Cyberpunk, the default, is a block of tokens in
+`static/brand.css`, and those tokens style every page. The React pages also swap in each theme's components (its
+kit, in `frontend/src/theme/kits.tsx`); a theme without a kit uses Cyberpunk's. The account, Run-it and About pages
+and ronovo.github.io get each theme's look but not those components. Themes other than Cyberpunk replace the About
+pages' own colors.
+
 The Docker image builds the front end itself. To work on it, run Flask on port 5000, then:
 
 ```

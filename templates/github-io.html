@@ -11,9 +11,10 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ronovo.github.io/">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+<script src="/static/theme.js"></script>
 <link rel="stylesheet" href="/static/project-page.css">
 <style>
-  .hero h1 { font-size: clamp(44px, 11vw, 88px); letter-spacing: 0.12em; text-transform: uppercase; }
+  .hero h1 { font-size: clamp(44px, 11vw, 88px); letter-spacing: calc(var(--tracking) * 0.12em); text-transform: var(--caps); }
   .hero .intro { margin: -12px 0 28px; color: var(--muted); }
   .hero .cta { margin-bottom: 28px; }
   .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
@@ -25,12 +26,12 @@
     background: var(--panel);
     color: var(--text);
     text-decoration: none;
-    font: 600 13px var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    font: 600 13px var(--font-ui);
+    text-transform: var(--caps);
+    letter-spacing: calc(var(--tracking) * 0.06em);
   }
   .chips a:hover { border-color: var(--accent); color: var(--accent); }
-  .chips b { color: var(--magenta); }
+  .chips b { color: var(--secondary); }
 
   .project { display: flex; flex-direction: column; }
   .project h3 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -50,7 +51,9 @@
     aspect-ratio: 16 / 9;
     margin: -20px -20px 16px;
     overflow: hidden;
-    background: linear-gradient(135deg, rgb(255 43 214 / 0.18), rgb(0 240 255 / 0.12)), var(--panel);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--secondary) 18%, transparent), color-mix(in srgb, var(--primary) 12%, transparent)),
+      var(--panel);
     border-bottom: 1px solid var(--border);
   }
   .thumb img { display: block; max-width: 100%; height: 100%; object-fit: contain; }
@@ -58,13 +61,13 @@
   .tags li {
     flex: none;
     padding: 2px 8px;
-    border: 1px solid rgb(255 43 214 / 0.45);
-    color: var(--magenta);
-    font: 500 11px var(--font-mono);
-    text-transform: uppercase;
+    border: 1px solid color-mix(in srgb, var(--secondary) 45%, transparent);
+    color: var(--secondary);
+    font: 500 11px var(--font-ui);
+    text-transform: var(--caps);
   }
   .project .links { display: flex; align-items: center; gap: 10px 18px; white-space: nowrap; }
-  .project .links a { font: 600 13px var(--font-mono); text-transform: uppercase; text-decoration: none; }
+  .project .links a { font: 600 13px var(--font-ui); text-transform: var(--caps); text-decoration: none; }
   .project .links a:hover { text-decoration: underline; }
 </style>
 </head>
@@ -77,6 +80,7 @@
     <a class="link" href="#{{ category|lower }}">{{ category }}</a>
     {% endfor %}
     <a class="link gh" href="https://github.com/Ronovo" rel="noopener">GitHub</a>
+    {% include "_theme_picker.html" %}
   </nav>
 </header>
 

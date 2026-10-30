@@ -1,0 +1,11 @@
+<div class="theme-picker">
+  <select data-theme-picker aria-label="Theme">
+    {% for group, themes in site.themes.items() %}
+    <optgroup label="{{ group }}">
+      {% for theme_id, label in themes.items() %}
+      <option value="{{ theme_id }}">{{ label }}</option>
+      {% endfor %}
+    </optgroup>
+    {% endfor %}
+  </select>
+</div>

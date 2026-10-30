@@ -114,6 +114,8 @@ def api_site():
         nav=[{"label": label, "href": url_for(endpoint)} for endpoint, label in NAV],
         account=account_name(),
         categories=[{"name": name, "blurb": blurb} for name, blurb in SITE["categories"].items()],
+        themes=[{"name": group, "themes": [{"id": theme_id, "label": label} for theme_id, label in themes.items()]}
+                for group, themes in SITE["themes"].items()],
         tags=TAGS,
         projects=[project_json(p) for p in SITE["projects"]],
     )

@@ -35,7 +35,7 @@ export default function Filters({ site, category, tag, matches, onChange }: Prop
         </select>
       </label>
       <output className="mono">
-        &gt; {matches} match{matches === 1 ? "" : "es"}
+        {matches} match{matches === 1 ? "" : "es"}
       </output>
     </form>
   );

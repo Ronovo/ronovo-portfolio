@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 from data import SITE
 
 ROOT = Path(__file__).parent
-STATIC = ["brand.css", "project-page.css", "favicon.svg", "fonts"]
+STATIC = ["brand.css", "project-page.css", "theme.js", "favicon.svg", "fonts"]
 
 
 def emptied(folder: Path) -> Path:

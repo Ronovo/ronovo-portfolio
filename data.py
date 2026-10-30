@@ -11,6 +11,13 @@ SITE = {
         "Games": "Various browser games I made",
     },
 
+    # The theme picker shows these groups and themes in this order. Every theme but cyberpunk, the default,
+    # has a block in static/brand.css.
+    "themes": {
+        "Standard": {"cyberpunk": "Cyberpunk", "light": "Light", "dark": "Dark"},
+        "Experimental": {"terminal": "Terminal", "grimoire": "Grimoire", "blueprint": "Blueprint"},
+    },
+
     # category is one of categories. Leave source, page and links out to show a card as "Coming soon".
     # thumb is optional, relative to static/, and shown at the top of the card. featured puts the card on the home page.
     # source is the GitHub repo. The About link goes to page, a folder under pages/ served at /projects/<page>/.

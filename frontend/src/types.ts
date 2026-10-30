@@ -21,6 +21,16 @@ export interface Category {
   blurb: string;
 }
 
+export interface Theme {
+  id: string;
+  label: string;
+}
+
+export interface ThemeGroup {
+  name: string;
+  themes: Theme[];
+}
+
 export interface NavItem {
   label: string;
   href: string;
@@ -33,6 +43,7 @@ export interface Site {
   nav: NavItem[];
   account: string | null;
   categories: Category[];
+  themes: ThemeGroup[];
   tags: string[];
   projects: Project[];
 }
