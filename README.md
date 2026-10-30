@@ -133,7 +133,8 @@ python export_github_io.py ../ronovo.github.io
 
 The cards come from `data.py` and `templates/github-io.html`. They show Source, About and `url` links only, since
 port and Run-it links don't work off this host. The About pages go to `projects/<slug>/`; their back link points at
-the home page, and a Run-it link points at the repo README's Installing section. The script replaces `projects/`
+the home page, a Run-it link points at the repo README's Installing section, and the theme picker is added to the
+end of the header nav. The script replaces `projects/`
 each time, so pages removed here are removed there too.
 
 ## Tests

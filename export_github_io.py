@@ -1,5 +1,6 @@
 import shutil
 import sys
+import textwrap
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
@@ -31,17 +32,20 @@ def export(target: Path):
         else:
             shutil.copy2(source, static / name)
 
+    picker = textwrap.indent(env.get_template("_theme_picker.html").render(site=SITE), "    ")
     projects = emptied(target / "projects")
     for item in SITE["projects"]:
         if "page" not in item:
             continue
         dest = projects / item["page"]
         shutil.copytree(ROOT / "pages" / item["page"], dest)
-        # The list is the home page there, and the Run-it page only exists on the portfolio.
+        # The list is the home page there, the Run-it page only exists on the portfolio, and the theme picker
+        # goes at the end of the header nav.
         page = dest / "index.html"
         page.write_bytes(page.read_bytes()
                          .replace(b'href="/projects"', b'href="/"')
-                         .replace(b'href="run"', f'href="{item["source"]}#installing"'.encode()))
+                         .replace(b'href="run"', f'href="{item["source"]}#installing"'.encode())
+                         .replace(b"  </nav>", f"{picker}\n  </nav>".encode()))
 
 
 if __name__ == "__main__":

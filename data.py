@@ -50,7 +50,6 @@ SITE = {
         },
         {
             "title": "GM Toolbox",
-            "featured": True,
             "category": "TTRPG",
             "app": "gm-toolbox",
             "desc": "A web toolkit for tabletop gamemasters: dice and card oracles, branching flows, and JSON import/export.",
@@ -61,6 +60,7 @@ SITE = {
         },
         {
             "title": "TTRPG Player Toolkit",
+            "featured": True,
             "category": "TTRPG",
             "desc": "A browser table for tabletop players: 3D dice, playing card and tarot decks, a notepad and a Jenga tower, in ten styles.",
             "tags": ["JavaScript", "Docker"],
