@@ -4,10 +4,11 @@ import re
 import runpy
 import sqlite3
 from pathlib import Path
-from urllib.parse import unquote, urljoin
+from urllib.parse import quote, unquote, urljoin
 
 import jwt
 import pytest
+from markupsafe import escape
 from cryptography.hazmat.primitives.serialization import load_der_public_key
 
 from conftest import PASSWORD, QUESTION, SSO_KEY, csrf, log_in, portfolio, register
@@ -30,6 +31,7 @@ def test_api_site_shape(client):
     for project in site["projects"]:
         assert project["category"] in [c["name"] for c in site["categories"]]
         for link in project["links"]:
+            assert link.keys() == {"label", "href"}
             assert link["href"] in urls or link["href"].startswith(("/", "http://localhost:"))
 
 
@@ -183,10 +185,10 @@ def test_login_only_returns_to_this_site(client, username, target, expected):
     assert log_in(client, username, next=target).headers["Location"] == expected
 
 
-def reset(client, username, answer, password="new password"):
+def reset(client, username, answer, password="new password", **extra):
     return client.post("/account/reset", data={
         "csrf_token": csrf(client), "username": username, "answer": answer, "password": password,
-        "confirm_password": password})
+        "confirm_password": password, **extra})
 
 
 def test_reset_password_logs_out_other_browsers(client, username):
@@ -203,6 +205,26 @@ def test_wrong_answers_lock_resets(username):
     for _ in range(MAX_RESET_FAILURES):
         assert b"That answer is wrong" in reset(portfolio.app.test_client(), username, "red").data
     assert b"Too many wrong answers" in reset(portfolio.app.test_client(), username, "blue").data
+
+
+@pytest.mark.parametrize("target, expected", [
+    ("/sso/authorize?app=casino", "/account/login?reset=1&next=/sso/authorize?app%3Dcasino"),
+    ("https://evil.example/", "/account/login?reset=1"),
+])
+def test_a_reset_goes_back_to_where_the_login_started(client, username, target, expected):
+    register(portfolio.app.test_client(), username)
+    assert f'href="/account/reset?next={quote(target, safe="/:?")}"' in client.get(
+        "/account/login", query_string={"next": target}).get_data(as_text=True)
+    assert f'name="next" value="{escape(target)}"' in client.get(
+        "/account/reset", query_string={"next": target}).get_data(as_text=True)
+    assert reset(client, username, "blue", next=target).headers["Location"] == expected
+
+
+def test_account_ids_are_never_reused(username):
+    first = portfolio.accounts.register(username, PASSWORD, QUESTION, "blue")
+    with sqlite3.connect(portfolio.accounts.path) as db:
+        db.execute("DELETE FROM users WHERE id = ?", (first,))
+    assert portfolio.accounts.register(username, PASSWORD, QUESTION, "blue") > first
 
 
 def test_reset_says_when_there_is_no_such_account(client):
@@ -294,6 +316,7 @@ def test_sso_me_names_the_account_for_an_app(client, username):
     assert response.get_json() == {"username": username}
     assert response.headers["Access-Control-Allow-Origin"] == TRACKER
     assert response.headers["Access-Control-Allow-Credentials"] == "true"
+    assert response.headers["Cache-Control"] == "no-store"
 
 
 def test_sso_me_says_null_when_logged_out(client):

@@ -103,7 +103,7 @@ def link_json(item, link):
         href = url_for("run_page", slug=item["page"])
     else:
         href = app_url(link)
-    return {"label": link["label"], "href": href, "external": not link.get("run")}
+    return {"label": link["label"], "href": href}
 
 
 @app.get("/api/site")
@@ -218,12 +218,8 @@ def new_password():
 
 
 def next_url(default="account"):
-    """Where to go after logging in. Only paths on this site, so a link can't bounce a login elsewhere."""
-    target = request.values.get("next", "")
-    parts = urlsplit(target)
-    on_site = (target.startswith("/") and target.isprintable() and "\\" not in target
-               and not parts.scheme and not parts.netloc)
-    return target if on_site else url_for(default)
+    """Where to go after logging in: the next path asked for, when it is on this site, or default"""
+    return portfolio_sso.safe_next(request.values.get("next")) or url_for(default)
 
 
 @app.context_processor
@@ -271,14 +267,14 @@ def reset_password():
         if "answer" in request.form:
             try:
                 accounts.reset_password(username, request.form["answer"], new_password())
-                return redirect(url_for("login", reset=1))
+                return redirect(url_for("login", reset=1, next=portfolio_sso.safe_next(request.form.get("next"))))
             except AccountError as e:
                 error = str(e)
     question = accounts.security_question(username) if username else None
     if username and question is None:
         error = NO_ACCOUNT
     return render_template("account/reset.html", page="account", error=error, username=username if question else "",
-                           question=question)
+                           question=question, next=request.values.get("next", ""))
 
 
 @app.post("/account/logout")
@@ -326,7 +322,7 @@ def sso_me():
         abort(403)
     response = jsonify(username=account_name())
     response.headers.update({"Access-Control-Allow-Origin": origin, "Access-Control-Allow-Credentials": "true",
-                             "Vary": "Origin"})
+                             "Vary": "Origin", "Cache-Control": "no-store"})
     return response
 
 

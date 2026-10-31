@@ -26,6 +26,8 @@ The portfolio site, and the portfolio account every app logs in with.
 - The Python apps get portfolio login, security questions and the login lock from the shared
   [ronovo-portfolio-auth](https://github.com/Ronovo/ronovo-portfolio-auth) package, pinned in each `requirements.txt`.
   The portfolio issues its tokens with the same package, so both sides of the token are written in one place.
+- `security-questions.json` is the master list of security questions. The package, the RuneScape Tracker and GM
+  Toolbox each keep a copy, and `sync_security_questions.py` writes the master into all three (below).
 - With `PORTFOLIO_APP_DOMAIN` set, each app has its own host name, so only the portfolio receives its login cookie.
   Without it, browsers don't separate cookies by port, so every app on the host receives it.
 
@@ -139,6 +141,20 @@ npm run dev
 
 `npm run dev` serves the React pages with live reload and passes `/api`, `/static`, `/account`, `/sso` and the
 project pages through to Flask. To try the built app on Flask alone, run `npm run build` first.
+
+## Security questions
+
+The questions every app offers at registration are in `security-questions.json`. After changing it, write it into
+the three copies, in the repositories next to this one or at the paths given:
+
+```
+python sync_security_questions.py
+python sync_security_questions.py ../ronovo-portfolio-auth ../Personal-RuneScape-Tracker ../Gamemaster-Toolbox
+```
+
+`--check` only lists the copies that differ and exits with 1 when any does. Each app checks a question against its
+list at registration only and stores the chosen text with the account, so changing the list doesn't affect
+anyone's password reset. The tests fail here if the pinned package's list ever differs from the master.
 
 ## Publishing to ronovo.github.io
 

@@ -14,11 +14,10 @@ import { makeSite, project, reducedMotion } from "./fakes";
 const inRouter = (element: JSX.Element) => render(<MemoryRouter>{element}</MemoryRouter>);
 
 describe("ProjectCard", () => {
-  it("shows the thumbnail, tags and every link, opening outside links in a new tab", () => {
+  it("shows the thumbnail, tags and every link, all in this tab", () => {
     const card = project({
       title: "Casino", thumb: "/static/casino.png", tags: ["Python", "Flask"],
-      links: [{ label: "Play", href: "https://casino.ronovo.io/", external: true },
-        { label: "Try it", href: "/projects/plugin/run", external: false }],
+      links: [{ label: "Play", href: "https://casino.ronovo.io/" }, { label: "Try it", href: "/projects/plugin/run" }],
     });
     render(<ProjectCard project={card} index={2} />);
     const article = screen.getByRole("article");
@@ -27,9 +26,8 @@ describe("ProjectCard", () => {
     expect(within(article).getAllByRole("listitem").map((tag) => tag.textContent)).toEqual(["Python", "Flask"]);
     expect(screen.getByText("Source").getAttribute("href")).toBe("https://github.com/Ronovo/project");
     expect(screen.getByText("About").getAttribute("href")).toBe("/projects/project/");
-    expect(screen.getByText("Play").getAttribute("target")).toBe("_blank");
-    expect(screen.getByText("Play").getAttribute("rel")).toBe("noopener");
-    expect(screen.getByText("Try it").hasAttribute("target")).toBe(false);
+    expect(screen.getByText("Play").getAttribute("href")).toBe("https://casino.ronovo.io/");
+    expect(within(article).getAllByRole("link").some((link) => link.hasAttribute("target"))).toBe(false);
   });
 
   it("says coming soon when there is nothing to link to", () => {

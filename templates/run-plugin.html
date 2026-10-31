@@ -44,7 +44,7 @@ $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
     <h2>Syncing to the Tracker</h2>
     {% if plugin.page == "ronovos-sync-tool" %}
     <p>The plugin sends your progress to the
-      <a href="{{ tracker_url }}" target="_blank" rel="noopener">Personal RuneScape Tracker</a>. Log in there,
+      <a href="{{ tracker_url }}">Personal RuneScape Tracker</a>. Log in there,
       press <strong>Copy plugin token</strong>, and paste it with the Tracker's address into the plugin's
       <strong>Sync Settings</strong>.</p>
     <p>Its <strong>Sync Tasks</strong> button sends the tasks you completed in {{ other.title }}. The
@@ -52,7 +52,7 @@ $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"</code></pre>
       <code>{{ run_both }}</code> above.</p>
     {% else %}
     <p>{{ plugin.title }} doesn't send your progress anywhere itself. To send your completed tasks to the
-      <a href="{{ tracker_url }}" target="_blank" rel="noopener">Personal RuneScape Tracker</a>, also load
+      <a href="{{ tracker_url }}">Personal RuneScape Tracker</a>, also load
       <a href="{{ other.source }}">{{ other.title }}</a> with <code>{{ run_both }}</code> above and
       set it up as <a href="{{ url_for('project_page', slug=other.page) }}">its page</a> explains. The
       <strong>Sync Progress</strong> button on the start menu then sends them.</p>

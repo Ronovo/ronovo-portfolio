@@ -3,6 +3,7 @@
 {% block content %}
   <form class="form" method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="next" value="{{ next }}">
     {% if error %}<p class="error">{{ error }}</p>{% endif %}
     {% if question %}
     <input type="hidden" name="username" value="{{ username }}">

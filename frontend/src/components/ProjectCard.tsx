@@ -28,7 +28,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
           )}
           {project.about && <a href={project.about}>About</a>}
           {project.links.map((link) => (
-            <a key={link.label} href={link.href} {...(link.external ? { target: "_blank", rel: "noopener" } : {})}>
+            <a key={link.label} href={link.href}>
               {link.label}
             </a>
           ))}
