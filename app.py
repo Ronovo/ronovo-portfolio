@@ -16,6 +16,7 @@ from data import SITE
 ROOT = Path(__file__).parent
 DATA_DIR = Path(os.environ.get("DATA_DIR", ROOT / "data"))
 DATA_DIR.mkdir(exist_ok=True)
+CONSTRUCTION_FLAG = DATA_DIR / "construction"
 
 
 def load_secret_key() -> str:
@@ -326,6 +327,15 @@ def sso_me():
     response = jsonify(username=account_name())
     response.headers.update({"Access-Control-Allow-Origin": origin, "Access-Control-Allow-Credentials": "true",
                              "Vary": "Origin"})
+    return response
+
+
+@app.before_request
+def construction_mode():
+    if request.endpoint == "static" or not CONSTRUCTION_FLAG.exists():
+        return None
+    response = make_response(render_template("construction.html"), 503)
+    response.headers.update({"Retry-After": "3600", "Cache-Control": "no-store"})
     return response
 
 

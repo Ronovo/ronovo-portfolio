@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Under Construction - {{ site.name }}</title>
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+<script src="{{ url_for('static', filename='theme.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  main { display: grid; place-items: center; }
+  .construction { text-align: center; }
+  .construction .tag { margin: 0 auto 12px; }
+  .construction .cta { justify-content: center; }
+  .construction .theme-picker { justify-content: center; margin-top: 36px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero construction">
+    <h1>Under Construction</h1>
+    <p class="tag">Come Back Later.</p>
+    <p class="tag">More information available on my github:</p>
+    <div class="cta">
+      <a class="btn" href="https://ronovo.github.io/">ronovo.github.io</a>
+    </div>
+    {% include "_theme_picker.html" %}
+  </header>
+</main>
+</body>
+</html>

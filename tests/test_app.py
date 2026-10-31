@@ -79,6 +79,37 @@ def test_run_plugin_offers_both_run_commands(client, slug, run_both, other):
     assert f'href="{other}"' in page
 
 
+@pytest.fixture
+def construction():
+    portfolio.CONSTRUCTION_FLAG.touch()
+    yield
+    portfolio.CONSTRUCTION_FLAG.unlink()
+
+
+def assert_construction_page(response):
+    assert response.status_code == 503
+    assert response.headers["Retry-After"] == "3600"
+    assert response.headers["Cache-Control"] == "no-store"
+    page = response.get_data(as_text=True)
+    assert "<h1>Under Construction</h1>" in page
+    assert '<a class="btn" href="https://ronovo.github.io/">ronovo.github.io</a>' in page
+
+
+@pytest.mark.parametrize("path", ["/", "/projects", "/about", "/projects/casino/", "/coverage/", "/api/site",
+                                  "/account/login", "/sso/me", "/no-such-page"])
+def test_construction_mode_covers_every_page(client, construction, path):
+    assert_construction_page(client.get(path))
+
+
+def test_construction_mode_blocks_forms(client, construction, username):
+    assert_construction_page(client.post("/account/login", data={"username": username, "password": PASSWORD}))
+
+
+@pytest.mark.parametrize("filename", ["style.css", "brand.css", "theme.js", "favicon.svg"])
+def test_construction_mode_still_serves_the_files_its_page_uses(client, construction, filename):
+    assert client.get(f"/static/{filename}").status_code == 200
+
+
 def test_security_headers(client):
     headers = client.get("/").headers
     assert headers["X-Content-Type-Options"] == "nosniff"

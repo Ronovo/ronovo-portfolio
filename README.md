@@ -91,6 +91,25 @@ python app.py
 
 It serves on port 5000. Build the front end first (below): the app won't start without `frontend/dist`.
 
+## Construction Mode
+
+While a file named `construction` is in the data folder, every page on the site answers with an "Under
+Construction" page that points visitors at [ronovo.github.io](https://ronovo.github.io/). It answers with a 503 and
+`Retry-After`, so search engines treat it as temporary. Only the static files that page uses are still served, so the
+API, accounts and portfolio login are off too. It takes effect on the next request, with no restart:
+
+```
+docker compose exec portfolio touch /app/data/construction
+docker compose exec portfolio rm /app/data/construction
+```
+
+The file lives in the `portfolio-data` volume, so it stays on through a rebuild of the portfolio. For a bare
+`python app.py` it is `data/construction`. The page uses the saved theme's tokens from `static/brand.css`, without
+the React pages' theme components.
+
+It only covers this site. The apps' subdomains go straight to their own containers, and visitors still see
+Cloudflare's error page when the server, the portfolio container or the tunnel is down.
+
 ## Front end
 
 Home, Projects, About and the 404 page are a React and TypeScript app in `frontend/`, built with Vite. Flask serves
