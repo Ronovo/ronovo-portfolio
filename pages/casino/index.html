@@ -44,12 +44,13 @@
     <p class="eyebrow">Games</p>
     <h1>Ronovo's Casino</h1>
     <p class="tag">
-      A repo for learning how to program casino games, played in the browser. One person runs
-      the server; anyone on the network can log in and play.
+      A repo for learning how to program casino games, played in the browser. One person runs the server;
+      anyone on the network can log in and play.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/Casino_Test" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://casino.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>Python 3.10+</dd></div>
@@ -64,210 +65,133 @@
 
 <section id="tables">
   <div class="wrap">
-    <h2>Games featured</h2>
+    <h2>The tables</h2>
     <p class="lede">
-      Each table is a JSON file in <code>Data/Tables</code>. Several tables can share one game engine.
+      Each table is a JSON file in <code>Data/Tables</code>, and several tables can share one game engine. Around
+      them: accounts, achievements, per-game win and loss records, a chip exchange, and a fresh start for broke
+      characters.
     </p>
-    <div class="stack">
-      <div class="panel-box">
-        <table class="kinds">
-          <thead>
-            <tr><th>Table</th><th>Game</th><th>Highlights</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Blackjack: Ronovo Classic</td><td>Blackjack</td><td>Any winning 21 pays 2:1, natural with a black Jack pays 3:1, double, split, surrender</td></tr>
-            <tr><td>Blackjack: High Roller</td><td>Blackjack</td><td>6 decks, dealer hits soft 17, blackjack 3:2, 100 cr minimum</td></tr>
-            <tr><td>Ultimate Texas Hold'em (+ High Roller)</td><td>Poker</td><td>Ante/Blind/Play, Trips and Pairs Bonus side bets, full kicker comparison</td></tr>
-            <tr><td>EZ Baccarat</td><td>Baccarat</td><td>Commission-free, Dragon 7 and Panda 8 bonus bets</td></tr>
-            <tr><td>Guess the Number</td><td>Guess the Number</td><td>Easy to Impossible, five bet types</td></tr>
-            <tr><td>Roulette: European / American</td><td>Roulette</td><td>Straight up, red/black, odd/even, low/high, dozens, columns</td></tr>
-            <tr><td>Ronovo Downs: Horse Racing</td><td>Horse Racing</td><td>Win/Place/Show on any number of horses, 40-race season, standings, handicapping</td></tr>
-          </tbody>
-        </table>
-        <p class="note">
-          Also included: accounts, achievements, per-game win/loss records, a chip exchange, and a
-          fresh start for broke characters.
-        </p>
-      </div>
-      <div class="panel-box">
-        <h3>Future ideas</h3>
-        <ul class="plain">
-          <li>Day Trading, Big 6 Wheel</li>
-          <li>Day/Night cycle (a certain number of games a day)</li>
-        </ul>
-      </div>
+    <div class="panel-box">
+      <table class="kinds">
+        <thead>
+          <tr><th>Table</th><th>Game</th><th>Highlights</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Blackjack: Ronovo Classic</td><td>Blackjack</td><td>Any winning 21 pays 2:1, natural with a black Jack pays 3:1, double, split, surrender</td></tr>
+          <tr><td>Blackjack: High Roller</td><td>Blackjack</td><td>6 decks, dealer hits soft 17, blackjack 3:2, 100 cr minimum</td></tr>
+          <tr><td>Ultimate Texas Hold'em (+ High Roller)</td><td>Poker</td><td>Ante/Blind/Play, Trips and Pairs Bonus side bets, full kicker comparison</td></tr>
+          <tr><td>EZ Baccarat</td><td>Baccarat</td><td>Commission-free, Dragon 7 and Panda 8 bonus bets</td></tr>
+          <tr><td>Guess the Number</td><td>Guess the Number</td><td>Easy to Impossible, five bet types</td></tr>
+          <tr><td>Roulette: European / American</td><td>Roulette</td><td>Straight up, red/black, odd/even, low/high, dozens, columns</td></tr>
+          <tr><td>Ronovo Downs: Horse Racing</td><td>Horse Racing</td><td>Win/Place/Show on any number of horses, 40-race season, standings, handicapping</td></tr>
+        </tbody>
+      </table>
     </div>
+    <p class="note">On the list for later: Day Trading, the Big 6 Wheel, and a day/night cycle with a set number of games a day.</p>
   </div>
 </section>
 
 <section id="racing" class="alt">
   <div class="wrap">
     <h2>Horse racing</h2>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>The stable</h3>
-        <p>Every horse in <code>Data/horses.json</code> has a rating, a preferred trip (sprinter or
-          stayer), a preferred surface (firm or mud) and a running style. Each race draws a distance
-          and a going.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Real odds</h3>
-        <p>A horse runs to its strength on the day plus random luck. The luck is Gumbel-distributed,
-          which makes the chance of every finishing order exactly calculable, so the prices on the
-          board come from real probabilities less the house margin (<code>margin</code> in the table file).</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Seasons</h3>
-        <p>A season is 40 races. Points are 10/5/3/1 for the first four; the standings are shown
-          before and after every race, and the leader after race 40 is champion.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Handicapping</h3>
-        <p>A horse that wins with 2 or more wins in its last 8 runs carries 6 lb more (up to 30 lb),
-          and each pound costs half a rating point. A weighted horse sheds 1 lb for every finish
-          outside the first three. All of these numbers are in
-          <code>Data/Tables/09_horse_racing.json</code>.</p>
-      </div>
-    </div>
+    <ul class="features">
+      <li><b>The stable</b><p>Every horse in <code>Data/horses.json</code> has a rating, a preferred trip and surface, and a running style. Each race draws a distance and a going.</p></li>
+      <li><b>Real odds</b><p>A horse runs to its strength plus Gumbel-distributed luck, which makes every finishing order exactly calculable, so the board prices are real probabilities less the house margin.</p></li>
+      <li><b>Seasons</b><p>40 races; points are 10/5/3/1 for the first four, standings before and after every race, and a champion after race 40.</p></li>
+      <li><b>Handicapping</b><p>A winner with 2 or more wins in its last 8 runs carries 6 lb more (up to 30 lb), each pound costing half a rating point, and sheds 1 lb per finish outside the first three.</p></li>
+    </ul>
   </div>
 </section>
 
 <section id="accounts">
   <div class="wrap">
     <h2>Accounts and characters</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <ul class="plain">
-          <li>Each player creates an account (username and password) on the login page, and picks a
-            security question. Passwords and answers are stored as salted PBKDF2 hashes, and a login
-            lasts 30 days per browser.</li>
-          <li><b>Forgot password?</b> resets the password with the security answer and logs the account
-            out everywhere. Five wrong answers lock resets for 15 minutes.</li>
-          <li>An account holds up to 8 characters. Each character has its own chips, record,
-            achievements and racing season.</li>
-          <li>The server uses plain HTTP, which is fine on a home network. To open it to the internet,
-            put it behind an HTTPS reverse proxy.</li>
-        </ul>
+    <dl class="kv">
+      <dt>Sign-up</dt><dd>A username, a password and a security question. Passwords and answers are stored as salted PBKDF2 hashes, and a login lasts 30 days per browser. At most 20 accounts can be made in any 10 minutes.</dd>
+      <dt>Characters</dt><dd>An account holds up to 8 characters, each with its own chips, record, achievements and racing season.</dd>
+      <dt>Forgot password</dt><dd>Resets the password with the security answer and logs the account out everywhere. Five wrong answers lock resets for 15 minutes, and a question can't be changed once set.</dd>
+      <dt>Lockouts</dt><dd>Five wrong passwords in a row lock a username's logins for a minute. Usernames are public: registering says when one is taken, and the reset says when there is no such account.</dd>
+      <dt>On the internet</dt><dd>The server speaks plain HTTP, fine on a home network. To expose it, put it behind an HTTPS reverse proxy and set <code>SECURE_COOKIES=1</code>.</dd>
+    </dl>
+    <details class="more">
+      <summary>Log in with a portfolio account</summary>
+      <div class="more-body">
+        <p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the login page offers to log in
+          with a portfolio account, and reads <b>Log in as</b> plus the portfolio username when this browser is logged in
+          there. The first such login links a casino account you already have, or makes a new one named after the
+          portfolio username.</p>
+        <p>A new account has no password of its own, so the portfolio is the only way into it. Without those two settings
+          the app runs on its own.</p>
       </div>
-      <div class="panel-box">
-        <h3>Log in with a portfolio account</h3>
-        <p>
-          With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
-          portfolio's <code>python sso.py</code>) set, the login page offers to log in with a portfolio
-          account. It reads <b>Log in as</b> and the portfolio username when this browser is logged in
-          to the portfolio. The first portfolio login here asks whether to link a casino account the
-          player already has, by logging in to it once, or to make a new one named after the portfolio
-          username, with a number added if that name is taken. Every later portfolio login from any
-          device opens the linked account.
-        </p>
-        <p class="note">
-          A new account has no password of its own, so the portfolio is the only way into it. Without
-          those two settings the app runs on its own.
-        </p>
-      </div>
-    </div>
+    </details>
   </div>
 </section>
 
 <section id="run" class="alt">
   <div class="wrap">
     <h2>Run it</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>How to run</h3>
-        <ol class="steps">
-          <li><span>Install Python 3.10 or newer, then <code>pip install -r requirements.txt</code></span></li>
-          <li><span>From a terminal: <code>python main.py</code></span></li>
-          <li><span>Open the address it prints. <code>http://localhost:8000</code> on your own computer;
-            other players use the "For other players" address (your computer's address on the local
-            network). Windows may ask once to allow Python through the firewall.</span></li>
-        </ol>
-        <pre><code>python main.py --port 8080          # a different port
-python main.py --host 127.0.0.1     # private: only this computer can connect
-python main.py --verbose            # log every request</code></pre>
-      </div>
-      <div class="panel-box">
-        <h3>Saves</h3>
-        <p>
-          Progress lives in <code>casino.db</code> next to <code>main.py</code> (set the
-          <code>CASINO_DB</code> environment variable to use another file).
-        </p>
-        <p class="note">
-          Older databases upgrade automatically on launch: characters, chips and achievements are kept.
-        </p>
-      </div>
+    <p class="lede">Requires Python 3.10 or newer. Windows may ask once to allow Python through the firewall.</p>
+    <div class="panel-box">
+      <pre><code>pip install -r requirements.txt
+python main.py</code></pre>
+      <p class="note">Open the address it prints: <code>http://localhost:8000</code> on your own computer, or the
+        "For other players" address for the rest of the network. <code>--port 8080</code> picks another port,
+        <code>--host 127.0.0.1</code> keeps it private, <code>--verbose</code> logs every request.</p>
     </div>
-  </div>
-</section>
-
-<section id="dev">
-  <div class="wrap">
-    <h2>For developers</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>Tests</h3>
-        <pre><code>python -m unittest discover -s Tests -t .</code></pre>
-        <p class="note">
-          Game rules are pure functions (<code>casino/rules</code>). Full rounds are played through each
-          game's <code>start</code>/<code>act</code> interface with stacked decks
-          (<code>Tests/test_games.py</code>), thousands of random rounds check that no credit is ever
-          created or lost (<code>Tests/test_soak.py</code>), and <code>EDGE_CASES.md</code> lists what
-          that turned up.
-        </p>
+    <details class="more">
+      <summary>Saves</summary>
+      <div class="more-body">
+        <p>Progress lives in <code>casino.db</code> next to <code>main.py</code>. Set the <code>CASINO_DB</code>
+          environment variable to use another file.</p>
       </div>
-      <div class="panel-box">
-        <h3>Project layout</h3>
+    </details>
+    <details class="more">
+      <summary>Tests</summary>
+      <div class="more-body">
+        <pre><code>python -m unittest discover -s Tests -t .</code></pre>
+        <p>Game rules are pure functions in <code>casino/rules</code>. Full rounds run through each game's
+          <code>start</code>/<code>act</code> interface with stacked decks, thousands of random rounds check that no credit
+          is ever created or lost (<code>CASINO_SOAK=1</code>), and the edge cases that turned up are kept. The browser
+          client's tests live in <code>Tests/js</code>; both suites cover every line and branch.</p>
+      </div>
+    </details>
+    <details class="more">
+      <summary>Project layout</summary>
+      <div class="more-body">
         <pre><code>main.py                 entry point: starts the web server
 casino/
+  config.py             paths, difficulties, starting chips
   accounts.py           sign-up, password hashing, login tokens, character ownership
   cashier.py            chip exchange maths (break / color up)
-  transfer.py           character JSON export/import
-  engine/               shared engine used by every game
-    chips.py            chip values, Chips type, change-making
-    cards.py            Card and Shoe
-    bets.py             Bet, Outcome, stake validation, settle(): the one place winnings are paid
-    wallet.py           a character's chip rack (saved on every change)
-    game.py             Game and Round base classes + TableConfig
-    session.py          database, character, wallet, randomness and achievements for one sitting
-    db.py               SQLite schema, accounts, stats, achievements, saved seasons
+  engine/               shared engine: chips, cards, bets, wallet, game, session, db
   rules/                pure rules per game (no input/output, no database)
   games/                games wired from rules + engine; registry in __init__.py
-  web/
-    floor.py            every request a seated player can make, as plain functions returning JSON
-    server.py           HTTP server, routing, cookies, static files
-    static/             the browser client: index.html, css/, js/ (one module per game in js/games/)
+  web/                  floor.py (requests as plain functions), server.py (Flask), static/ (client)
 Data/
   Tables/*.json         one file per table (scenario)
   horses.json           the racing stable
   achievements.json     achievement definitions (edits reach existing saves)
   Money/chips.json      starting chips per difficulty
-Tests/</code></pre>
+Tests/                  Python tests; js/ holds the browser client's tests
+requirements-dev.txt    the requirements plus coverage
+package.json            the browser client's test tools (Vitest, jsdom)</code></pre>
       </div>
-      <div class="panel-box">
-        <h3>Adding a table (new scenario, no code)</h3>
-        <p>
-          Copy a file in <code>Data/Tables</code>, change <code>key</code>, <code>title</code>,
-          <code>order</code>, limits, <code>settings</code> and <code>paytable</code>. It appears on the
-          casino floor the next time the server starts.
-        </p>
+    </details>
+    <details class="more">
+      <summary>Adding a table or a game</summary>
+      <div class="more-body">
+        <p><b>A table needs no code.</b> Copy a file in <code>Data/Tables</code>, change <code>key</code>, <code>title</code>,
+          <code>order</code>, limits, <code>settings</code> and <code>paytable</code>. It appears on the floor the next time
+          the server starts.</p>
+        <p><b>A game</b> is four steps: put the rules as pure functions in <code>casino/rules/&lt;game&gt;.py</code> and unit
+          test them; in <code>casino/games/&lt;game&gt;.py</code> subclass <code>Round</code> (<code>actions</code>,
+          <code>perform</code>, <code>table_view</code>) and <code>Game</code> (<code>rules_pages</code>, <code>paytable</code>,
+          <code>start</code>), taking later bets with <code>take</code>, paying with <code>settle</code> and ending with
+          <code>finish</code>; register the class in <code>casino/games/__init__.py</code> with a table JSON naming it; and add
+          <code>casino/web/static/js/games/&lt;game&gt;.js</code> exporting <code>render(ctx, mount)</code>, listed in
+          <code>GAMES</code> in <code>js/app.js</code>.</p>
       </div>
-      <div class="panel-box">
-        <h3>Adding a game</h3>
-        <ol class="steps">
-          <li><span>Put the rules as pure functions in <code>casino/rules/&lt;game&gt;.py</code> and unit test them.</span></li>
-          <li><span>In <code>casino/games/&lt;game&gt;.py</code>, subclass <code>Round</code> (what happens after
-            the bets are down: <code>actions</code>, <code>perform</code> and <code>table_view</code>) and
-            <code>Game</code> (<code>rules_pages</code>, <code>paytable</code>, and <code>start</code>, which
-            validates the bets with <code>read_stake</code> and returns the round, built with the total stake).
-            Take later bets with <code>take</code>, pay out with <code>settle</code> and end the round with
-            <code>finish</code>.</span></li>
-          <li><span>Register the class in <code>casino/games/__init__.py</code> and add a table JSON with
-            <code>"game": "&lt;game_key&gt;"</code>.</span></li>
-          <li><span>Add <code>casino/web/static/js/games/&lt;game&gt;.js</code> exporting
-            <code>render(ctx, mount)</code> and list it in <code>GAMES</code> in <code>js/app.js</code>.</span></li>
-        </ol>
-      </div>
-    </div>
+    </details>
   </div>
 </section>
 

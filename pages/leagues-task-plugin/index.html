@@ -44,9 +44,8 @@
     <p class="eyebrow">RuneScape</p>
     <h1>Every Leagues task, in your RuneLite sidebar</h1>
     <p class="tag">
-      Browse and randomise tasks from past Old School RuneScape Leagues events,
-      filter them the way you want, and track what you have finished - with an
-      optional companion plugin to sync progress to a tracker you run yourself.
+      Browse and randomise tasks from past Old School RuneScape Leagues events, filter them the way you want,
+      and track what you have finished.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#install">How to install</a>
@@ -68,43 +67,16 @@
   <div class="wrap">
     <h2>What it does</h2>
     <p class="lede">
-      One sidebar panel that turns a scattered pile of Leagues tasks into something
-      you can actually work through.
+      One sidebar panel that turns a scattered pile of Leagues tasks into something you can work through.
     </p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>One unified list</h3>
-        <p>Over 2,200 tasks drawn from four past Leagues events, merged so a task that
-          appeared in more than one event is a single row.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Filter, then pick</h3>
-        <p>Narrow by region, difficulty, and activity type, then roll a random task
-          that fits - or browse the full filtered list.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Save and check off</h3>
-        <p>Keep one saved task per difficulty tier and mark tasks complete against a
-          running background log.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Autocomplete</h3>
-        <p>Detects tasks it can confirm from your account - quests, skill levels,
-          achievement diaries, combat achievements, boss kills, clue counts. It shows a
-          preview first; nothing is written until you confirm.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Optional progress sync</h3>
-        <p>Install <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a>
-          alongside it to send your progress to a Personal RuneScape Tracker you host
-          yourself. Without it, this plugin sends nothing.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Per character</h3>
-        <p>Completions and saved tasks are scoped to each character, so an alt's
-          progress never overwrites your main's.</p>
-      </div>
-    </div>
+    <ul class="features">
+      <li><b>One unified list</b><p>Over 2,200 tasks from four past Leagues events, merged so a task that appeared in more than one event is a single row.</p></li>
+      <li><b>Filter, then pick</b><p>Narrow by region, difficulty and activity type, then roll a random task that fits, or browse the filtered list.</p></li>
+      <li><b>Save and check off</b><p>Keep one saved task per difficulty tier and mark tasks complete against a running log.</p></li>
+      <li><b>Autocomplete</b><p>Detects tasks it can confirm from your account: quests, skill levels, diaries, combat achievements, boss kills, clue counts. It previews first and writes nothing until you confirm.</p></li>
+      <li><b>Optional progress sync</b><p>Install <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a> alongside it to send progress to a tracker you host. Without it, this plugin sends nothing.</p></li>
+      <li><b>Per character</b><p>Completions and saved tasks are scoped to each character, so an alt never overwrites your main.</p></li>
+    </ul>
   </div>
 </section>
 
@@ -112,23 +84,13 @@
   <div class="wrap">
     <h2>Data &amp; sync</h2>
     <p class="lede">
-      Your progress is saved locally through RuneLite's own config. This plugin has no
-      server settings and doesn't send your progress anywhere.
+      Your progress is saved locally through RuneLite's own config. This plugin has no server settings and sends
+      nothing anywhere.
     </p>
-    <div class="panel-box">
-      <p>
-        Syncing lives in a separate plugin,
-        <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a>.
-        It reads your completed tasks from this plugin's saved data and sends them,
-        along with your quests, diaries, combat achievements and collection log, to
-        your tracker.
-      </p>
-      <p class="note">
-        With the Sync Tool turned on, the <b>Sync Progress</b> button on the start menu
-        asks it to send your completed tasks. Without it, that button reads
-        <b>Install Ronovo's Sync Tool</b> and explains how.
-      </p>
-    </div>
+    <dl class="kv">
+      <dt>Syncing</dt><dd>Lives in a separate plugin, <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a>, which reads your completed tasks from this plugin's saved data and sends them, with your quests, diaries, combat achievements and collection log, to your tracker.</dd>
+      <dt>The button</dt><dd>With the Sync Tool on, <b>Sync Progress</b> on the start menu asks it to send your completed tasks. Without it, the button reads <b>Install Ronovo's Sync Tool</b> and explains how.</dd>
+    </dl>
   </div>
 </section>
 
@@ -136,24 +98,16 @@
   <div class="wrap">
     <h2>Install</h2>
     <p class="lede">
-      The plugin is not on the RuneLite Plugin Hub yet. Until it is, you run it from
-      source: a small Gradle command builds it and opens a RuneLite client with the
-      plugin already loaded.
+      Until the plugin is on the RuneLite Plugin Hub, you run it from source: a small Gradle command builds it and
+      opens a RuneLite client with the plugin already loaded.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="run">Step-by-step: run it in RuneLite</a>
     </div>
-    <p class="lede">
-      Once the plugin is on the Plugin Hub, install it from there instead: wrench
-      (<b>Configuration</b>) &rarr; <b>Plugin Hub</b> &rarr; search <b>Leagues Tasks</b>.
-      This page will be updated when it is.
-    </p>
-    <p class="lede">
-      Syncing is optional and needs
-      <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a> plus your own
-      <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker">Personal RuneScape Tracker</a>
-      instance - a self-hosted character log and Grand Exchange tool. See the
-      Sync Tool's page for setup.
+    <p class="note">
+      Once it is on the Plugin Hub: wrench (<b>Configuration</b>) &rarr; <b>Plugin Hub</b> &rarr; search <b>Leagues Tasks</b>.
+      Syncing is optional and needs <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a> plus your own
+      <a href="/projects/personal-runescape-tracker/">Personal RuneScape Tracker</a>; see the Sync Tool's page for setup.
     </p>
   </div>
 </section>
@@ -172,9 +126,8 @@
     </div>
     <p>Built with Java for RuneLite.</p>
     <p class="disclaimer">
-      Not affiliated with, endorsed by, or sponsored by Jagex Ltd. Old School RuneScape
-      and RuneScape are trademarks of Jagex Ltd. RuneLite is a trademark of its
-      respective owners. This is an independent, fan-made plugin.
+      Not affiliated with, endorsed by, or sponsored by Jagex Ltd. Old School RuneScape and RuneScape are trademarks
+      of Jagex Ltd. RuneLite is a trademark of its respective owners. This is an independent, fan-made plugin.
     </p>
   </div>
 </footer>

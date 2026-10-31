@@ -428,6 +428,21 @@ code, pre { font-family: var(--font-mono); }
   .title-block div:nth-child(n + 3) { border-top: 1px solid var(--border); }
 }
 
+.taskbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-basis: 100%;
+  margin: 0 0 12px;
+  padding: 4px;
+  background: var(--panel);
+  box-shadow: var(--bevel);
+}
+.taskbar .btn { padding: 4px 12px; }
+.taskbar .task, .taskbar .tray { padding: 4px 10px; box-shadow: var(--bevel-in); color: var(--text); }
+.taskbar .task { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.taskbar .tray { font-variant-numeric: tabular-nums; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }

@@ -44,8 +44,8 @@
     <p class="eyebrow">TTRPG</p>
     <h1>Publish solo TTRPG play straight from Obsidian</h1>
     <p class="tag">
-      An Obsidian overlay for publishing solo tabletop RPG play. You keep writing in your
-      vault as usual, and it turns that vault into a website without changing how you write.
+      You keep writing in your vault as usual, and it turns that vault into a website without changing how you
+      write.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="https://soloronovo.com" target="_blank" rel="noopener">See the example</a>
@@ -67,49 +67,16 @@
   <div class="wrap">
     <h2>What it does</h2>
     <p class="lede">
-      It has two halves: an admin panel you keep to yourself, and a public site you show to readers.
+      Two halves: an admin panel you keep to yourself, and a public site you show to readers.
     </p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Admin panel</h3>
-        <p>A dashboard of the vault, a preview, a "what changed" view and publishing. It has no
-          login, so it only listens on your own machine or a private network such as Tailscale.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Public site</h3>
-        <p>Read-only static pages with no logins, forms or admin routes. This is the only half
-          readers ever see.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Publish when ready</h3>
-        <p>Nothing in the vault goes live until you publish it. Later edits never touch the live
-          version until you publish again.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Campaigns and sessions</h3>
-        <p>Campaign pages list their sessions grouped by arc. Every session gets previous and next
-          links and a "Previously on..." box with the last session's recap.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>A wiki that builds itself</h3>
-        <p>Characters, NPCs, places, factions, items and quests list every post that links to them,
-          and readers filter the wiki by game and type.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Story mode</h3>
-        <p>One switch hides the dice, oracles, sheets and notes so readers can follow just the
-          story, with a panel to choose what stays.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Themes</h3>
-        <p>Readers pick Original, Light, Dark, Cyberpunk, Eldritch or Fantasy, and the choice is
-          remembered in their browser.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>RSS feeds</h3>
-        <p>A site-wide feed, plus one for each campaign.</p>
-      </div>
-    </div>
+    <ul class="features">
+      <li><b>Admin panel</b><p>A dashboard of the vault, a preview, a "what changed" view and publishing. It has no login, so it listens only on your own machine or a private network such as Tailscale.</p></li>
+      <li><b>Public site</b><p>Read-only static pages with no logins, forms or admin routes. The only half readers ever see.</p></li>
+      <li><b>Publish when ready</b><p>Nothing goes live until you publish it, and later edits never touch the live version until you publish again.</p></li>
+      <li><b>Campaigns, sessions and a wiki</b><p>Campaign pages list sessions by arc, each with previous and next links and a "Previously on..." recap. Characters, NPCs, places, factions, items and quests list every post that links to them.</p></li>
+      <li><b>Story mode</b><p>One switch hides the dice, oracles, sheets and notes so readers can follow just the story, with a panel to choose what stays.</p></li>
+      <li><b>Themes and feeds</b><p>Readers pick Original, Light, Dark, Cyberpunk, Eldritch or Fantasy, remembered in their browser, and get a site-wide RSS feed plus one per campaign.</p></li>
+    </ul>
   </div>
 </section>
 
@@ -117,24 +84,18 @@
   <div class="wrap">
     <h2>Writing in Obsidian</h2>
     <p class="lede">
-      The vault is plain Markdown, so any editor can write it. Obsidian is recommended, because the
-      site runs on the same tagging Obsidian already understands.
+      The vault is plain Markdown, so any editor can write it. Obsidian is recommended, because the site runs on the
+      same tagging Obsidian already understands.
     </p>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>What drives the site</h3>
-        <ul class="plain">
-          <li><b>Properties</b> such as <code>type</code>, <code>campaign</code>, <code>session</code> and
-            <code>tags</code> decide what kind of page a file is, where it lives and how it is filed.</li>
-          <li><b><code>[[Wiki links]]</code> and <code>![[embeds]]</code></b> connect sessions, campaigns
-            and wiki entries.</li>
-          <li><b>Callouts</b> such as <code>&gt; [!oracle]</code>, <code>&gt; [!roll]</code> and
-            <code>&gt; [!card]</code> mark solo mechanics, and the site turns them into styled blocks.</li>
-          <li><b>Templates</b> insert a ready-made page of each type.</li>
-        </ul>
-      </div>
-      <div class="panel-box">
-        <h3>Page types</h3>
+    <dl class="kv">
+      <dt>Properties</dt><dd><code>type</code>, <code>campaign</code>, <code>session</code> and <code>tags</code> decide what kind of page a file is, where it lives and how it is filed. Set <code>type:</code>, or put the file in a folder such as <code>Play Reports</code> or <code>NPCs</code>.</dd>
+      <dt>Links</dt><dd><code>[[Wiki links]]</code> and <code>![[embeds]]</code> connect sessions, campaigns and wiki entries.</dd>
+      <dt>Callouts</dt><dd><code>&gt; [!oracle]</code>, <code>&gt; [!roll]</code>, <code>&gt; [!table]</code> and <code>&gt; [!card]</code> mark solo mechanics and become styled blocks. <code>[!sheet]</code> snapshots a character's stats, and the character's wiki page shows the latest one and how it changed.</dd>
+      <dt>Templates</dt><dd>Insert a ready-made page of each type.</dd>
+    </dl>
+    <details class="more">
+      <summary>Page types and their addresses</summary>
+      <div class="more-body">
         <table class="kinds">
           <thead>
             <tr><th>Type</th><th>Web address</th></tr>
@@ -148,100 +109,79 @@
             <tr><td><code>game</code></td><td><code>/games/&lt;slug&gt;/</code></td></tr>
           </tbody>
         </table>
-        <p class="note">Set <code>type:</code>, or put the file in a folder such as <code>Play Reports</code>
-          or <code>NPCs</code>.</p>
       </div>
-      <div class="panel-box">
-        <h3>Solo mechanics blocks</h3>
+    </details>
+    <details class="more">
+      <summary>A solo mechanics block</summary>
+      <div class="more-body">
         <pre><code>&gt; [!oracle] Is the guard awake?
 &gt; Odds: Likely
 &gt; Roll: 72
 &gt; Result: Yes, but...
 &gt; He's groggy. I'll have a round before he raises the alarm.</code></pre>
-        <ul class="plain">
-          <li><code>[!oracle]</code>, <code>[!roll]</code> and <code>[!table]</code> for questions, dice and table results.</li>
-          <li><code>[!card]</code> for tarot or playing card draws: a single card, a hand or a sequence.</li>
-          <li><code>[!sheet]</code> for a snapshot of a character's stats. The character's wiki page
-            shows the latest one and how it changed over time.</li>
-        </ul>
+        <p><code>[!card]</code> takes tarot or playing card draws: a single card, a hand or a sequence.</p>
       </div>
-    </div>
+    </details>
   </div>
 </section>
 
 <section id="publishing">
   <div class="wrap">
     <h2>How publishing works</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <ol class="steps">
-          <li><span>Write or edit in Obsidian. Your sync, such as Obsidian Sync, delivers the change to the server.</span></li>
-          <li><span>The admin notices it. The <b>Updates</b> page shows the page as <b>Draft</b> or <b>Unpublished changes</b>.</span></li>
-          <li><span>Tick one or more pages, then <b>Review &amp; publish</b>. The review shows what changed and
-            warns about links to pages that aren't live.</span></li>
-          <li><span><b>Publish</b> takes a snapshot of each page and rebuilds the site once.</span></li>
-        </ol>
-      </div>
-      <div class="panel-box">
-        <h3>Along the way</h3>
-        <ul class="plain">
-          <li>Deleting a file is a pending change. The page stays live until you publish the deletion.</li>
-          <li>Renaming or moving a file keeps the same page. If its web address changes, the old one redirects.</li>
-          <li><b>Preview</b> builds the whole vault, drafts included, before anything goes live.</li>
-          <li>Every published version is kept, and any of them can be restored into the vault.</li>
-        </ul>
-      </div>
+    <div class="panel-box">
+      <ol class="steps">
+        <li><span>Write or edit in Obsidian. Your sync, such as Obsidian Sync, delivers the change to the server.</span></li>
+        <li><span>The admin notices it. The <b>Updates</b> page shows the page as <b>Draft</b> or <b>Unpublished changes</b>.</span></li>
+        <li><span>Tick one or more pages, then <b>Review &amp; publish</b>. The review shows what changed and warns about links to pages that aren't live.</span></li>
+        <li><span><b>Publish</b> takes a snapshot of each page and rebuilds the site once.</span></li>
+      </ol>
     </div>
+    <details class="more">
+      <summary>Along the way</summary>
+      <div class="more-body">
+        <dl class="kv">
+          <dt>Deleting</dt><dd>A pending change. The page stays live until you publish the deletion.</dd>
+          <dt>Renaming</dt><dd>Keeps the same page. If its web address changes, the old one redirects.</dd>
+          <dt>Preview</dt><dd>Builds the whole vault, drafts included, before anything goes live.</dd>
+          <dt>History</dt><dd>Every published version is kept, and any of them can be restored into the vault.</dd>
+        </dl>
+      </div>
+    </details>
   </div>
 </section>
 
 <section id="run" class="alt">
   <div class="wrap">
     <h2>Run it</h2>
-    <p class="lede">Requires Node.js 20.12 or newer.</p>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>From source</h3>
-        <pre><code>npm install
+    <p class="lede">Requires Node.js 20.12 or newer. The admin panel has no login: never put it on the internet. A
+      reverse proxy or tunnel that puts the site online points only at the public site's port.</p>
+    <div class="panel-box">
+      <pre><code>npm install
 cp .env.example .env
 npm start</code></pre>
-        <p class="note">Set <code>VAULT_DIR</code> in <code>.env</code> to your Obsidian vault, then open the
-          admin panel at <code>http://localhost:8081</code>. The public site is at
-          <code>http://localhost:8080</code>.</p>
-      </div>
-      <div class="panel-box">
-        <h3>On a server</h3>
-        <p><code>deploy/</code> holds a Docker Compose stack: the public site, plus the admin panel bound to
-          a private address, reading the vault from a folder on the server. Its README covers setup and
-          getting your vault onto the server.</p>
-      </div>
-      <div class="panel-box">
-        <h3>Keep the admin private</h3>
-        <p>The admin panel has no login. Never put it on the internet. A reverse proxy or tunnel that puts
-          the site online points only at the public site's port.</p>
-      </div>
+      <p class="note">Set <code>VAULT_DIR</code> in <code>.env</code> to your Obsidian vault, then open the admin panel at
+        <code>http://localhost:8081</code>. The public site is at <code>http://localhost:8080</code>.</p>
     </div>
-  </div>
-</section>
-
-<section id="dev">
-  <div class="wrap">
-    <h2>For developers</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>Tests</h3>
-        <pre><code>npm test</code></pre>
-        <p class="note">An end-to-end suite builds real sites from a sample vault with one of every page
-          type and block, plus fast checks of link parsing, IDs and the frontmatter editor.</p>
+    <details class="more">
+      <summary>On a server</summary>
+      <div class="more-body">
+        <p><code>deploy/</code> holds a Docker Compose stack: the public site, plus the admin panel bound to a private
+          address, reading the vault from a folder on the server. Its README covers setup and getting your vault onto the
+          server.</p>
       </div>
-      <div class="panel-box">
-        <h3>Project layout</h3>
+    </details>
+    <details class="more">
+      <summary>Tests and project layout</summary>
+      <div class="more-body">
+        <pre><code>npm test</code></pre>
+        <p>An end-to-end suite builds real sites from a sample vault with one of every page type and block, plus fast
+          checks of link parsing, IDs and the frontmatter editor.</p>
         <pre><code>server/   Admin and public servers, vault scanning, publishing, builder
 site/     Astro project: page templates, layout, styles, callout plugin
 data/     Created on first run: publish state, snapshots, built sites
 test/     node:test suites; test/fixtures/vault is the sample vault</code></pre>
       </div>
-    </div>
+    </details>
   </div>
 </section>
 

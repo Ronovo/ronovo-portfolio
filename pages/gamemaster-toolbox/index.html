@@ -43,12 +43,13 @@
     <p class="eyebrow">TTRPG</p>
     <h1>Your random tables, rolled for you</h1>
     <p class="tag">
-      Build dice and card oracles for any game system, chain them into flows that ask
-      questions and branch, and take the whole set with you as one JSON file.
+      Build dice and card oracles for any game system, chain them into flows that ask questions and branch,
+      and take the whole set with you as one JSON file.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/Gamemaster-Toolbox" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://gm-toolbox.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>ASP.NET Core on .NET 10</dd></div>
@@ -65,39 +66,17 @@
   <div class="wrap">
     <h2>What it does</h2>
     <p class="lede">
-      A web app for the tables a gamemaster rolls on mid-session, kept in one place
-      instead of scattered across books and notes.
+      A web app for the tables a gamemaster rolls on mid-session, kept in one place instead of scattered across
+      books and notes.
     </p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Game systems</h3>
-        <p>Group oracles and flows by the game they belong to.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Oracle builder</h3>
-        <p>Dice oracles use any die from d4 to d100, or several dice such as 2d6. Card
-          oracles use a full playing-card deck or a tarot deck.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Rolling and drawing</h3>
-        <p>Roll a dice table, or draw from a deck shuffled for your session. Which cards
-          are left is per person and per sitting.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Flows</h3>
-        <p>Chain oracles together and run them a step at a time, with questions and
-          branches along the way.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Export and import</h3>
-        <p>Download every game system, oracle and flow as a single versioned JSON file,
-          and read one back in on another instance.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Color themes</h3>
-        <p>Pick a theme from the dropdown in the top right.</p>
-      </div>
-    </div>
+    <ul class="features">
+      <li><b>Game systems</b><p>Group oracles and flows by the game they belong to.</p></li>
+      <li><b>Oracle builder</b><p>Dice oracles use any die from d4 to d100, or several dice such as 2d6. Card oracles use a playing-card or tarot deck.</p></li>
+      <li><b>Rolling and drawing</b><p>Roll a table, or draw from a deck shuffled for your session. Which cards are left is per person and per sitting.</p></li>
+      <li><b>Flows</b><p>Chain oracles together and run them a step at a time, with questions and branches along the way.</p></li>
+      <li><b>Export and import</b><p>Download every game system, oracle and flow as one versioned JSON file, and read it back in elsewhere.</p></li>
+      <li><b>Color themes</b><p>Pick a theme from the dropdown in the top right.</p></li>
+    </ul>
   </div>
 </section>
 
@@ -105,9 +84,8 @@
   <div class="wrap">
     <h2>Flows</h2>
     <p class="lede">
-      A flow is an ordered list of steps. Running it works through one step at a time;
-      any outcome can branch to another step or end the run early, so a flow can fork,
-      skip ahead or loop back.
+      A flow is an ordered list of steps. Running it works through one step at a time; any outcome can branch
+      to another step or end the run early, so a flow can fork, skip ahead or loop back.
     </p>
     <div class="panel-box">
       <table class="kinds">
@@ -115,29 +93,16 @@
           <tr><th>Step</th><th>What it does</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td><code>Roll</code></td>
-            <td>Rolls the oracle it names. Each outcome can also pick a table for a later step.</td>
-          </tr>
-          <tr>
-            <td><code>Choice</code></td>
-            <td>Asks a question with a dropdown of options you write. An option can name an oracle.</td>
-          </tr>
-          <tr>
-            <td><code>Text</code></td>
-            <td>Asks a question and takes a typed answer.</td>
-          </tr>
-          <tr>
-            <td><code>RollChosen</code></td>
-            <td>Rolls whichever oracle an earlier step picked.</td>
-          </tr>
+          <tr><td><code>Roll</code></td><td>Rolls the oracle it names. Each outcome can also pick a table for a later step.</td></tr>
+          <tr><td><code>Choice</code></td><td>Asks a question with a dropdown of options you write. An option can name an oracle.</td></tr>
+          <tr><td><code>Text</code></td><td>Asks a question and takes a typed answer.</td></tr>
+          <tr><td><code>RollChosen</code></td><td>Rolls whichever oracle an earlier step picked.</td></tr>
         </tbody>
       </table>
       <p class="note">
-        A dependent chain - roll A, then roll whatever A landed on - is two
-        steps: a <code>Roll</code> whose outcomes each pick a table, then a
-        <code>RollChosen</code>. A run stops after 200 steps, so a branch that points
-        backwards can't loop forever.
+        A dependent chain, roll A then roll whatever A landed on, is a <code>Roll</code> whose outcomes each pick a
+        table, followed by a <code>RollChosen</code>. A run stops after 200 steps, so a backwards branch can't loop
+        forever.
       </p>
     </div>
   </div>
@@ -147,35 +112,22 @@
   <div class="wrap">
     <h2>Run it</h2>
     <p class="lede">
-      There's no database server to install. The whole toolbox lives in one SQLite file.
+      There's no database server to install; the whole toolbox lives in one SQLite file. It is meant for a machine
+      on your own network, shared with the people at your table. There are no permissions yet, so it isn't set up
+      to be exposed to the internet.
     </p>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>With Docker</h3>
-        <pre><code>docker compose up -d</code></pre>
-        <p class="note">
-          Open <code>http://localhost:9000</code>. <code>docker compose down</code> stops
-          it, and your data stays in its volume. Other people on your network can reach
-          it at <code>http://&lt;your-machine's-ip&gt;:9000</code>.
-        </p>
-      </div>
-      <div class="panel-box">
-        <h3>With the .NET SDK</h3>
-        <ol class="steps">
-          <li><span>Install the <a href="https://dotnet.microsoft.com/download">.NET 10 SDK</a>.</span></li>
-          <li><span>In the project folder, run <code>dotnet run</code>.</span></li>
-          <li><span>Open <code>http://localhost:9000</code>. This way only your own machine can reach it.</span></li>
-        </ol>
-      </div>
-      <div class="panel-box">
-        <h3>Who it's for</h3>
-        <p>
-          A machine on your own network, shared with the people at your table. There are
-          no permissions yet: everyone who can reach it can edit everything, so it isn't
-          set up to be exposed to the internet.
-        </p>
-      </div>
+    <div class="panel-box">
+      <pre><code>docker compose up -d</code></pre>
+      <p class="note">Open <code>http://localhost:9000</code>, or <code>http://&lt;your-machine's-ip&gt;:9000</code> from
+        elsewhere on the network. <code>docker compose down</code> stops it; your data stays in its volume.</p>
     </div>
+    <details class="more">
+      <summary>With the .NET SDK instead</summary>
+      <div class="more-body">
+        <p>Install the <a href="https://dotnet.microsoft.com/download">.NET 10 SDK</a>, run <code>dotnet run</code> in the
+          project folder, and open <code>http://localhost:9000</code>. This way only your own machine can reach it.</p>
+      </div>
+    </details>
   </div>
 </section>
 

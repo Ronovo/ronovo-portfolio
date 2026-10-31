@@ -11,19 +11,21 @@ interface Entry {
 
 const d20 = () => 1 + Math.floor(Math.random() * 20);
 
-// 1 and 20 are the fumble and the crit; faces 2-19 are split as evenly as they go among the projects.
+const LIBRARY = { title: "The whole library", href: "/projects" };
+
+// 1 and 20 are the fumble and the crit; faces 2-19 are split as evenly as they go among the projects, or go to
+// the whole library when no project has a page to link.
 const rollTable = (projects: Project[]): Entry[] => {
   const pool = projects.filter((p) => p.about || p.source).slice(0, 18);
-  return [
-    { from: 1, to: 1, title: "The ink smudges. Roll again." },
-    ...pool.map((p, i) => ({
-      from: 2 + Math.floor((i * 18) / pool.length),
-      to: 1 + Math.floor(((i + 1) * 18) / pool.length),
-      title: p.title,
-      href: (p.about ?? p.source)!,
-    })),
-    { from: 20, to: 20, title: "The whole library", href: "/projects" },
-  ];
+  const middle = pool.length
+    ? pool.map((p, i) => ({
+        from: 2 + Math.floor((i * 18) / pool.length),
+        to: 1 + Math.floor(((i + 1) * 18) / pool.length),
+        title: p.title,
+        href: (p.about ?? p.source)!,
+      }))
+    : [{ from: 2, to: 19, ...LIBRARY }];
+  return [{ from: 1, to: 1, title: "The ink smudges. Roll again." }, ...middle, { from: 20, to: 20, ...LIBRARY }];
 };
 
 const EntryText = ({ entry }: { entry: Entry }) => (entry.href ? <a href={entry.href}>{entry.title}</a> : <>{entry.title}</>);

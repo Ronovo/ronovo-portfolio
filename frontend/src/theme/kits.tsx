@@ -8,6 +8,7 @@ import BootSequence from "./terminal/BootSequence";
 import D20Roll from "./grimoire/D20Roll";
 import Dimensions from "./blueprint/Dimensions";
 import TitleBlock from "./blueprint/TitleBlock";
+import Taskbar from "./retro/Taskbar";
 
 // The components a theme puts in each slot. The CSS side of a theme is its block in static/brand.css.
 export interface Kit {
@@ -50,6 +51,7 @@ const KITS: Record<string, Kit> = {
   terminal: { Brand: Plain, Title: PromptTitle, Tagline: BootSequence, Backdrop: Rain },
   grimoire: { ...plain, HomeExtra: D20Roll },
   blueprint: { ...plain, CardOverlay: Dimensions, FooterExtra: TitleBlock, Backdrop: Crosshair },
+  retro: { ...plain, FooterExtra: Taskbar },
 };
 
 export const useKit = () => KITS[useTheme()] ?? cyberpunk;

@@ -16,7 +16,6 @@
 <style>
   :root { --accent: #e3a63c; }
   .hero .tag code { font-size: .85em; }
-  .card h3 .class { margin-left: auto; font-size: 13px; font-weight: 500; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -46,16 +45,17 @@
     <p class="eyebrow">Games</p>
     <h1>Stand Alone Gun System</h1>
     <p class="tag">
-      A simple, text-based weapons system built in Python. The <code>gunsystem</code> library can be
-      imported into other games; this repo also includes a range demo you can play in the browser
-      (Flask) or in the terminal.
+      A simple, text-based weapons system in Python. The <code>gunsystem</code> library can be imported into other
+      games, and the repo includes a range demo you can play in the browser or the terminal.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/standalonegunsystem" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://gunsystem.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>Python 3.10+ / Flask</dd></div>
+      <div><dt>Guns</dt><dd>26 across 6 classes</dd></div>
       <div><dt>Runs in</dt><dd>Docker</dd></div>
       <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
     </dl>
@@ -66,186 +66,88 @@
 
 <section id="features">
   <div class="wrap">
-    <h2>V1.5 features</h2>
-    <p class="lede">26 guns, with 6 different weapon types.</p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Hit calculation</h3>
-        <p>Dummy size, damage drop off, "bullet drop", muzzle spray and critical chance.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Armory</h3>
-        <p>A menu to look at all your guns.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Gun range</h3>
-        <ul class="plain">
-          <li>Test out all your guns</li>
-          <li>Bulk fire report to test weapon balancing</li>
-          <li>Dynamic hit calculation based on target distance and gun type</li>
-          <li>A counter of how many dummies you have destroyed in the session</li>
-          <li>Bulk firing options per gun</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Balance reports</h3>
-        <p>Creates a report per weapon in <code>/Balance Reports</code>. Each report includes stats for
-          15 full magazines shot at each type of dummy, every range listed in the Range menu, and each
-          firing mode (Single, 3 Round, Auto).</p>
-      </div>
-    </div>
+    <h2>What it does</h2>
+    <ul class="features">
+      <li><b>Hit calculation</b><p>Dummy size, damage drop off, bullet drop, muzzle spray and critical chance, worked out from target distance and gun type.</p></li>
+      <li><b>Armory</b><p>A menu to look over every gun you have.</p></li>
+      <li><b>Gun range</b><p>Test any gun at every listed range, with bulk firing options per gun and a count of the dummies you've destroyed this session.</p></li>
+      <li><b>Balance reports</b><p>One report per weapon in <code>/Balance Reports</code>: 15 full magazines at each dummy type, every range and each firing mode (Single, 3 Round, Auto).</p></li>
+    </ul>
   </div>
 </section>
 
 <section id="guns" class="alt">
   <div class="wrap">
-    <h2>Gun list</h2>
-    <p class="lede">Future updates: more guns!</p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Pistols <span class="class">Small Arms</span></h3>
-        <ul class="plain">
-          <li>M1911</li>
-          <li>USP .45</li>
-          <li>M9</li>
-          <li>Desert Eagle</li>
-          <li>Glock 18</li>
-          <li>.38 Special</li>
-          <li>44 Magnum</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>SMG <span class="class">Small Arms</span></h3>
-        <ul class="plain">
-          <li>MP5</li>
-          <li>AK-47u</li>
-          <li>P90</li>
-          <li>Mini-Uzi</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Shotguns <span class="class">Medium Arms</span></h3>
-        <ul class="plain">
-          <li>W1200</li>
-          <li>M1014</li>
-          <li>USAS-12</li>
-          <li>Spas-12</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>ARs <span class="class">Medium Arms</span></h3>
-        <ul class="plain">
-          <li>M16A4</li>
-          <li>AK47</li>
-          <li>G3</li>
-          <li>G36</li>
-          <li>FN FAL</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Snipers <span class="class">Large Arms</span></h3>
-        <ul class="plain">
-          <li>M40A3</li>
-          <li>Dragunov</li>
-          <li>Barrett .50Cal</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>LMGs <span class="class">Large Arms</span></h3>
-        <ul class="plain">
-          <li>M249 SAW</li>
-          <li>M60E4</li>
-          <li>RPD</li>
-        </ul>
-      </div>
+    <h2>The guns</h2>
+    <div class="panel-box">
+      <table class="kinds">
+        <thead>
+          <tr><th>Type</th><th>Class</th><th>Guns</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pistols</td><td>Small Arms</td><td>M1911, USP .45, M9, Desert Eagle, Glock 18, .38 Special, 44 Magnum</td></tr>
+          <tr><td>SMGs</td><td>Small Arms</td><td>MP5, AK-47u, P90, Mini-Uzi</td></tr>
+          <tr><td>Shotguns</td><td>Medium Arms</td><td>W1200, M1014, USAS-12, Spas-12</td></tr>
+          <tr><td>Assault rifles</td><td>Medium Arms</td><td>M16A4, AK47, G3, G36, FN FAL</td></tr>
+          <tr><td>Snipers</td><td>Large Arms</td><td>M40A3, Dragunov, Barrett .50Cal</td></tr>
+          <tr><td>LMGs</td><td>Large Arms</td><td>M249 SAW, M60E4, RPD</td></tr>
+        </tbody>
+      </table>
     </div>
+    <p class="note">Future updates: more guns.</p>
   </div>
 </section>
 
 <section id="run">
   <div class="wrap">
     <h2>Run it</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>Set up</h3>
-        <ol class="steps">
-          <li><span>Install Python 3.10 or newer (this build used 3.13.2). Get
-            <a href="https://www.python.org/downloads/">Python</a> here and run the installer.</span></li>
-          <li><span>Download the project, through Git or a file download.</span></li>
-          <li><span>Go to the project in PowerShell or Command Prompt:
-            <code>cd (drive)/(File Location)/standalonegunsystem</code></span></li>
-        </ol>
-      </div>
-      <div class="panel-box">
-        <h3>Web version</h3>
-        <ol class="steps">
-          <li><span>Install Flask once: <code>pip install flask</code></span></li>
-          <li><span>Run <code>python -m webapp</code></span></li>
-          <li><span>Open <code>http://127.0.0.1:5000</code> in your browser.</span></li>
-        </ol>
-        <p class="note">
-          Menus can be clicked or driven from the keyboard: number keys pick an item, <code>Esc</code>
-          goes back.
-        </p>
-      </div>
-      <div class="panel-box">
-        <h3>Web version in Docker</h3>
+    <p class="lede">Requires Python 3.10 or newer (this build used 3.13.2). Download the project through Git or as a
+      file, open a terminal in its folder, then:</p>
+    <div class="panel-box">
+      <pre><code>pip install flask
+python -m webapp        # then open http://127.0.0.1:5000</code></pre>
+      <p class="note">Menus can be clicked or driven from the keyboard: number keys pick an item, <code>Esc</code> goes back.
+        For the terminal version run <code>python ./main.py</code> (or <code>python -m demo</code>) instead.</p>
+    </div>
+    <details class="more">
+      <summary>With Docker</summary>
+      <div class="more-body">
         <pre><code>docker build -t gunsystem-web .
 docker run -d --name gunsystem-web -p 8000:8000 gunsystem-web</code></pre>
-        <p class="note">
-          Open <code>http://127.0.0.1:8000</code>. Set <code>-e GUNSYSTEM_SECRET_KEY=&lt;random string&gt;</code>
-          to keep range sessions valid across container restarts. Balance text reports are saved inside
-          the container; add <code>-v "${PWD}/Balance Reports:/app/Balance Reports"</code> to keep them
-          on your machine.
-        </p>
+        <p>Open <code>http://127.0.0.1:8000</code>. Set <code>-e GUNSYSTEM_SECRET_KEY=&lt;random string&gt;</code> to keep range
+          sessions valid across restarts, and add <code>-v "${PWD}/Balance Reports:/app/Balance Reports"</code> to keep the
+          balance reports on your machine.</p>
       </div>
-      <div class="panel-box">
-        <h3>Log in with a portfolio account</h3>
-        <ul class="plain">
-          <li>The range and destroyed count are kept in the browser for 31 days.</li>
-          <li>With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
-            portfolio's <code>python sso.py</code>) set, the top bar offers to log in with a portfolio
-            account. It reads <b>Log in as</b> and the portfolio username when this browser is logged in
-            to the portfolio.</li>
-          <li>While logged in, that progress is also kept for the portfolio account in
-            <code>DATA_DIR</code> (<code>/app/data</code> in the container, so add a volume there), and
-            logging in on another browser takes whichever copy is newer.</li>
-          <li>Needs <code>pip install pyjwt[crypto]</code> as well as Flask.</li>
-        </ul>
+    </details>
+    <details class="more">
+      <summary>Log in with a portfolio account</summary>
+      <div class="more-body">
+        <p>The range and destroyed count are kept in the browser for 31 days. With <code>PORTFOLIO_SSO_URL</code> and
+          <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the top bar offers to log in with a portfolio account, and while logged in
+          that progress is also kept for the account in <code>DATA_DIR</code> (<code>/app/data</code> in the container, so add
+          a volume there). Logging in on another browser takes whichever copy is newer.</p>
+        <p>Needs <code>pip install pyjwt[crypto]</code> as well as Flask.</p>
       </div>
-      <div class="panel-box">
-        <h3>Terminal version</h3>
-        <p>
-          Run <code>python ./main.py</code> (or <code>python -m demo</code>). The game starts in your
-          terminal window.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="library" class="alt">
-  <div class="wrap">
-    <h2>Using it as a library</h2>
-    <p class="lede">From the repo (or with <code>gunsystem/</code> on your Python path):</p>
-    <div class="stack">
-      <div class="panel-box">
+    </details>
+    <details class="more">
+      <summary>Using it as a library</summary>
+      <div class="more-body">
         <pre><code>from gunsystem import Catalog, Target, resolve_shot
 
 gun = Catalog.create("M1911")
 gun.reload()
 result = resolve_shot(gun, Target(distance=100, size="m"))</code></pre>
-        <p class="note">
-          <code>result</code> has <code>hit</code>, <code>damage</code>, <code>critical</code>,
-          <code>remaining_ammo</code>, and <code>fired</code> (False when the weapon was empty).
-        </p>
+        <p>From the repo, or with <code>gunsystem/</code> on your Python path. <code>result</code> has <code>hit</code>,
+          <code>damage</code>, <code>critical</code>, <code>remaining_ammo</code> and <code>fired</code> (False when the weapon
+          was empty).</p>
       </div>
-      <div class="panel-box">
-        <h3>Tests</h3>
-        <p>From the repo root:</p>
+    </details>
+    <details class="more">
+      <summary>Tests</summary>
+      <div class="more-body">
         <pre><code>python -m unittest discover -s tests -t .</code></pre>
       </div>
-    </div>
+    </details>
   </div>
 </section>
 

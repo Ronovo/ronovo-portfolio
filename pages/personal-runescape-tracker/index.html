@@ -43,13 +43,13 @@
     <p class="eyebrow">RuneScape</p>
     <h1>Your OSRS character log and GE tool, on your own server</h1>
     <p class="tag">
-      Hiscores, quests, diaries, combat achievements and your collection log in one
-      place, alongside Grand Exchange market views and a Flip Helper. You host it
-      yourself, for just you or a group of friends.
+      Hiscores, quests, diaries, combat achievements and your collection log in one place, alongside Grand
+      Exchange market views and a Flip Helper. You host it yourself, for just you or a group of friends.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/Personal-RuneScape-Tracker" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://osrs-tracker.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>Node + TypeScript</dd></div>
@@ -67,53 +67,13 @@
     <p class="lede">
       One responsive app for keeping track of a character and the market, on desktop or phone.
     </p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Character</h3>
-        <p>Look up any player's Jagex hiscores.</p>
-        <ul>
-          <li>Combat level, total level and XP</li>
-          <li>Skill levels, XP and ranks</li>
-          <li>Boss kill counts and minigame scores</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Progress from RuneLite</h3>
-        <p>What the hiscores don't show, synced by the
-          <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a> plugin.
-          Leagues tasks come from the
-          <a href="/projects/leagues-task-plugin/">Leagues Tasks</a> plugin.</p>
-        <ul>
-          <li>Quests, with type and membership filters</li>
-          <li>Achievement diary tiers by area</li>
-          <li>Combat achievements and points</li>
-          <li>Collection log, obtained and missing</li>
-          <li>Completed Leagues tasks</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Grand Exchange</h3>
-        <p>Browse and filter OSRS Wiki market data.</p>
-        <ul>
-          <li>24-hour risers and fallers</li>
-          <li>Price, volume and freshness filters</li>
-          <li>Item pages with a price history chart, margins and alch values</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Flip Helper</h3>
-        <p>Scan the market for buy-low/sell-high opportunities.</p>
-        <ul>
-          <li>After-tax profit, ROI, GP/hr and confidence</li>
-          <li>Presets, filters and a per-character watchlist</li>
-          <li>A calculator you can load any item into</li>
-        </ul>
-      </div>
-    </div>
-    <p class="lede">
-      Prices come from completed trades, not live offers. Always check the in-game
-      GE offer box before committing money.
-    </p>
+    <dl class="kv">
+      <dt>Character</dt><dd>Any player's Jagex hiscores: combat level, total level and XP, skill levels, XP and ranks, boss kill counts and minigame scores.</dd>
+      <dt>Progress from RuneLite</dt><dd>What the hiscores don't show, synced by <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a>: quests with type and membership filters, diary tiers by area, combat achievements and points, the collection log obtained and missing, and completed Leagues tasks from the <a href="/projects/leagues-task-plugin/">Leagues Tasks</a> plugin.</dd>
+      <dt>Grand Exchange</dt><dd>OSRS Wiki market data: 24-hour risers and fallers, price, volume and freshness filters, and item pages with a price history chart, margins and alch values.</dd>
+      <dt>Flip Helper</dt><dd>Scans the market for buy-low, sell-high opportunities with after-tax profit, ROI, GP/hr and confidence, plus presets, filters, a per-character watchlist and a calculator for any item.</dd>
+    </dl>
+    <p class="note">Prices come from completed trades, not live offers. Always check the in-game GE offer box before committing money.</p>
   </div>
 </section>
 
@@ -121,28 +81,18 @@
   <div class="wrap">
     <h2>Plugin sync</h2>
     <p class="lede">
-      Jagex doesn't publish quests, diaries, combat achievements or the collection log.
-      Those tabs fill in when you sync from the
-      <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a> RuneLite
-      plugin, pointed at your tracker.
+      Jagex doesn't publish quests, diaries, combat achievements or the collection log. Those tabs fill in when you
+      sync from the <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a> RuneLite plugin, pointed at your tracker.
     </p>
     <div class="panel-box">
       <ol class="steps">
-        <li><span>Run the tracker (below) and copy your token with <b>Copy plugin token</b>
-          in the header.</span></li>
-        <li><span>In Ronovo's Sync Tool's <b>Sync Settings</b>, set <b>Server URL</b> to the
-          tracker's base address (for example <code>http://localhost:4123</code>, or
-          <code>https://</code> for anything not on this computer) and paste the
-          <b>API Token</b>.</span></li>
-        <li><span>Log in to OSRS and press a Sync button. The collection log syncs from
-          the <b>Sync</b> button on the in-game Collection Log. Completed Leagues tasks
-          are read from the Leagues Tasks plugin, whose <b>Sync Progress</b> button
-          also sends them.</span></li>
+        <li><span>Run the tracker and copy your token with <b>Copy plugin token</b> in the header.</span></li>
+        <li><span>In the Sync Tool's <b>Sync Settings</b>, set <b>Server URL</b> to the tracker's base address, such as
+          <code>http://localhost:4123</code> (or <code>https://</code> for anything not on this computer), and paste the <b>API Token</b>.</span></li>
+        <li><span>Log in to OSRS and press a Sync button. The collection log syncs from the <b>Sync</b> button on the in-game
+          Collection Log, and completed Leagues tasks from the Leagues Tasks plugin's <b>Sync Progress</b> button.</span></li>
       </ol>
-      <p class="note">
-        Each sync only updates the sections it sends. Leaving a section out never
-        clears what the tracker already has.
-      </p>
+      <p class="note">Each sync only updates the sections it sends. Leaving a section out never clears what the tracker already has.</p>
     </div>
   </div>
 </section>
@@ -151,72 +101,45 @@
   <div class="wrap">
     <h2>Run it</h2>
     <p class="lede">
-      The tracker is a small Node server you host yourself. There is no shared
-      public instance.
+      A small Node server you host yourself; there is no shared public instance. Needs <a href="https://nodejs.org/">Node.js</a> 24 or newer.
     </p>
-
-    <div class="stack">
-      <div class="panel-box">
-        <h3>With Node</h3>
-        <ol class="steps">
-          <li><span>Install <a href="https://nodejs.org/">Node.js</a> 24 or newer.</span></li>
-          <li><span>Get the source: on the
-            <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker">GitHub page</a> choose
-            <b>Code &rarr; Download ZIP</b> and extract it, or clone the repository.</span></li>
-          <li><span>In that folder, install and start it:
-            <pre><code>npm ci
-npm start</code></pre></span></li>
-          <li><span>Open <code>http://localhost:4123</code>. Other devices on your network
-            can use <code>http://&lt;computer-address&gt;:4123</code>.</span></li>
-        </ol>
-      </div>
-
-      <div class="panel-box">
-        <h3>With Docker</h3>
+    <div class="panel-box">
+      <pre><code>npm ci
+npm start</code></pre>
+      <p class="note">Get the source from the <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker">GitHub page</a>
+        (<b>Code &rarr; Download ZIP</b>, or clone it), run those in that folder, then open <code>http://localhost:4123</code>.
+        Other devices on your network use <code>http://&lt;computer-address&gt;:4123</code>.</p>
+    </div>
+    <details class="more">
+      <summary>With Docker</summary>
+      <div class="more-body">
         <pre><code>docker build -t osrs-tracker .
 docker run -d --name osrs-tracker --restart unless-stopped \
   -p 4123:4123 \
   -e JWT_SECRET=a-long-random-secret -e LAN_MODE=1 \
   -v osrs-tracker-data:/app/data \
   osrs-tracker</code></pre>
-        <p class="note">
-          Keep the <code>-v</code> volume: it holds every synced character and watchlist.
-          Without it, that data is lost when the container is removed.
-          <code>docker logs osrs-tracker</code> shows the LAN token.
-        </p>
+        <p>Keep the <code>-v</code> volume: it holds every synced character and watchlist, and is lost with the container
+          otherwise. <code>docker logs osrs-tracker</code> shows the LAN token.</p>
       </div>
-
-      <div class="panel-box">
-        <h3>Who can sync</h3>
+    </details>
+    <details class="more">
+      <summary>Who can sync</summary>
+      <div class="more-body">
         <table class="kinds">
           <thead>
             <tr><th>Setup</th><th>Good for</th><th>How tokens work</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><code>JWT_SECRET</code> + <code>LAN_MODE=1</code></td>
-              <td>You or friends on a home network</td>
-              <td>One shared token, printed when the server starts</td>
-            </tr>
-            <tr>
-              <td><code>JWT_SECRET</code> only</td>
-              <td>A site on the internet (use HTTPS)</td>
-              <td>Each player registers and copies a personal token</td>
-            </tr>
-            <tr>
-              <td>Neither</td>
-              <td>Just hiscores and the GE</td>
-              <td>Syncing is turned off</td>
-            </tr>
+            <tr><td><code>JWT_SECRET</code> + <code>LAN_MODE=1</code></td><td>You or friends on a home network</td><td>One shared token, printed when the server starts</td></tr>
+            <tr><td><code>JWT_SECRET</code> only</td><td>A site on the internet (use HTTPS)</td><td>Each player registers and copies a personal token</td></tr>
+            <tr><td>Neither</td><td>Just hiscores and the GE</td><td>Syncing is turned off</td></tr>
           </tbody>
         </table>
-        <p class="note">
-          Never set <code>LAN_MODE</code> on a host reachable from the internet. Full
-          setup, hardening options and the API are in the
-          <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker#readme">README</a>.
-        </p>
+        <p class="note">Never set <code>LAN_MODE</code> on a host reachable from the internet. Full setup, hardening options and
+          the API are in the <a href="https://github.com/Ronovo/Personal-RuneScape-Tracker#readme">README</a>.</p>
       </div>
-    </div>
+    </details>
   </div>
 </section>
 
@@ -235,9 +158,9 @@ docker run -d --name osrs-tracker --restart unless-stopped \
     <p>Built with Node, Express and TypeScript.</p>
     <p class="disclaimer">
       Market data from the <a href="https://oldschool.runescape.wiki/w/RuneScape:Real-time_Prices">OSRS Wiki
-      Real-time Prices</a> API; character data from the Jagex hiscores. Not affiliated
-      with, endorsed by, or sponsored by Jagex Ltd. Old School RuneScape and RuneScape
-      are trademarks of Jagex Ltd. RuneLite is a trademark of its respective owners.
+      Real-time Prices</a> API; character data from the Jagex hiscores. Not affiliated with, endorsed by, or
+      sponsored by Jagex Ltd. Old School RuneScape and RuneScape are trademarks of Jagex Ltd. RuneLite is a
+      trademark of its respective owners.
     </p>
   </div>
 </footer>

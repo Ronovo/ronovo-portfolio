@@ -15,7 +15,7 @@ SITE = {
     # has a block in static/brand.css.
     "themes": {
         "Standard": {"cyberpunk": "Cyberpunk", "light": "Light", "dark": "Dark"},
-        "Experimental": {"terminal": "Terminal", "grimoire": "Grimoire", "blueprint": "Blueprint"},
+        "Experimental": {"terminal": "Terminal", "grimoire": "Grimoire", "blueprint": "Blueprint", "retro": "Retro OS"},
     },
 
     # category is one of categories. Leave source, page and links out to show a card as "Coming soon".
@@ -35,7 +35,8 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "Docker"],
             "source": "https://github.com/Ronovo/esoteric-chat",
             "page": "esoteric-chat",
-            "links": [{"label": "Try it", "port": 8004, "subdomain": "esoteric-chat"}],
+            "links": [{"label": "Try it", "port": 8004, "subdomain": "esoteric-chat"},
+                      {"label": "Coverage", "url": "https://esoteric-chat.ronovo.io/coverage/"}],
         },
         {
             "title": "Personal RuneScape Tracker",
@@ -46,7 +47,8 @@ SITE = {
             "tags": ["TypeScript", "Node", "Docker"],
             "source": "https://github.com/Ronovo/Personal-RuneScape-Tracker",
             "page": "personal-runescape-tracker",
-            "links": [{"label": "Try it", "port": 4123, "subdomain": "osrs-tracker"}],
+            "links": [{"label": "Try it", "port": 4123, "subdomain": "osrs-tracker"},
+                      {"label": "Coverage", "url": "https://osrs-tracker.ronovo.io/coverage/"}],
         },
         {
             "title": "GM Toolbox",
@@ -56,7 +58,8 @@ SITE = {
             "tags": ["C#", "ASP.NET Core", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/Gamemaster-Toolbox",
             "page": "gamemaster-toolbox",
-            "links": [{"label": "Try it", "port": 9000, "subdomain": "gm-toolbox"}],
+            "links": [{"label": "Try it", "port": 9000, "subdomain": "gm-toolbox"},
+                      {"label": "Coverage", "url": "https://gm-toolbox.ronovo.io/coverage/"}],
         },
         {
             "title": "TTRPG Player Toolkit",
@@ -66,7 +69,8 @@ SITE = {
             "tags": ["JavaScript", "Docker"],
             "source": "https://github.com/Ronovo/ttrpg-player-toolkit",
             "page": "ttrpg-player-toolkit",
-            "links": [{"label": "Try it", "port": 8006, "subdomain": "ttrpg-toolkit"}],
+            "links": [{"label": "Try it", "port": 8006, "subdomain": "ttrpg-toolkit"},
+                      {"label": "Coverage", "url": "https://ttrpg-toolkit.ronovo.io/coverage/"}],
         },
         {
             "title": "TTRPG Adventure Blog",
@@ -103,7 +107,8 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/Casino_Test",
             "page": "casino",
-            "links": [{"label": "Play", "port": 8002, "subdomain": "casino"}],
+            "links": [{"label": "Play", "port": 8002, "subdomain": "casino"},
+                      {"label": "Coverage", "url": "https://casino.ronovo.io/coverage/"}],
         },
         {
             "title": "Space Station Explorer",
@@ -113,7 +118,8 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "SQLite","Docker"],
             "source": "https://github.com/Ronovo/online-space-station",
             "page": "space-station-explorer",
-            "links": [{"label": "Play", "port": 8003, "subdomain": "space"}],
+            "links": [{"label": "Play", "port": 8003, "subdomain": "space"},
+                      {"label": "Coverage", "url": "https://space.ronovo.io/coverage/"}],
         },
         {
             "title": "Stand Alone Gun System",
@@ -123,18 +129,20 @@ SITE = {
             "tags": ["Python", "Flask", "JavaScript", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/standalonegunsystem",
             "page": "stand-alone-gun-system",
-            "links": [{"label": "Play", "port": 8000, "subdomain": "gunsystem"}],
+            "links": [{"label": "Play", "port": 8000, "subdomain": "gunsystem"},
+                      {"label": "Coverage", "url": "https://gunsystem.ronovo.io/coverage/"}],
         },
         {
             "title": "Dead But Dreaming",
             "featured": True,
             "category": "Games",
             "app": "dead-but-dreaming",
-            "desc": "An idle game where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.",
+            "desc": "An idle game, or a clicker if you prefer, where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.",
             "tags": ["Python", "Flask", "JavaScript", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/Dead-But-Dreaming",
             "page": "dead-but-dreaming",
-            "links": [{"label": "Play", "port": 8005, "subdomain": "dead-but-dreaming"}],
+            "links": [{"label": "Play", "port": 8005, "subdomain": "dead-but-dreaming"},
+                      {"label": "Coverage", "url": "https://dead-but-dreaming.ronovo.io/coverage/"}],
         },
         {
             "title": "Ronovo Portfolio",
@@ -142,6 +150,7 @@ SITE = {
             "desc": "The code this site is currently running on",
             "tags": ["Python", "Flask", "TypeScript", "SQLite", "Docker"],
             "source": "https://github.com/Ronovo/ronovo-portfolio",
+            "links": [{"label": "Coverage", "url": "https://ronovo.io/coverage/"}],
         },
     ],
 }

@@ -43,12 +43,12 @@
     <p class="eyebrow">General</p>
     <h1>A chat that runs esoteric languages</h1>
     <p class="tag">
-      A Flask chat web app that interprets esoteric languages. It is a port of my
-      esoteric-bot Discord bot.
+      A Flask chat web app that interprets esoteric languages. It is a port of my esoteric-bot Discord bot.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/esoteric-chat" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://esoteric-chat.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>Python 3.10+ / Flask</dd></div>
@@ -64,34 +64,15 @@
   <div class="wrap">
     <h2>Using the chat</h2>
     <p class="lede">
-      Pick a language from the dropdown, type code, and press <b>Enter</b>
-      (Shift+Enter adds a new line).
+      Pick a language from the dropdown, type code, and press <b>Enter</b>. Shift+Enter adds a new line.
     </p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Try example</h3>
-        <p>Lists sample programs for the selected language and fills in the one you pick.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Commands</h3>
-        <p>Shows the language's valid characters.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Language Explained</h3>
-        <p>Opens the language's esolangs.org page.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>$ commands</h3>
-        <p>Messages starting with <code>$</code> are commands and run regardless of the
-          selected language, except Kallisti: with Kallisti selected, every message is
-          repeated back exactly, <code>$</code> included.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Exact input</h3>
-        <p>Everything after the command name and one space (or new line) is passed on
-          exactly as typed.</p>
-      </div>
-    </div>
+    <ul class="features">
+      <li><b>Try example</b><p>Lists sample programs for the selected language and fills in the one you pick.</p></li>
+      <li><b>Commands</b><p>Shows the language's valid characters.</p></li>
+      <li><b>Language Explained</b><p>Opens the language's esolangs.org page.</p></li>
+      <li><b>$ commands</b><p>Messages starting with <code>$</code> run whatever language is selected, except under Kallisti, which repeats every message back exactly.</p></li>
+      <li><b>Exact input</b><p>Everything after the command name and one space or new line is passed on exactly as typed.</p></li>
+    </ul>
   </div>
 </section>
 
@@ -116,92 +97,63 @@
         </tbody>
       </table>
     </div>
+    <details class="more">
+      <summary>Differences from the Discord bot</summary>
+      <div class="more-body">
+        <dl class="kv">
+          <dt>Brainfart</dt><dd>Supports nested loops, uses 8-bit wrapping cells and stops after 1,000,000 steps.</dd>
+          <dt>HQ9+</dt><dd>Accepts upper- and lowercase commands; the <code>+</code> accumulator is kept in memory per server process instead of in <code>index.json</code>.</dd>
+          <dt>Kallisti</dt><dd>Reverses each message, swaps its case and shifts every letter 5 places, then undoes all three, so the message still comes back exactly as sent.</dd>
+          <dt><code>$close</code></dt><dd>Dropped, because there is no bot connection to close.</dd>
+        </dl>
+      </div>
+    </details>
   </div>
 </section>
 
-<section id="bot">
-  <div class="wrap">
-    <h2>Differences from the Discord bot</h2>
-    <div class="panel-box">
-      <ul class="plain">
-        <li>Brainfart supports nested loops, uses 8-bit wrapping cells and stops after 1,000,000 steps.</li>
-        <li>HQ9+ accepts upper- and lowercase commands, and the <code>+</code> accumulator is kept in
-          memory per server process instead of in <code>index.json</code>.</li>
-        <li><code>$close</code> was dropped because there is no bot connection to close.</li>
-        <li>Kallisti reverses each message, swaps its upper and lower case and shifts every letter 5
-          places, then undoes all three, so the message still comes back exactly as sent.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="run" class="alt">
+<section id="run">
   <div class="wrap">
     <h2>Run it</h2>
-    <p class="lede">Requires Python 3.10 or newer.</p>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>From source</h3>
-        <pre><code>python -m venv .venv
-.venv\Scripts\activate        # Windows; use `source .venv/bin/activate` elsewhere
+    <p class="lede">Requires Python 3.10 or newer. Flask's built-in server is fine on your own machine or a LAN;
+      <code>--host 0.0.0.0</code> lets other machines connect.</p>
+    <div class="panel-box">
+      <pre><code>python -m venv .venv
+.venv\Scripts\activate           # Windows; use `source .venv/bin/activate` elsewhere
 pip install -r requirements.txt
 python -m esoteric_chat.server   # http://127.0.0.1:5000  (--host, --port, --debug)</code></pre>
-        <p class="note">
-          <code>python -m esoteric_chat.server</code> uses Flask's built-in server, which is fine
-          on your own machine or a LAN. Use <code>--host 0.0.0.0</code> so other machines can connect.
-        </p>
-      </div>
-      <div class="panel-box">
-        <h3>With Docker</h3>
+    </div>
+    <details class="more">
+      <summary>With Docker</summary>
+      <div class="more-body">
         <pre><code>docker build -t esoteric-chat .
 docker run -d -p 5000:5000 esoteric-chat</code></pre>
-        <p class="note">
-          The <code>Dockerfile</code> runs the app under gunicorn on port 5000. It keeps no data,
-          so it needs no volume.
-        </p>
+        <p>The <code>Dockerfile</code> runs the app under gunicorn on port 5000. It keeps no data, so it needs no volume.</p>
       </div>
-      <div class="panel-box">
-        <h3>Log in with a portfolio account</h3>
-        <p>
-          With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
-          portfolio's <code>python sso.py</code>) set, the header offers to log in with a portfolio
-          account and shows who is logged in. It reads <b>Log in as</b> and the portfolio username
-          when this browser is logged in to the portfolio.
-        </p>
-        <p class="note">
-          Nothing is saved to the account yet. Set <code>ESOTERIC_CHAT_SECRET_KEY</code> to keep
-          logins across restarts.
-        </p>
+    </details>
+    <details class="more">
+      <summary>Log in with a portfolio account</summary>
+      <div class="more-body">
+        <p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the header offers to log in with
+          a portfolio account and shows who is logged in, reading <b>Log in as</b> plus the portfolio username when this
+          browser is logged in there.</p>
+        <p>Nothing is saved to the account yet. Set <code>ESOTERIC_CHAT_SECRET_KEY</code> to keep logins across restarts.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="dev">
-  <div class="wrap">
-    <h2>For developers</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>API</h3>
-        <ul class="plain">
-          <li><code>GET /api/languages</code> returns
-            <code>{"languages": [{"id", "name", "examples", "intro", "info_url", "help"}]}</code> in
-            picker order; the first is selected on load. <code>examples</code> is a list of
-            <code>{"label", "code"}</code>, <code>intro</code> is shown when the language is selected
-            (or <code>null</code>), and <code>help</code> is the card the <b>Commands</b> button shows.</li>
-          <li><code>POST /api/chat</code> with <code>{"message": "...", "language": "bf"}</code> returns
-            <code>{"replies": [...]}</code>. Each reply is <code>{"type": "text" | "error", "text"}</code> or
-            <code>{"type": "help", "title", "color", "fields": [{"name", "value"}]}</code>.</li>
-        </ul>
+    </details>
+    <details class="more">
+      <summary>API</summary>
+      <div class="more-body">
+        <dl class="kv">
+          <dt><code>GET /api/languages</code></dt><dd><code>{"languages": [{"id", "name", "examples", "intro", "info_url", "help"}]}</code> in picker order; the first is selected on load. <code>examples</code> is a list of <code>{"label", "code"}</code>, <code>intro</code> is shown when the language is selected (or <code>null</code>), and <code>help</code> is the card the <b>Commands</b> button shows.</dd>
+          <dt><code>POST /api/chat</code></dt><dd>Takes <code>{"message": "...", "language": "bf"}</code> and returns <code>{"replies": [...]}</code>. Each reply is <code>{"type": "text" | "error", "text"}</code> or <code>{"type": "help", "title", "color", "fields": [{"name", "value"}]}</code>.</dd>
+        </dl>
       </div>
-      <div class="panel-box">
-        <h3>Tests</h3>
+    </details>
+    <details class="more">
+      <summary>Tests and project layout</summary>
+      <div class="more-body">
         <pre><code>pip install -r requirements-dev.txt
 python -m pytest</code></pre>
-        <p class="note">The tests cover every interpreter, the <code>$</code> commands, and the HTTP API.</p>
-      </div>
-      <div class="panel-box">
-        <h3>Project layout</h3>
+        <p>The tests cover every interpreter, the <code>$</code> commands, and the HTTP API.</p>
         <pre><code>esoteric_chat/interpreters.py   The esoteric language interpreters
 esoteric_chat/commands.py       ChatEngine: $commands, language metadata, help cards
 esoteric_chat/server.py         Flask app and the command-line entry point
@@ -209,7 +161,7 @@ esoteric_chat/templates/        The chat page
 esoteric_chat/static/           Client script and styles
 tests/                          pytest suite</code></pre>
       </div>
-    </div>
+    </details>
   </div>
 </section>
 

@@ -144,8 +144,28 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-The tests cover the site API, project pages, accounts, CSRF, login redirects and portfolio login.
-They serve the React pages from `frontend/dist`, so build the front end first.
+The tests cover the site API, project pages, accounts, CSRF, login redirects, portfolio login and the
+ronovo.github.io export. They serve the React pages from `frontend/dist`, so build the front end first.
+
+The front end's tests run with Vitest, from `frontend/`:
+
+```
+npm test
+npm run coverage
+```
+
+### Coverage
+
+```
+python -m coverage run -m pytest
+python -m coverage report
+python -m coverage html
+```
+
+Both suites cover every line and branch, and the coverage commands fail if that drops below 100%. The HTML
+reports go to `coverage/python` and `coverage/js`. The Docker image builds both and serves them at `/coverage/`,
+under the landing page in `coverage-index/`, the `ronovos-coverage-index` submodule, with this repo's
+`coverage-reports.json`. Failing tests or low coverage don't stop the image build; the reports show what is missing.
 
 ## License
 

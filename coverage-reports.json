@@ -1,0 +1,10 @@
+{
+  "title": "Ronovo Portfolio",
+  "source": "https://github.com/Ronovo/ronovo-portfolio",
+  "reports": [
+    { "label": "Python server", "path": "python/", "summary": "status.json", "functions": "functions.json", "format": "coverage.py",
+      "about": "app.py, accounts.py and the export script, measured with coverage.py" },
+    { "label": "React front end", "path": "js/", "summary": "coverage-summary.json", "format": "istanbul",
+      "about": "frontend/src, measured with Vitest" }
+  ]
+}

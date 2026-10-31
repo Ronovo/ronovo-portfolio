@@ -125,7 +125,7 @@
   --drift: none;
   --scanlines:
     repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.25) 0 1px, transparent 1px 3px),
-    radial-gradient(ellipse at center, transparent 60%, rgb(0 0 0 / 0.55));
+    radial-gradient(ellipse at center, transparent 60%, rgb(0 0 0 / 0.4));
 }
 
 :root[data-theme="grimoire"] {
@@ -136,9 +136,9 @@
   --border: #c9b48d;
   --control-border: #8a7350;
   --text: #2e2116;
-  --muted: #5e4a36;
+  --muted: #4a3728;
   --primary: #7f2a1b;
-  --secondary: #7a5c14;
+  --secondary: #6b4f0f;
   --highlight: #3f5f2e;
   --on-accent: #fbf3e2;
   --danger: #9c1f1f;
@@ -156,7 +156,7 @@
   --corner: "\2766";
   --prompt: "\2767  ";
   --backdrop:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0 0.08 0.5 0 0 0 -0.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0 0.08 0.35 0 0 0 -0.13'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
     radial-gradient(70% 60% at 50% 30%, rgb(255 250 235 / 0.55), transparent 75%),
     radial-gradient(60% 50% at 100% 100%, rgb(120 80 30 / 0.12), transparent 70%),
     var(--bg);
@@ -184,7 +184,7 @@
   --radius: 0;
   --font-display: var(--font-mono);
   --caps: uppercase;
-  --tracking: 1.5;
+  --tracking: 1.2;
   --clip: none;
   --corner: "+";
   --prompt: none;
@@ -198,20 +198,57 @@
   --scanlines: none;
 }
 
-/* Rules both layouts share that a token can't express. */
-:is([data-theme="light"], [data-theme="dark"]) .kicker,
-:is([data-theme="light"], [data-theme="dark"]) .eyebrow::before { display: none; }
+:root[data-theme="retro"] {
+  color-scheme: light;
+  --bg: #c3c3c3;
+  --panel: #dfdfdf;
+  --panel-hover: #dfdfdf;
+  --border: #808080;
+  --control-border: #000000;
+  --text: #000000;
+  --muted: #3f3f3f;
+  --primary: #000080;
+  --secondary: #7a1010;
+  --highlight: var(--primary);
+  --on-accent: #ffffff;
+  --danger: #a00000;
+  --accent: var(--primary);
+  --glow-color: transparent;
+  --glow: var(--bevel-in);
+  --focus-outline: 1px dotted var(--text);
+  --radius: 0;
+  --font-body: Tahoma, Verdana, "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-body);
+  --font-ui: var(--font-body);
+  --caps: none;
+  --tracking: 0;
+  --clip: none;
+  --corner: none;
+  --prompt: none;
+  --backdrop: var(--bg);
+  --drift: none;
+  --scanlines: none;
+  --card-in: none;
+  /* The raised and pressed bevels of a 1990s desktop. */
+  --bevel: inset -1px -1px #000, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #f0f0f0;
+  --bevel-in: inset 1px 1px #000, inset -1px -1px #fff, inset 2px 2px #808080, inset -2px -2px #f0f0f0;
+}
 
-[data-theme="terminal"] body { text-shadow: 0 0 4px color-mix(in srgb, var(--glow-color) 45%, transparent); }
+/* Rules both layouts share that a token can't express. */
+:is([data-theme="light"], [data-theme="dark"], [data-theme="grimoire"], [data-theme="retro"]) .kicker,
+:is([data-theme="light"], [data-theme="dark"], [data-theme="grimoire"], [data-theme="retro"]) .eyebrow::before { display: none; }
+
+[data-theme="terminal"] body { text-shadow: 0 0 2px color-mix(in srgb, var(--glow-color) 30%, transparent); }
+[data-theme="terminal"] :is(h1, h2, h3, .brand) { text-shadow: 0 0 4px color-mix(in srgb, var(--glow-color) 45%, transparent); }
 [data-theme="terminal"] .links a::before { content: "["; }
 [data-theme="terminal"] .links a::after { content: "]"; }
 [data-theme="terminal"] .tags li::before { content: "#"; }
 
 [data-theme="grimoire"] .card { box-shadow: var(--glow); }
 [data-theme="grimoire"] .hero h1::first-letter { color: var(--secondary); font-size: 1.3em; }
-[data-theme="grimoire"] .tags li { border-color: var(--primary); border-radius: 999px; background: var(--primary); color: var(--on-accent); }
+[data-theme="grimoire"] .tags li { border-color: var(--primary); border-radius: 999px; background: var(--primary); color: var(--on-accent); font-size: 12px; }
 
-[data-theme="blueprint"] .card { border-style: dashed; background: color-mix(in srgb, var(--bg) 70%, transparent); }
+[data-theme="blueprint"] .card { border-style: dashed; background: color-mix(in srgb, var(--bg) 88%, transparent); }
 
 :is([data-theme="grimoire"], [data-theme="blueprint"]) .card::before,
 :is([data-theme="grimoire"], [data-theme="blueprint"]) .card::after {
@@ -225,6 +262,31 @@
 [data-theme="grimoire"] .card::after { bottom: 7px; right: 9px; transform: rotate(180deg); }
 [data-theme="blueprint"] .card::before { top: -8px; left: -5px; }
 [data-theme="blueprint"] .card::after { bottom: -8px; right: -5px; }
+
+[data-theme="retro"] :is(.card, .btn, .form button, .filters, .panel-box, .site-nav ul a[aria-current="page"], .menu-toggle, .nav a.gh) {
+  border-color: transparent;
+  box-shadow: var(--bevel);
+  transform: none;
+}
+[data-theme="retro"] :is(.card, .btn-ghost, .filters, .panel-box, .site-nav ul a[aria-current="page"], .menu-toggle, .nav a.gh) { background: var(--panel); color: var(--text); }
+[data-theme="retro"] :is(.btn, .form button):active,
+[data-theme="retro"] .site-nav ul a[aria-current="page"] { box-shadow: var(--bevel-in); }
+[data-theme="retro"] :is(.grid .card, a.card):hover { border-color: transparent; transform: none; box-shadow: var(--bevel); }
+[data-theme="retro"] :is(.card h3, .panel-box h3) {
+  margin: -20px -20px 12px;
+  padding: 4px 8px;
+  background: linear-gradient(90deg, var(--primary), #1084d0);
+  color: var(--on-accent);
+  font-size: 13px;
+}
+[data-theme="retro"] .panel-box h3 { margin: -20px -24px 12px; }
+[data-theme="retro"] :is(.theme-picker select, .form input, .form select, .filters select, .tags li, pre, .readme pre) {
+  border-color: transparent;
+  background: #fff;
+  box-shadow: var(--bevel-in);
+}
+[data-theme="retro"] .tags li { color: var(--secondary); }
+[data-theme="retro"] :is(.btn, .form button):focus-visible { outline: var(--focus-outline); outline-offset: -4px; }
 
 .theme-picker {
   display: flex;

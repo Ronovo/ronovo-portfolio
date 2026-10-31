@@ -1,9 +1,8 @@
-import { useLocation } from "react-router-dom";
 import type { Site } from "../../types";
+import { useNavIndex } from "../useNavIndex";
 
 export default function TitleBlock({ site }: { site: Site }) {
-  const { pathname } = useLocation();
-  const sheet = site.nav.findIndex((item) => item.href === pathname) + 1;
+  const sheet = useNavIndex(site) + 1;
   const rows = [
     ["Drawn by", site.name],
     ["Sheet", `${sheet || "-"} of ${site.nav.length}`],

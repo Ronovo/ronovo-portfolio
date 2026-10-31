@@ -1,8 +1,14 @@
+import base64
+import importlib.util
+import re
+import runpy
 import sqlite3
-from urllib.parse import unquote
+from pathlib import Path
+from urllib.parse import unquote, urljoin
 
 import jwt
 import pytest
+from cryptography.hazmat.primitives.serialization import load_der_public_key
 
 from conftest import PASSWORD, QUESTION, SSO_KEY, csrf, log_in, portfolio, register
 from data import SITE
@@ -277,3 +283,72 @@ def test_authorize_posts_to_the_app_subdomain_with_an_app_domain(client, usernam
 def test_sso_me_checks_app_subdomains_with_an_app_domain(client, monkeypatch, origin, status):
     monkeypatch.setattr(portfolio, "APP_DOMAIN", "ronovo.io")
     assert client.get("/sso/me", headers={"Origin": origin}).status_code == status
+
+
+def test_the_coverage_reports_are_served_from_their_folder(client, monkeypatch, tmp_path):
+    reports = tmp_path / "coverage"
+    (reports / "python").mkdir(parents=True)
+    (reports / "index.html").write_text("landing page", encoding="utf-8")
+    (reports / "python" / "index.html").write_text("python report", encoding="utf-8")
+    (tmp_path / "secret.txt").write_text("secret", encoding="utf-8")
+    monkeypatch.setattr(portfolio, "COVERAGE_DIR", reports)
+    assert client.get("/coverage").status_code == 308
+    assert client.get("/coverage/").data == b"landing page"
+    assert client.get("/coverage/python/").data == b"python report"
+    for path in ("/coverage/js/", "/coverage/../secret.txt", "/coverage/%2e%2e/secret.txt"):
+        assert client.get(path).status_code == 404, path
+
+
+def test_built_assets_are_cached_for_a_year(client):
+    asset = next((portfolio.DIST / "assets").iterdir())
+    response = client.get(f"/assets/{asset.name}")
+    assert response.status_code == 200
+    assert "max-age=31536000" in response.headers["Cache-Control"]
+
+
+def test_a_reset_starts_by_asking_for_the_username(client):
+    page = client.get("/account/reset").data
+    assert b'name="username"' in page
+    assert b'name="answer"' not in page
+
+
+def test_register_needs_a_long_password_and_a_listed_question(client, username):
+    assert b"Passwords need at least 8 characters" in register(client, username, password="short").data
+    assert b"Pick a security question." in register(client, username, question="Favorite color?").data
+    assert client.get("/account").status_code == 302
+
+
+def test_the_secret_key_is_made_once_and_kept(monkeypatch, tmp_path):
+    monkeypatch.delenv("PORTFOLIO_SECRET_KEY")
+    monkeypatch.setattr(portfolio, "DATA_DIR", tmp_path)
+    key = portfolio.load_secret_key()
+    assert len(key) == 64
+    assert portfolio.load_secret_key() == key
+    assert (tmp_path / "secret_key").read_text().strip() == key
+
+
+def test_the_site_will_not_start_without_the_built_front_end(monkeypatch):
+    exists = Path.exists
+    monkeypatch.setattr(Path, "exists", lambda path: path != portfolio.DIST / "index.html" and exists(path))
+    spec = importlib.util.spec_from_file_location("portfolio_without_front_end", portfolio.ROOT / "app.py")
+    with pytest.raises(RuntimeError, match="npm run build"):
+        spec.loader.exec_module(importlib.util.module_from_spec(spec))
+
+
+@pytest.mark.parametrize("slug", sorted(portfolio.PROJECT_PAGES))
+def test_about_pages_only_link_to_pages_that_exist(client, slug):
+    base = f"/projects/{slug}/"
+    page = client.get(base).get_data(as_text=True)
+    for link in sorted(set(re.findall(r'(?:href|src)="([^"#?]*)', page))):
+        if not link or link.startswith(("http:", "https:", "mailto:", "//")):
+            continue
+        assert client.get(urljoin(base, link), follow_redirects=True).status_code == 200, link
+
+
+def test_sso_prints_a_working_key_pair(capsys):
+    runpy.run_path(str(portfolio.ROOT / "sso.py"), run_name="__main__")
+    private, public = (line.split("=", 1)[1] for line in capsys.readouterr().out.splitlines())
+    token = portfolio_sso.issue(portfolio_sso.load_private_key(private), "casino", 1, "player")
+    claims = jwt.decode(token, load_der_public_key(base64.b64decode(public)), algorithms=["RS256"],
+                        audience="casino", issuer=portfolio_sso.ISSUER)
+    assert claims["name"] == "player"

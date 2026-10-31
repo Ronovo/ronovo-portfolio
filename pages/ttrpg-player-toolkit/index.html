@@ -43,12 +43,13 @@
     <p class="eyebrow">TTRPG</p>
     <h1>A browser table for tabletop players</h1>
     <p class="tag">
-      Dice, playing card and tarot decks, a notepad and a Jenga tower in one page. It is a
-      static site with no server code; everything it keeps is saved in your browser.
+      Dice, playing card and tarot decks, a notepad and a Jenga tower in one page. A static site with no server
+      code; everything it keeps is saved in your browser.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/ttrpg-player-toolkit" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://ttrpg-toolkit.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>JavaScript / React</dd></div>
@@ -67,51 +68,23 @@
     <p class="lede">
       The <b>Tools</b> tab holds the dice, the notepad and the cards. Jenga has a tab of its own.
     </p>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Dice Roller</h3>
-        <p>Roll 1 to 10 of a d4, d6, d8, d10, d12, d20 or d100. <b>Animate</b> throws them across a
-          3D table instead, in one of 26 dice sets from Basic, Premium and Weird.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Card Drawer</h3>
-        <p>Build a stack from any number of playing card decks, with or without jokers, or tarot
-          decks. Draw, shuffle, discard, shuffle the discard back in, and add another deck at any time.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Tarot</h3>
-        <p>Tarot cards come up reversed half the time, and the Major and Minor Arcana can be split
-          into two piles.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Notepad</h3>
-        <p>Session notes, NPC names and loot, kept in the browser between visits.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Jenga</h3>
-        <p>Pull blocks from a tower. Each pull makes it more likely to fall, at Less Tense, Normal
-          or More Tense, and the tower shows how it is holding up: Solid, Wobbly, Teetering or Doomed.</p>
-      </div>
-    </div>
+    <ul class="features">
+      <li><b>Dice Roller</b><p>Roll 1 to 10 of a d4, d6, d8, d10, d12, d20 or d100. <b>Animate</b> throws them across a 3D table in one of 26 dice sets from Basic, Premium and Weird.</p></li>
+      <li><b>Card Drawer</b><p>Build a stack from any number of playing card decks, with or without jokers, or tarot decks. Draw, shuffle, discard, shuffle the discard back in, and add a deck at any time.</p></li>
+      <li><b>Tarot</b><p>Cards come up reversed half the time, and the Major and Minor Arcana can be split into two piles.</p></li>
+      <li><b>Notepad</b><p>Session notes, NPC names and loot, kept in the browser between visits.</p></li>
+      <li><b>Jenga</b><p>Pull blocks from a tower at Less Tense, Normal or More Tense. Each pull makes a fall more likely, and the tower reads Solid, Wobbly, Teetering or Doomed.</p></li>
+    </ul>
   </div>
 </section>
 
 <section id="styles" class="alt">
   <div class="wrap">
     <h2>Styles and saving</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>Ten styles</h3>
-        <p>Tabletop, Parchment, Polished Dark, Casino, Eldritch, Neon, Dossier, Slasher, Field Kit
-          and Forest, picked from <b>Style</b> in the header.</p>
-      </div>
-      <div class="panel-box">
-        <h3>Saved in your browser</h3>
-        <p>The notes, the Jenga tower, the style and the dice set are kept in the browser's
-          <code>localStorage</code>. There are no accounts, so they are separate for each browser
-          and each address the site is served from.</p>
-      </div>
-    </div>
+    <dl class="kv">
+      <dt>Ten styles</dt><dd>Tabletop, Parchment, Polished Dark, Casino, Eldritch, Neon, Dossier, Slasher, Field Kit and Forest, picked from <b>Style</b> in the header.</dd>
+      <dt>Saved in your browser</dt><dd>The notes, the Jenga tower, the style and the dice set are kept in <code>localStorage</code>. There are no accounts, so they are separate for each browser and each address the site is served from.</dd>
+    </dl>
   </div>
 </section>
 
@@ -119,33 +92,24 @@
   <div class="wrap">
     <h2>Run it</h2>
     <p class="lede">Uses Node 24, the version the <code>Dockerfile</code> builds with.</p>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>From source</h3>
-        <pre><code>npm install
+    <div class="panel-box">
+      <pre><code>npm install
 npm run dev       # http://localhost:5173 with live reload
 npm run build     # writes the site to dist/
 npm run preview   # serves dist/</code></pre>
-      </div>
-      <div class="panel-box">
-        <h3>With Docker</h3>
+    </div>
+    <details class="more">
+      <summary>With Docker</summary>
+      <div class="more-body">
         <pre><code>docker build -t ttrpg-player-toolkit .
 docker run -d -p 8080:8080 ttrpg-player-toolkit</code></pre>
-        <p class="note">
-          The <code>Dockerfile</code> builds the site and serves it with nginx on port 80. It keeps
-          no data, so it needs no volume.
-        </p>
+        <p>The <code>Dockerfile</code> builds the site and serves it with nginx on port 80. It keeps no data, so it needs no
+          volume.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="dev" class="alt">
-  <div class="wrap">
-    <h2>For developers</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>Project layout</h3>
+    </details>
+    <details class="more">
+      <summary>Project layout</summary>
+      <div class="more-body">
         <pre><code>src/App.jsx              Header, tabs and style picker
 src/components/          Dice Roller, Card Drawer and its piles, Notepad, Jenga
 src/lib/                 Dice, decks, card piles, Jenga odds and random numbers
@@ -155,7 +119,7 @@ public/dice/             Dice models, one .glb per set
 public/cards/tarot/      Tarot card images
 blender/make_dice.py     Builds public/dice/ and src/dice3d/dice.json in Blender</code></pre>
       </div>
-    </div>
+    </details>
   </div>
 </section>
 

@@ -130,6 +130,18 @@ def project_page(slug, filename):
     return send_from_directory(ROOT / "pages" / slug, filename)
 
 
+COVERAGE_DIR = ROOT / "coverage"
+
+
+# The test coverage reports. Their pages also link their files relatively, so /coverage redirects to /coverage/.
+@app.get("/coverage/", defaults={"path": ""}, strict_slashes=True)
+@app.get("/coverage/<path:path>")
+def coverage(path):
+    if not path or path.endswith("/"):
+        path += "index.html"
+    return send_from_directory(COVERAGE_DIR, path)
+
+
 # Each RuneLite plugin's run page also explains loading the other one with this Gradle task.
 RUNELITE_PLUGINS = {
     "leagues-task-plugin": ("ronovos-sync-tool", "runWithSyncTool"),

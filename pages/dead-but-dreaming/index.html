@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dead But Dreaming - an idle game for an Old One</title>
-<meta name="description" content="An idle game where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.">
+<meta name="description" content="An idle game, or a clicker if you prefer, where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.">
 <meta name="color-scheme" content="dark">
 <meta property="og:title" content="Dead But Dreaming - an idle game for an Old One">
-<meta property="og:description" content="An idle game where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.">
+<meta property="og:description" content="An idle game, or a clicker if you prefer, where you play an Old One buried deep in the earth, dreaming cultists into gathering the sanity you need to devour the world and be reborn.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ronovo.github.io/projects/dead-but-dreaming/">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
@@ -16,7 +16,6 @@
 <style>
   :root { --accent: #3ee66b; }
   .hero h1 { color: #c06ad8; }
-  .hero .quote { margin: 0 0 14px; color: var(--muted); font-size: 17px; }
 </style>
 </head>
 <body>
@@ -47,15 +46,14 @@
     <h1>Dead But Dreaming</h1>
     <p class="quote"><i>In his house at R'lyeh dead Cthulhu waits dreaming.</i></p>
     <p class="tag">
-      You are an Old One, inert and buried deep beneath the earth. You cannot move and you cannot wake,
-      but you can dream, and your dreams reach the surface. Cultists answer them. Tomes are written,
-      sacrifices are made, rituals are performed and gates are opened, and every scrap of sanity the
-      world loses flows down to you. Gather enough and you will devour the world and be reborn. Then
-      Azathoth spins up a fresh worldline, and the dreaming begins again.
+      You are an Old One buried deep beneath the earth. You cannot wake, but you can dream, and cultists
+      answer. Every scrap of sanity the world loses flows down to you. Gather enough and you devour the
+      world; then Azathoth spins up a fresh one and the dreaming begins again.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/Dead-But-Dreaming" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://dead-but-dreaming.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
       <div><dt>Plays in</dt><dd>The browser</dd></div>
@@ -71,193 +69,149 @@
 <section id="features">
   <div class="wrap">
     <h2>Features</h2>
-    <div class="grid">
-      <div class="card">
-        <h3><span class="dot"></span>Great Old Ones</h3>
-        <p>Choose from 9 different Great Old Ones to play as, or create your own name.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Eldritch resources</h3>
-        <p>10 different eldritch resources to collect and manage, with animated progress bars for
-          resource gathering.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Managers</h3>
-        <p>Manager upgrades to automate resource collection.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Upgrades</h3>
-        <p>Two types of upgrades per resource: speed upgrades (2x, 3x, 5x) and production upgrades (2x, 5x).</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Multiple worlds</h3>
-        <p>Complete all upgrades to devour the current world, then choose to let Azathoth reset the world
-          for a new run. Your save counts how many worlds you've destroyed.</p>
-      </div>
-      <div class="card">
-        <h3><span class="dot"></span>Saves</h3>
-        <p>Saves are kept in your browser, and the game catches up on the time it was closed.</p>
-      </div>
-    </div>
+    <ul class="features">
+      <li><b>Nine Great Old Ones</b><p>Play as one of nine, or name your own.</p></li>
+      <li><b>Ten resources</b><p>Cultists to Great Old Ones, each with a manager and five upgrades: speed 2x, 3x and 5x, production 2x and 5x.</p></li>
+      <li><b>Five difficulties</b><p>Quick and Easy in 15-20 minutes, Short Dream in about an hour, up to an Eternal run of 60-80 hours.</p></li>
+      <li><b>Idle or Clicker Mode</b><p>Chosen per world. In Clicker Mode, tapping a working resource hurries it along.</p></li>
+      <li><b>35 achievements</b><p>Grouped by difficulty, with a timed pair per difficulty and filters for earned and mode.</p></li>
+      <li><b>Nine themes and statistics</b><p>A style per Great Old One, and lifetime sanity and worlds devoured by difficulty for accounts.</p></li>
+    </ul>
   </div>
 </section>
 
 <section id="play" class="alt">
   <div class="wrap">
     <h2>How to play</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <ol class="steps">
-          <li><span>Click on resources to start gathering them.</span></li>
-          <li><span>Purchase managers to automate resource collection.</span></li>
-          <li><span>Buy upgrades to increase speed and production.</span></li>
-          <li><span>Complete all upgrades to devour the world.</span></li>
-          <li><span>Choose to continue in infinite mode or reset for a new world.</span></li>
-        </ol>
-      </div>
-      <div class="panel-box">
-        <h3>Game mechanics</h3>
-        <ul class="plain">
-          <li>Resources with managers produce automatically, including while the game is closed.</li>
-          <li>Each resource has 5 upgrades to discover.</li>
-          <li>The game saves to your browser continuously while you play.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="how">
-  <div class="wrap">
-    <h2>How it works</h2>
-    <p class="lede">
-      The game logic is Python. The browser keeps the save and shows the game; it doesn't run any of
-      the rules.
-    </p>
     <div class="panel-box">
       <ol class="steps">
-        <li><span>The browser stores each save as JSON in <code>localStorage</code>, including when it was
-          last saved.</span></li>
-        <li><span>About four times a second, and whenever you click, the browser sends its save and your
-          clicks to <code>POST /api/play</code>.</span></li>
-        <li><span>Flask rebuilds the <code>Game</code> from the save, advances it by the time since
-          <code>last_saved</code>, applies the clicks, and sends back the new save plus what to display.
-          Time spent with the game closed is covered by that same step: resources with a manager keep
-          producing, and a resource you clicked by hand finishes its one cycle.</span></li>
+        <li><span>Click on resources to start gathering them. In Clicker Mode, keep tapping a working resource to hurry it along.</span></li>
+        <li><span>Hire managers to automate them, and buy upgrades for speed and production.</span></li>
+        <li><span>Buy every upgrade and hire every manager to devour the world.</span></li>
+        <li><span>Keep feeding in Endless Mode, or begin a new world. Your save counts the worlds you've destroyed.</span></li>
       </ol>
     </div>
+    <details class="more">
+      <summary>The rules in detail</summary>
+      <div class="more-body">
+        <dl class="kv">
+          <dt>Managers</dt><dd>Produce automatically, including while the game is closed. A resource you clicked by hand finishes its one cycle.</dd>
+          <dt>Upgrades</dt><dd>The list shows the next speed and the next production upgrade of each unlocked resource.</dd>
+          <dt>Difficulty</dt><dd>Scales the costs of every tier past the first, so the first cultists cost the same everywhere.</dd>
+          <dt>Taps</dt><dd>One tap is worth 5% of a cycle, at most about twelve a second per resource, so tapping matters early and fades once speed upgrades arrive.</dd>
+          <dt>Saves</dt><dd>Kept in your browser and written continuously; the game catches up on the time it was closed.</dd>
+        </dl>
+      </div>
+    </details>
+    <details class="more">
+      <summary>How it works under the hood</summary>
+      <div class="more-body">
+        <p>The game logic is Python. The browser keeps the save and shows the game; it doesn't run any of the rules.</p>
+        <p>The browser stores each save as JSON in <code>localStorage</code>, including when it was last saved. About four
+          times a second, and whenever you click, it sends the save and your clicks to <code>POST /api/play</code>. Flask
+          rebuilds the <code>Game</code> from the save, advances it by the time since <code>last_saved</code>, applies the
+          clicks, and sends back the new save plus what to display. Time spent closed is covered by that same step.</p>
+      </div>
+    </details>
   </div>
 </section>
 
-<section id="accounts" class="alt">
+<section id="accounts">
   <div class="wrap">
     <h2>Accounts</h2>
     <p class="lede">
-      Logging in is optional. Without it, everything stays in the browser. With it, progress follows
-      you to any browser you log in from.
+      Logging in is optional. Without it, everything stays in the browser. With it, progress follows you to any
+      browser you log in from, and the Statistics page opens.
     </p>
-    <div class="stack">
-      <div class="panel-box">
-        <ul class="plain">
-          <li>Logging in merges this browser's saves, achievements and devour counts with the account's.
-            For saves with the same name the newer one wins; devour counts keep the higher number for
-            each difficulty.</li>
-          <li>While logged in, every save is also stored in the account, and deleting a world deletes it
-            from the account too.</li>
-          <li>Logging out keeps this browser's copy.</li>
-          <li>Creating an account asks for a security question. <b>Forgot Password</b> resets the password
-            with its answer, and five wrong answers lock resets for 15 minutes.</li>
-        </ul>
-        <p class="note">
-          Accounts are kept in a SQLite database in the data folder (<code>DATA_DIR</code>,
-          <code>/app/data</code> in the container). Passwords are stored as salted hashes.
-        </p>
+    <dl class="kv">
+      <dt>Merging</dt><dd>Logging in merges this browser's saves, achievements and devours with the account's. Two copies of one world keep the one further along, the newer breaking a tie. A different world under a name the account holds replaces it when it began later. Each devour counts once. An account keeps up to 50 worlds.</dd>
+      <dt>Backups</dt><dd>Saves are copied to the account whenever progress changes, every 30 seconds, and when you leave the page.</dd>
+      <dt>Deleting</dt><dd>Deleting a world deletes it from the account too, and other browsers drop their copies on their next sync.</dd>
+      <dt>Shared browsers</dt><dd>Logging out keeps this browser's copy. Saves that came from one account are cleared when a different account logs in, and stay in their own account.</dd>
+      <dt>Lockouts</dt><dd>Five wrong passwords in a row lock a username's logins for a minute. A password reset logs the account out of every other browser.</dd>
+      <dt>Reset</dt><dd>Creating an account asks for a security question. <b>Forgot Password</b> resets with its answer; five wrong answers lock resets for 15 minutes.</dd>
+    </dl>
+    <details class="more">
+      <summary>Log in with a portfolio account</summary>
+      <div class="more-body">
+        <p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the top bar offers to log in with
+          a portfolio account, and reads <b>Log In as</b> plus the portfolio username when this browser is logged in there.
+          The first such login links a Dead But Dreaming account you already have, or makes a new one named after the
+          portfolio username.</p>
+        <p>A new account has no password of its own, so the portfolio is the only way into it. Without those two settings
+          the app runs on its own. The <a href="https://github.com/Ronovo/Dead-But-Dreaming#accounts">README</a> has the rest.</p>
       </div>
-      <div class="panel-box">
-        <h3>Log in with a portfolio account</h3>
-        <p>
-          With <code>PORTFOLIO_SSO_URL</code> (the portfolio's address) and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> (printed by the
-          portfolio's <code>python sso.py</code>) set, the top bar offers to log in with a portfolio
-          account. It reads <b>Log In as</b> and the portfolio username when this browser is logged in to
-          the portfolio. The first portfolio login here asks whether to link a Dead But Dreaming account
-          the player already has, by logging in to it once, or to make a new one named after the portfolio
-          username, with a number added if that name is taken. Every later portfolio login from any device
-          opens the linked account.
-        </p>
-        <p class="note">
-          A new account has no password of its own, so the portfolio is the only way into it. Without
-          those two settings the app runs on its own.
-        </p>
+    </details>
+    <details class="more">
+      <summary>Security caveats</summary>
+      <div class="more-body">
+        <dl class="kv">
+          <dt>Unencrypted</dt><dd>Unless the site is served over HTTPS, passwords cross the network in plain text. The login screen warns whenever the page isn't on HTTPS. Use a password you don't use anywhere else.</dd>
+          <dt>Signed saves</dt><dd>The server signs every save and achievement record it sends and refuses one that was edited. A refused save stops the game with a message instead of loading.</dd>
+          <dt>Security answers</dt><dd>Anyone who can guess your answer can reset your password, so pick one that isn't public.</dd>
+        </dl>
       </div>
-      <div class="panel-box">
-        <h3>Security caveats</h3>
-        <ul class="plain">
-          <li><b>Unencrypted connections:</b> unless the site is served over HTTPS, passwords cross the
-            network in plain text. The login screen warns about this whenever the page isn't on HTTPS.
-            Use a password you don't use anywhere else.</li>
-          <li><b>No rate limit</b> on login attempts.</li>
-          <li><b>Security answers:</b> anyone who knows or can guess your answer can reset your password,
-            so pick an answer that isn't public.</li>
-        </ul>
-      </div>
-    </div>
+    </details>
   </div>
 </section>
 
-<section id="run">
+<section id="run" class="alt">
   <div class="wrap">
     <h2>Run it</h2>
-    <div class="stack">
-      <div class="panel-box">
-        <h3>From source</h3>
-        <p>Requires Python 3.10+.</p>
-        <pre><code>pip install -r requirements.txt
-python Game_Logic/webapp.py</code></pre>
-        <p class="note">Then open <code>http://localhost:5000</code>.</p>
-      </div>
-      <div class="panel-box">
-        <h3>With Docker</h3>
-        <pre><code>docker compose up -d --build</code></pre>
-        <p class="note">
-          Then open <code>http://localhost:8005</code>. The local compose file runs your working copy
-          as-is, and keeps accounts in the <code>dead-but-dreaming-data</code> volume.
-        </p>
-      </div>
-      <div class="panel-box">
-        <h3>Settings</h3>
-        <ul class="plain">
-          <li>Logins are signed with <code>DEAD_BUT_DREAMING_SECRET_KEY</code>. If it isn't set, a key is
-            generated once and kept in the data folder, so set it explicitly when the data folder isn't
-            kept between runs.</li>
-          <li>When <code>REPO_URL</code> is set (the image sets it to this repository), the container
-            updates itself from GitHub every time it starts: the first start fetches <code>main</code>
-            over the code baked into the image, and later starts pull again. If GitHub can't be reached it
-            starts with the code it already has. To pick up new commits on a running container, restart it.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="dev" class="alt">
-  <div class="wrap">
-    <h2>Project structure</h2>
+    <p class="lede">Requires Python 3.10+. Then open <code>http://localhost:5000</code>.</p>
     <div class="panel-box">
-      <pre><code>Dead-But-Dreaming/
-├── Game_Logic/
-│   ├── main.py          # Game state, resources, production and saves
-│   ├── upgrades.py      # Upgrade management
-│   ├── menu.py          # Great Old One names
-│   ├── achievements.py  # Achievement definitions and checks
-│   ├── accounts.py      # Optional logins and account storage
-│   ├── webapp.py        # Flask app and API
-│   ├── templates/       # Page markup
-│   └── static/          # CSS, display script, font, icon
-├── docker/git-sync.sh   # Pulls the latest code when the container starts
-├── Dockerfile
-├── docker-compose.yml   # Local testing
-└── requirements.txt</code></pre>
+      <pre><code>pip install -r requirements.txt
+python Game_Logic/webapp.py</code></pre>
     </div>
+    <details class="more">
+      <summary>With Docker</summary>
+      <div class="more-body">
+        <pre><code>docker compose up -d --build</code></pre>
+        <p>Then open <code>http://localhost:8005</code>. The local compose file runs your working copy as-is, and keeps
+          accounts in the <code>dead-but-dreaming-data</code> volume.</p>
+      </div>
+    </details>
+    <details class="more">
+      <summary>Settings</summary>
+      <div class="more-body">
+        <dl class="kv">
+          <dt><code>DEAD_BUT_DREAMING_SECRET_KEY</code></dt><dd>Signs logins, saves and records. Without it a key is generated once into the data folder, so set it when that folder isn't kept between runs.</dd>
+          <dt><code>DATA_DIR</code></dt><dd>Folder for the accounts database and the generated key. <code>./data</code>, or <code>/app/data</code> in the image.</dd>
+          <dt><code>SECURE_COOKIES</code></dt><dd><code>1</code> marks the login cookie Secure, for a site served over HTTPS.</dd>
+          <dt><code>REPO_URL</code></dt><dd>Set by the image to this repository: the container pulls <code>main</code> every time it starts and reinstalls requirements when needed. Empty runs exactly what is in the image.</dd>
+        </dl>
+      </div>
+    </details>
+    <details class="more">
+      <summary>Tests and coverage</summary>
+      <div class="more-body">
+        <pre><code>pip install -r requirements-dev.txt
+pytest
+npm install
+npm test</code></pre>
+        <p>The game rules are covered by pytest and the display script by Vitest, both held at 100%. The Docker image
+          builds both coverage reports and serves them at <code>/coverage/</code>.</p>
+      </div>
+    </details>
+    <details class="more">
+      <summary>Project structure</summary>
+      <div class="more-body">
+        <pre><code>Game_Logic/
+  main.py          Game state, resources, production and saves
+  upgrades.py      Upgrade management
+  menu.py          Great Old One names
+  achievements.py  Achievement definitions and checks
+  accounts.py      Optional logins and account storage
+  signing.py       Signatures that stop edited saves loading
+  webapp.py        Flask app and API
+  templates/       Page markup
+  static/          CSS, display script, fonts, icon
+tests/             pytest suite; js/ holds the display script's Vitest tests
+coverage-index/    The test coverage landing page, the ronovos-coverage-index submodule
+coverage-reports.json This repo's entry for that page
+docker/git-sync.sh Pulls the latest code when the container starts</code></pre>
+      </div>
+    </details>
   </div>
 </section>
 
