@@ -94,6 +94,8 @@ services:
     environment:
       <<: [*portfolio-sso, *no-git-sync, *flask-proxy]
       ESOTERIC_CHAT_SECRET_KEY: ${ESOTERIC_CHAT_SECRET_KEY:?set ESOTERIC_CHAT_SECRET_KEY in .env}
+    volumes:
+      - esoteric-chat-data:/app/data
     restart: unless-stopped
 
   gunsystem:
@@ -119,6 +121,11 @@ services:
   ttrpg-toolkit:
     <<: *hardening
     build: https://github.com/Ronovo/ttrpg-player-toolkit.git#main
+    environment:
+      <<: [*portfolio-sso, *flask-proxy]
+      TOOLKIT_SECRET_KEY: ${TOOLKIT_SECRET_KEY:?set TOOLKIT_SECRET_KEY in .env}
+    volumes:
+      - ttrpg-toolkit-data:/app/data
     restart: unless-stopped
 
 volumes:
@@ -129,3 +136,5 @@ volumes:
   casino-data:
   dead-but-dreaming-data:
   gunsystem-data:
+  ttrpg-toolkit-data:
+  esoteric-chat-data:
