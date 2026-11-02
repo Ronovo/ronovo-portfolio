@@ -40,7 +40,6 @@ SITE = {
         },
         {
             "title": "Personal RuneScape Tracker",
-            "featured": True,
             "category": "RuneScape",
             "app": "osrs-tracker",
             "desc": "A self-hosted Old School RuneScape dashboard.",
@@ -124,6 +123,7 @@ SITE = {
         },
         {
             "title": "Stand Alone Gun System",
+            "featured": True,
             "category": "Games",
             "app": "gunsystem",
             "desc": "A text-based weapons system for games: an armory of 26 guns across 6 classes, a firing range with distance, dummy sizes and fire modes, and bulk-fire balance reports.",
