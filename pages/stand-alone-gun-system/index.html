@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stand Alone Gun System - a text-based weapons system</title>
-<meta name="description" content="A simple weapons system built in Python: an importable gunsystem library plus a range demo you can play in the browser or the terminal.">
+<title>Stand Alone Gun System - a Python weapons system</title>
+<meta name="description" content="A simple weapons system built in Python: an importable gunsystem library plus a range demo you can play in the browser.">
 <meta name="color-scheme" content="dark">
-<meta property="og:title" content="Stand Alone Gun System - a text-based weapons system">
-<meta property="og:description" content="A simple weapons system built in Python: an importable gunsystem library plus a range demo you can play in the browser or the terminal.">
+<meta property="og:title" content="Stand Alone Gun System - a Python weapons system">
+<meta property="og:description" content="A simple weapons system built in Python: an importable gunsystem library plus a range demo you can play in the browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ronovo.github.io/projects/stand-alone-gun-system/">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
@@ -45,8 +45,8 @@
     <p class="eyebrow">Games</p>
     <h1>Stand Alone Gun System</h1>
     <p class="tag">
-      A simple, text-based weapons system in Python. The <code>gunsystem</code> library can be imported into other
-      games, and the repo includes a range demo you can play in the browser or the terminal.
+      A simple weapons system in Python. The <code>gunsystem</code> library can be imported into other
+      games, and the repo includes a range demo you can play in the browser.
     </p>
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
@@ -55,6 +55,7 @@
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>Python 3.10+ / Flask</dd></div>
+      <div><dt>Version</dt><dd>1.5</dd></div>
       <div><dt>Guns</dt><dd>26 across 6 classes</dd></div>
       <div><dt>Runs in</dt><dd>Docker</dd></div>
       <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
@@ -68,11 +69,29 @@
   <div class="wrap">
     <h2>What it does</h2>
     <ul class="features">
-      <li><b>Hit calculation</b><p>Dummy size, damage drop off, bullet drop, muzzle spray and critical chance, worked out from target distance and gun type.</p></li>
-      <li><b>Armory</b><p>A menu to look over every gun you have.</p></li>
-      <li><b>Gun range</b><p>Test any gun at every listed range, with bulk firing options per gun and a count of the dummies you've destroyed this session.</p></li>
-      <li><b>Balance reports</b><p>One report per weapon in <code>/Balance Reports</code>: 15 full magazines at each dummy type, every range and each firing mode (Single, 3 Round, Auto).</p></li>
+      <li><b>Hit calculation</b><p>Dummy size, damage drop off, bullet drop, muzzle spray and critical chance, worked out from target distance and gun type. Spray control and critical chance per class, damage that varies per hit, shotgun pellets, cover and moving targets, and an exact hit chance for any shot.</p></li>
+      <li><b>Armory</b><p>A menu to look over every gun, with its hit chance and a chart of the damage a hit does at each distance.</p></li>
+      <li><b>Gun range</b><p>Test any gun at every listed range in Live fire: hits, misses and criticals land on the dummy as they happen, and reloads take the gun's reload time. Forms mode works with JavaScript off. A counter tracks the dummies you've destroyed, and Bulk Fire runs up to 1000 shots per gun.</p></li>
+      <li><b>Balance reports</b><p>15 full magazines at each dummy type, every range and each firing mode (Single, 3 Round, Auto). With portfolio login set up, running one needs a portfolio login, only one runs at a time, and each account sees its own latest results.</p></li>
     </ul>
+    <details class="more">
+      <summary>How a shot is resolved</summary>
+      <div class="more-body">
+        <ol class="steps">
+          <li><span>A target past the gun's max range is always a miss.</span></li>
+          <li><span>Roll 1-100. A 1 or 2 always hits and a 99 or 100 always misses.</span></li>
+          <li><span>Full auto and bursts multiply the roll as a string goes on (muzzle spray), scaled by each class's spray control.</span></li>
+          <li><span>The dummy's size scales it (x1.1 small, x0.9 large).</span></li>
+          <li><span>Distance adds to it in 50 m bands past the gun's base range and takes off inside it. Snipers do worse up close.</span></li>
+          <li><span>Cover adds +10 (light) or +25 (heavy), and a moving target adds +10.</span></li>
+          <li><span>The shot hits when the result is at or below the gun's accuracy. A shotgun rolls once per pellet and hits when any pellet lands.</span></li>
+          <li><span>Damage is full out to the base range, then falls to 25 at max range. Every hit rolls 85-115% of it.</span></li>
+          <li><span>Each class has its own critical chance, from 10% for snipers to 1% for SMGs and LMGs. A critical does x3 damage 80% of the time, x2 the rest.</span></li>
+        </ol>
+        <p>On full auto, a trigger pull fires one second of the gun's rate of fire. That is what bulk fire and balance
+          reports use.</p>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -101,13 +120,14 @@
 <section id="run">
   <div class="wrap">
     <h2>Run it</h2>
-    <p class="lede">Requires Python 3.10 or newer (this build used 3.13.2). Download the project through Git or as a
+    <p class="lede">Requires Python 3.10 or newer (the Docker image runs 3.12). Download the project through Git or as a
       file, open a terminal in its folder, then:</p>
     <div class="panel-box">
-      <pre><code>pip install flask
+      <pre><code>pip install -e ".[web]"
 python -m webapp        # then open http://127.0.0.1:5000</code></pre>
       <p class="note">Menus can be clicked or driven from the keyboard: number keys pick an item, <code>Esc</code> goes back.
-        For the terminal version run <code>python ./main.py</code> (or <code>python -m demo</code>) instead.</p>
+        The top bar picks a theme: Range, Cyberpunk, Dark or Light. The range opens in Live fire; Forms switches to plain
+        page reloads. The browser remembers both.</p>
     </div>
     <details class="more">
       <summary>With Docker</summary>
@@ -115,8 +135,10 @@ python -m webapp        # then open http://127.0.0.1:5000</code></pre>
         <pre><code>docker build -t gunsystem-web .
 docker run -d --name gunsystem-web -p 8000:8000 gunsystem-web</code></pre>
         <p>Open <code>http://127.0.0.1:8000</code>. Set <code>-e GUNSYSTEM_SECRET_KEY=&lt;random string&gt;</code> to keep range
-          sessions valid across restarts, and add <code>-v "${PWD}/Balance Reports:/app/Balance Reports"</code> to keep the
-          balance reports on your machine.</p>
+          sessions valid across restarts.</p>
+        <p>On every start the container pulls the latest commit on <code>main</code> over the code in the image, so a pushed
+          commit goes live on the next restart. If GitHub can't be reached it starts on the code it has.
+          <code>-e REPO_URL=</code> runs exactly what is in the image, and <code>REPO_BRANCH</code> picks another branch.</p>
       </div>
     </details>
     <details class="more">
@@ -124,9 +146,12 @@ docker run -d --name gunsystem-web -p 8000:8000 gunsystem-web</code></pre>
       <div class="more-body">
         <p>The range and destroyed count are kept in the browser for 31 days. With <code>PORTFOLIO_SSO_URL</code> and
           <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the top bar offers to log in with a portfolio account, and while logged in
-          that progress is also kept for the account in <code>DATA_DIR</code> (<code>/app/data</code> in the container, so add
-          a volume there). Logging in on another browser takes whichever copy is newer.</p>
-        <p>Needs <code>pip install pyjwt[crypto]</code> as well as Flask.</p>
+          that progress is also kept for the account in <code>DATA_DIR</code> (<code>data</code> in the folder you run from,
+          <code>/app/data</code> in the container, so add a volume there). Logging in on another browser takes whichever
+          range is newer and the higher destroyed count.</p>
+        <p>When a different account logs in on the same browser, the last account's progress stays with it. Range played
+          logged out joins whichever account logs in next.</p>
+        <p>The web extras (<code>pip install -e ".[web]"</code>) include Flask, PyJWT and ronovo-portfolio-auth.</p>
       </div>
     </details>
     <details class="more">
@@ -138,14 +163,20 @@ gun = Catalog.create("M1911")
 gun.reload()
 result = resolve_shot(gun, Target(distance=100, size="m"))</code></pre>
         <p>From the repo, or with <code>gunsystem/</code> on your Python path. <code>result</code> has <code>hit</code>,
-          <code>damage</code>, <code>critical</code>, <code>remaining_ammo</code> and <code>fired</code> (False when the weapon
-          was empty).</p>
+          <code>damage</code>, <code>critical</code>, <code>pellets_hit</code> (1 for anything but a shotgun),
+          <code>remaining_ammo</code> and <code>fired</code> (False when the weapon was empty). <code>Target</code> also takes
+          <code>cover</code> ("none", "light" or "heavy") and <code>moving</code>. <code>hit_chance(gun, target)</code> gives
+          the odds before you fire.</p>
       </div>
     </details>
     <details class="more">
       <summary>Tests</summary>
       <div class="more-body">
-        <pre><code>python -m unittest discover -s tests -t .</code></pre>
+        <pre><code>pip install -e ".[web,test]"
+python -m unittest discover -s tests -t .
+npm install
+npm test</code></pre>
+        <p>Coverage commands fail below 100%; the Docker image serves both reports at <code>/coverage/</code>.</p>
       </div>
     </details>
   </div>
@@ -161,7 +192,7 @@ result = resolve_shot(gun, Target(distance=100, size="m"))</code></pre>
       <a href="https://github.com/Ronovo/standalonegunsystem#readme">README</a>
       <a href="https://github.com/Ronovo/standalonegunsystem/blob/main/LICENSE">License (BSD 2-Clause)</a>
     </div>
-    <p>Built with Python and Flask.</p>
+    <p>Built with Python and Flask, with a plain JavaScript client.</p>
   </div>
 </footer>
 

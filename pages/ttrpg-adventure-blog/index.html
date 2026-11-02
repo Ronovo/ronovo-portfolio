@@ -55,7 +55,7 @@
     <dl class="facts">
       <div><dt>Stack</dt><dd>Node.js 20.12+ / Astro</dd></div>
       <div><dt>Writes from</dt><dd>Your Obsidian vault</dd></div>
-      <div><dt>Runs in</dt><dd>Docker</dd></div>
+      <div><dt>Runs on</dt><dd>Your machine, or a server with Docker Compose</dd></div>
       <div><dt>License</dt><dd>MIT</dd></div>
     </dl>
   </div>
@@ -74,6 +74,7 @@
       <li><b>Public site</b><p>Read-only static pages with no logins, forms or admin routes. The only half readers ever see.</p></li>
       <li><b>Publish when ready</b><p>Nothing goes live until you publish it, and later edits never touch the live version until you publish again.</p></li>
       <li><b>Campaigns, sessions and a wiki</b><p>Campaign pages list sessions by arc, each with previous and next links and a "Previously on..." recap. Characters, NPCs, places, factions, items and quests list every post that links to them.</p></li>
+      <li><b>Finding your way</b><p>The home page shows active and recently edited campaigns, the archive filters by type, campaign, game, system and status, campaign pages offer "Welcome back... Next session", and out-of-order sessions get an In-game order tab.</p></li>
       <li><b>Story mode</b><p>One switch hides the dice, oracles, sheets and notes so readers can follow just the story, with a panel to choose what stays.</p></li>
       <li><b>Themes and feeds</b><p>Readers pick Original, Light, Dark, Cyberpunk, Eldritch or Fantasy, remembered in their browser, and get a site-wide RSS feed plus one per campaign.</p></li>
     </ul>
@@ -92,6 +93,10 @@
       <dt>Links</dt><dd><code>[[Wiki links]]</code> and <code>![[embeds]]</code> connect sessions, campaigns and wiki entries.</dd>
       <dt>Callouts</dt><dd><code>&gt; [!oracle]</code>, <code>&gt; [!roll]</code>, <code>&gt; [!table]</code> and <code>&gt; [!card]</code> mark solo mechanics and become styled blocks. <code>[!sheet]</code> snapshots a character's stats, and the character's wiki page shows the latest one and how it changed.</dd>
       <dt>Templates</dt><dd>Insert a ready-made page of each type.</dd>
+      <dt>Folding</dt><dd>In play reports, a <code>Combat</code>, <code>Skilling</code> or <code>Oracle Questions</code> heading folds what follows into a collapsed box. A <code>&gt; [!outcome]</code> block stays visible under it.</dd>
+      <dt>Spoilers</dt><dd><code>||hidden text||</code> hides inline text, <code>[!spoiler]</code> is a collapsed block, and each <code>## Session N</code> on a wiki entry becomes a spoiler. RSS feeds never show spoilers. <code>[!ooc]</code> marks out-of-character notes.</dd>
+      <dt>Images</dt><dd><code>[!figure]</code> adds a caption. Images show inline and <code>![[sheet.pdf]]</code> links to the PDF. The admin's <b>Attachments</b> page uploads, inserts and cleans up files in <code>Attachments/</code>.</dd>
+      <dt>Plugins</dt><dd>Properties and Templates (core). PDF Editor (community) fills in PDF character sheets so the site links the filled-in sheet. Turn on <b>Automatically update internal links</b>.</dd>
     </dl>
     <details class="more">
       <summary>Page types and their addresses</summary>
@@ -103,7 +108,7 @@
           <tbody>
             <tr><td><code>play-report</code></td><td><code>/campaigns/&lt;campaign&gt;/session-3/</code></td></tr>
             <tr><td><code>campaign</code></td><td><code>/campaigns/&lt;slug&gt;/</code></td></tr>
-            <tr><td><code>character</code>, <code>npc</code>, <code>place</code>, <code>faction</code>, <code>item</code>, <code>quest</code></td><td><code>/campaigns/&lt;campaign&gt;/wiki/&lt;slug&gt;/</code></td></tr>
+            <tr><td><code>character</code>, <code>npc</code>, <code>place</code>, <code>faction</code>, <code>item</code>, <code>quest</code></td><td><code>/campaigns/&lt;campaign&gt;/wiki/&lt;slug&gt;/</code> (or <code>/wiki/&lt;slug&gt;/</code> with no campaign)</td></tr>
             <tr><td><code>review</code></td><td><code>/reviews/&lt;slug&gt;/</code></td></tr>
             <tr><td><code>article</code></td><td><code>/articles/&lt;slug&gt;/</code></td></tr>
             <tr><td><code>game</code></td><td><code>/games/&lt;slug&gt;/</code></td></tr>
@@ -143,7 +148,11 @@
           <dt>Deleting</dt><dd>A pending change. The page stays live until you publish the deletion.</dd>
           <dt>Renaming</dt><dd>Keeps the same page. If its web address changes, the old one redirects.</dd>
           <dt>Preview</dt><dd>Builds the whole vault, drafts included, before anything goes live.</dd>
-          <dt>History</dt><dd>Every published version is kept, and any of them can be restored into the vault.</dd>
+          <dt>History</dt><dd>Every published version is kept, and any of them can be restored into the vault. The current text is backed up first.</dd>
+          <dt>Edit</dt><dd>Changes metadata and text right in the Markdown file, and refuses to save if the file changed since you opened it.</dd>
+          <dt>Unpublish</dt><dd>Takes a page off the site and leaves the file as a draft.</dd>
+          <dt>Deletes</dt><dd>Removed pages stay restorable. <b>Drop</b> deletes them for good.</dd>
+          <dt>Sync conflicts</dt><dd>Conflict copies aren't published. They're listed on the Updates page so you can merge them in Obsidian.</dd>
         </dl>
       </div>
     </details>
@@ -171,11 +180,20 @@ npm start</code></pre>
       </div>
     </details>
     <details class="more">
+      <summary>Settings</summary>
+      <div class="more-body">
+        <p><code>.env</code> sets <code>PUBLIC_PORT</code>/<code>PUBLIC_HOST</code>, <code>ADMIN_PORT</code>/<code>ADMIN_HOST</code>
+          (never <code>0.0.0.0</code>), <code>SITE_URL</code>, <code>VAULT_DIR</code>, <code>DATA_DIR</code>,
+          <code>SITE_TITLE</code> and <code>DISCORD_URL</code>. To open the admin from other devices over Tailscale, set
+          <code>ADMIN_HOST</code> to the machine's Tailscale IP.</p>
+      </div>
+    </details>
+    <details class="more">
       <summary>Tests and project layout</summary>
       <div class="more-body">
         <pre><code>npm test</code></pre>
         <p>An end-to-end suite builds real sites from a sample vault with one of every page type and block, plus fast
-          checks of link parsing, IDs and the frontmatter editor.</p>
+          checks of link parsing, IDs, page models and the frontmatter editor.</p>
         <pre><code>server/   Admin and public servers, vault scanning, publishing, builder
 site/     Astro project: page templates, layout, styles, callout plugin
 data/     Created on first run: publish state, snapshots, built sites

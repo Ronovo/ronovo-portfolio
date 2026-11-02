@@ -30,7 +30,7 @@
       <span>Esoteric Chat</span>
     </a>
     <a class="link" href="#chat">Using it</a>
-    <a class="link" href="#commands">Commands</a>
+    <a class="link" href="#languages">Languages</a>
     <a class="link" href="#run">Run it</a>
     <a class="link gh" href="https://github.com/Ronovo/esoteric-chat" rel="noopener">Source</a>
   </nav>
@@ -53,6 +53,7 @@
     <dl class="facts">
       <div><dt>Stack</dt><dd>Python 3.10+ / Flask</dd></div>
       <div><dt>Runs in</dt><dd>Docker</dd></div>
+      <div><dt>Saves</dt><dd>SQLite, for logged-in accounts</dd></div>
       <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
     </dl>
   </div>
@@ -70,30 +71,33 @@
       <li><b>Try example</b><p>Lists sample programs for the selected language and fills in the one you pick.</p></li>
       <li><b>Commands</b><p>Shows the language's valid characters.</p></li>
       <li><b>Language Explained</b><p>Opens the language's esolangs.org page.</p></li>
-      <li><b>$ commands</b><p>Messages starting with <code>$</code> run whatever language is selected, except under Kallisti, which repeats every message back exactly.</p></li>
-      <li><b>Exact input</b><p>Everything after the command name and one space or new line is passed on exactly as typed.</p></li>
+      <li><b>Every message runs</b><p>Each message runs in the selected language. Kallisti repeats every message back exactly: first as it looked once scrambled, under a "Scrambled:" line, then the exact echo.</p></li>
+      <li><b>New chat</b><p>Opens another chat in the sidebar. Each chat keeps its own messages, language and unsent draft. Close one with its &times; button; the last one stays open.</p></li>
+      <li><b>Clear Chat</b><p>Asks first, then empties the open chat's messages. Its name, language and draft stay.</p></li>
+      <li><b>Themes</b><p>Esoteric (the default, follows the system's light or dark setting), Cyberpunk, Dark, Light, Punch Card, Chalkboard and Baby Girl.</p></li>
     </ul>
+    <p>Limits: 64 KB a request, 65,536 characters of replies per message, a 30,000-cell Brainfart tape and 1,000,000
+      steps. An account can save 50 chats, and a chat keeps its newest 1,000 messages. The HQ9+ <code>+</code> accumulator
+      is shared by everyone on the server.</p>
   </div>
 </section>
 
-<section id="commands" class="alt">
+<section id="languages" class="alt">
   <div class="wrap">
-    <h2>Commands</h2>
+    <h2>Languages</h2>
     <div class="panel-box">
       <table class="kinds">
         <thead>
-          <tr><th>Command</th><th>Description</th></tr>
+          <tr><th>Language</th><th>Notes</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>$ping</code></td><td>Returns pong in Brainfart</td></tr>
-          <tr><td><code>$hi</code> / <code>$hello</code></td><td>Returns hello in Brainfart</td></tr>
-          <tr><td><code>$fivecommand &lt;code&gt;</code></td><td>5command</td></tr>
-          <tr><td><code>$bf &lt;code&gt;</code></td><td>Brainfart</td></tr>
-          <tr><td><code>$deadsimple &lt;code&gt;</code></td><td>DeadSimple</td></tr>
-          <tr><td><code>$hatemath &lt;code&gt;</code></td><td>Hatemath</td></tr>
-          <tr><td><code>$hq9plus &lt;code&gt;</code></td><td>HQ9+</td></tr>
-          <tr><td><code>$kallisti &lt;code&gt;</code></td><td>Kallisti</td></tr>
-          <tr><td><code>$unnecessary &lt;code&gt;</code></td><td>Unnecessary (an empty program or <code>#</code> is a successful call)</td></tr>
+          <tr><td>5command</td><td></td></tr>
+          <tr><td>Brainfart</td><td></td></tr>
+          <tr><td>DeadSimple</td><td></td></tr>
+          <tr><td>Hatemath</td><td></td></tr>
+          <tr><td>HQ9+</td><td></td></tr>
+          <tr><td>Kallisti</td><td></td></tr>
+          <tr><td>Unnecessary</td><td>An empty program or <code>#</code> is a successful call</td></tr>
         </tbody>
       </table>
     </div>
@@ -102,9 +106,9 @@
       <div class="more-body">
         <dl class="kv">
           <dt>Brainfart</dt><dd>Supports nested loops, uses 8-bit wrapping cells and stops after 1,000,000 steps.</dd>
-          <dt>HQ9+</dt><dd>Accepts upper- and lowercase commands; the <code>+</code> accumulator is kept in memory per server process instead of in <code>index.json</code>.</dd>
-          <dt>Kallisti</dt><dd>Reverses each message, swaps its case and shifts every letter 5 places, then undoes all three, so the message still comes back exactly as sent.</dd>
-          <dt><code>$close</code></dt><dd>Dropped, because there is no bot connection to close.</dd>
+          <dt>HQ9+</dt><dd>Accepts upper- and lowercase commands; the <code>+</code> accumulator is kept in memory per server process instead of in <code>index.json</code>, and the 10-reply limit is gone (the output cap covers it).</dd>
+          <dt>Kallisti</dt><dd>Scrambles each message with 1 to 13 random passes (reverse, swap case, shift letters, rotate, flip blocks, riffle, mirror alphabet, leetspeak, reverse each word, wave case, deal into piles), then undoes them in reverse order, so the message still comes back exactly as sent. The scrambled message is shown first.</dd>
+          <dt><code>$</code> commands</dt><dd>Gone (<code>$ping</code>, <code>$hi</code>, <code>$hello</code>, <code>$close</code> and one per language). Every message runs in the selected language, and <b>Try example</b> holds the sample programs.</dd>
         </dl>
       </div>
     </details>
@@ -115,7 +119,8 @@
   <div class="wrap">
     <h2>Run it</h2>
     <p class="lede">Requires Python 3.10 or newer. Flask's built-in server is fine on your own machine or a LAN;
-      <code>--host 0.0.0.0</code> lets other machines connect.</p>
+      <code>--host 0.0.0.0</code> lets other machines connect. Don't add <code>--debug</code> then: its debugger lets anyone
+      who can reach the server run code on it.</p>
     <div class="panel-box">
       <pre><code>python -m venv .venv
 .venv\Scripts\activate           # Windows; use `source .venv/bin/activate` elsewhere
@@ -126,8 +131,11 @@ python -m esoteric_chat.server   # http://127.0.0.1:5000  (--host, --port, --deb
       <summary>With Docker</summary>
       <div class="more-body">
         <pre><code>docker build -t esoteric-chat .
-docker run -d -p 5000:5000 esoteric-chat</code></pre>
-        <p>The <code>Dockerfile</code> runs the app under gunicorn on port 5000. It keeps no data, so it needs no volume.</p>
+docker run -d -p 5000:5000 -v esoteric-chat-data:/app/data esoteric-chat</code></pre>
+        <p>The <code>Dockerfile</code> runs the app under gunicorn on port 5000. Saved chats and the generated session key live
+          in <code>/app/data</code>, so mount a volume there to keep them.</p>
+        <p>On every start the container runs <code>docker/git-sync.sh</code>, which pulls the latest commit on GitHub
+          <code>main</code>, so a pushed commit goes live on the next restart without rebuilding.</p>
       </div>
     </details>
     <details class="more">
@@ -136,15 +144,19 @@ docker run -d -p 5000:5000 esoteric-chat</code></pre>
         <p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the header offers to log in with
           a portfolio account and shows who is logged in, reading <b>Log in as</b> plus the portfolio username when this
           browser is logged in there.</p>
-        <p>Nothing is saved to the account yet. Set <code>ESOTERIC_CHAT_SECRET_KEY</code> to keep logins across restarts.</p>
+        <p>Logged in, your chats and theme are saved to the account and come back on any device; logged out, chats last
+          until the page is reloaded and the theme is kept in this browser. Logins last across restarts: the session key is
+          <code>ESOTERIC_CHAT_SECRET_KEY</code> when set, otherwise one is generated once into the data folder.</p>
       </div>
     </details>
     <details class="more">
       <summary>API</summary>
       <div class="more-body">
         <dl class="kv">
-          <dt><code>GET /api/languages</code></dt><dd><code>{"languages": [{"id", "name", "examples", "intro", "info_url", "help"}]}</code> in picker order; the first is selected on load. <code>examples</code> is a list of <code>{"label", "code"}</code>, <code>intro</code> is shown when the language is selected (or <code>null</code>), and <code>help</code> is the card the <b>Commands</b> button shows.</dd>
-          <dt><code>POST /api/chat</code></dt><dd>Takes <code>{"message": "...", "language": "bf"}</code> and returns <code>{"replies": [...]}</code>. Each reply is <code>{"type": "text" | "error", "text"}</code> or <code>{"type": "help", "title", "color", "fields": [{"name", "value"}]}</code>.</dd>
+          <dt><code>GET /api/languages</code></dt><dd><code>{"languages": [{"id", "name", "examples", "intro", "info_url", "help"}]}</code> in picker order; the first is selected on load. <code>examples</code> is a list of <code>{"label", "code"}</code>, <code>intro</code> is shown when the language is selected (every language has one), and <code>help</code> is the card the <b>Commands</b> button shows.</dd>
+          <dt><code>POST /api/chat</code></dt><dd>Takes <code>{"message": "...", "language": "bf"}</code> and returns <code>{"replies": [...]}</code>. Each reply is <code>{"type": "text" | "error", "text"}</code>. Add <code>"chat_id"</code> and <code>"meta"</code> to also save the message and its replies to that chat; this needs a portfolio login.</dd>
+          <dt>Saved chats</dt><dd><code>GET</code>/<code>POST /api/chats</code>, <code>PATCH</code>/<code>DELETE /api/chats/&lt;id&gt;</code> and <code>DELETE</code>/<code>POST /api/chats/&lt;id&gt;/messages</code>. These need a portfolio login and only reach the account's own chats.</dd>
+          <dt><code>PUT /api/theme</code></dt><dd>Saves the theme to the logged-in account.</dd>
         </dl>
       </div>
     </details>
@@ -153,13 +165,16 @@ docker run -d -p 5000:5000 esoteric-chat</code></pre>
       <div class="more-body">
         <pre><code>pip install -r requirements-dev.txt
 python -m pytest</code></pre>
-        <p>The tests cover every interpreter, the <code>$</code> commands, and the HTTP API.</p>
+        <p>The tests cover every interpreter, the language examples, the HTTP API, saved chats and portfolio login. The
+          chat page's script has its own Vitest tests: <code>npm install</code> once, then <code>npm test</code>.</p>
         <pre><code>esoteric_chat/interpreters.py   The esoteric language interpreters
-esoteric_chat/commands.py       ChatEngine: $commands, language metadata, help cards
+esoteric_chat/commands.py       ChatEngine: runs the languages, language metadata, help cards
 esoteric_chat/server.py         Flask app and the command-line entry point
+esoteric_chat/storage.py        ChatStore: the chats saved to portfolio accounts (SQLite)
 esoteric_chat/templates/        The chat page
 esoteric_chat/static/           Client script and styles
-tests/                          pytest suite</code></pre>
+tests/                          pytest suite; js/ holds the chat page's Vitest tests
+docker/git-sync.sh              Updates the container from GitHub on start</code></pre>
       </div>
     </details>
   </div>

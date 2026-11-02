@@ -71,7 +71,7 @@
     <h2>Features</h2>
     <ul class="features">
       <li><b>Nine Great Old Ones</b><p>Play as one of nine, or name your own.</p></li>
-      <li><b>Ten resources</b><p>Cultists to Great Old Ones, each with a manager and five upgrades: speed 2x, 3x and 5x, production 2x and 5x.</p></li>
+      <li><b>Ten resources</b><p>Cultists to Great Old Ones, with animated progress bars, each with a manager and five upgrades: speed 2x, 3x and 5x, production 2x and 5x.</p></li>
       <li><b>Five difficulties</b><p>Quick and Easy in 15-20 minutes, Short Dream in about an hour, up to an Eternal run of 60-80 hours.</p></li>
       <li><b>Idle or Clicker Mode</b><p>Chosen per world. In Clicker Mode, tapping a working resource hurries it along.</p></li>
       <li><b>35 achievements</b><p>Grouped by difficulty, with a timed pair per difficulty and filters for earned and mode.</p></li>
@@ -126,9 +126,11 @@
     <dl class="kv">
       <dt>Merging</dt><dd>Logging in merges this browser's saves, achievements and devours with the account's. Two copies of one world keep the one further along, the newer breaking a tie. A different world under a name the account holds replaces it when it began later. Each devour counts once. An account keeps up to 50 worlds.</dd>
       <dt>Backups</dt><dd>Saves are copied to the account whenever progress changes, every 30 seconds, and when you leave the page.</dd>
-      <dt>Deleting</dt><dd>Deleting a world deletes it from the account too, and other browsers drop their copies on their next sync.</dd>
-      <dt>Shared browsers</dt><dd>Logging out keeps this browser's copy. Saves that came from one account are cleared when a different account logs in, and stay in their own account.</dd>
-      <dt>Lockouts</dt><dd>Five wrong passwords in a row lock a username's logins for a minute. A password reset logs the account out of every other browser.</dd>
+      <dt>Deleting</dt><dd>Deleting a world deletes it from the account too, and other browsers drop their copies on their next sync. A delete made while the server can't be reached waits and is sent with the next sync.</dd>
+      <dt>Shared browsers</dt><dd>Logging out keeps this browser's copy. Saves that came from one account are cleared when a different account logs in, and stay in their own account. Saves made while logged out join whichever account logs in next.</dd>
+      <dt>Lockouts</dt><dd>Five wrong passwords in a row lock a username's logins for a minute. A password reset logs the account out of every other browser. Each gunicorn worker counts on its own, so with the image's two workers a username gets up to ten tries a minute.</dd>
+      <dt>Usernames</dt><dd>Public: registering says when one is taken, and <b>Forgot Password</b> says when there is no such account.</dd>
+      <dt>Storage</dt><dd>Accounts are kept in a SQLite database in the data folder, with passwords stored as salted hashes. Python's SQLite needs to be 3.35 or newer.</dd>
       <dt>Reset</dt><dd>Creating an account asks for a security question. <b>Forgot Password</b> resets with its answer; five wrong answers lock resets for 15 minutes.</dd>
     </dl>
     <details class="more">
@@ -137,7 +139,8 @@
         <p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the top bar offers to log in with
           a portfolio account, and reads <b>Log In as</b> plus the portfolio username when this browser is logged in there.
           The first such login links a Dead But Dreaming account you already have, or makes a new one named after the
-          portfolio username.</p>
+          portfolio username, with a number added if that name is taken. Every later portfolio login from any device
+          opens the linked account.</p>
         <p>A new account has no password of its own, so the portfolio is the only way into it. Without those two settings
           the app runs on its own. The <a href="https://github.com/Ronovo/Dead-But-Dreaming#accounts">README</a> has the rest.</p>
       </div>
@@ -158,7 +161,8 @@
 <section id="run" class="alt">
   <div class="wrap">
     <h2>Run it</h2>
-    <p class="lede">Requires Python 3.10+. Then open <code>http://localhost:5000</code>.</p>
+    <p class="lede">Requires Python 3.10+. Then open <code>http://localhost:5000</code>. A run from source keeps its
+      accounts and generated session key in <code>./data</code>.</p>
     <div class="panel-box">
       <pre><code>pip install -r requirements.txt
 python Game_Logic/webapp.py</code></pre>
@@ -178,7 +182,7 @@ python Game_Logic/webapp.py</code></pre>
           <dt><code>DEAD_BUT_DREAMING_SECRET_KEY</code></dt><dd>Signs logins, saves and records. Without it a key is generated once into the data folder, so set it when that folder isn't kept between runs.</dd>
           <dt><code>DATA_DIR</code></dt><dd>Folder for the accounts database and the generated key. <code>./data</code>, or <code>/app/data</code> in the image.</dd>
           <dt><code>SECURE_COOKIES</code></dt><dd><code>1</code> marks the login cookie Secure, for a site served over HTTPS.</dd>
-          <dt><code>REPO_URL</code></dt><dd>Set by the image to this repository: the container pulls <code>main</code> every time it starts and reinstalls requirements when needed. Empty runs exactly what is in the image.</dd>
+          <dt><code>REPO_URL</code></dt><dd>Set by the image to this repository: the container pulls <code>main</code> every time it starts and reinstalls <code>requirements.txt</code> when the commit is new, retrying a failed install on the next start. If GitHub can't be reached it starts on the code it has. Empty runs exactly what is in the image. <code>REPO_BRANCH</code>, <code>SYNC_DIR</code> and <code>BUILD_CMD</code> change the branch, folder and install step.</dd>
         </dl>
       </div>
     </details>
@@ -188,7 +192,10 @@ python Game_Logic/webapp.py</code></pre>
         <pre><code>pip install -r requirements-dev.txt
 pytest
 npm install
-npm test</code></pre>
+npm test
+python -m coverage run -m pytest
+python -m coverage report
+npm run coverage</code></pre>
         <p>The game rules are covered by pytest and the display script by Vitest, both held at 100%. The Docker image
           builds both coverage reports and serves them at <code>/coverage/</code>.</p>
       </div>
@@ -208,8 +215,13 @@ npm test</code></pre>
   static/          CSS, display script, fonts, icon
 tests/             pytest suite; js/ holds the display script's Vitest tests
 coverage-index/    The test coverage landing page, the ronovos-coverage-index submodule
-coverage-reports.json This repo's entry for that page
-docker/git-sync.sh Pulls the latest code when the container starts</code></pre>
+coverage-reports.json This repo's entry for that page: its name and reports
+docker/git-sync.sh Pulls the latest code when the container starts
+Dockerfile
+docker-compose.yml Local testing
+requirements.txt   Flask, PyJWT and ronovo-portfolio-auth
+requirements-dev.txt Adds pytest and coverage
+package.json       The display script's test tools</code></pre>
       </div>
     </details>
   </div>

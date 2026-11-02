@@ -119,6 +119,7 @@ SITE = {
             "source": "https://github.com/Ronovo/online-space-station",
             "page": "space-station-explorer",
             "links": [{"label": "Play", "port": 8003, "subdomain": "space"},
+                      {"label": "Player Guide", "url": "https://space.ronovo.io/wiki/"},
                       {"label": "Coverage", "url": "https://space.ronovo.io/coverage/"}],
         },
         {

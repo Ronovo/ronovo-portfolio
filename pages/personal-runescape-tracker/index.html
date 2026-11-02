@@ -70,8 +70,8 @@
     <dl class="kv">
       <dt>Character</dt><dd>Any player's Jagex hiscores: combat level, total level and XP, skill levels, XP and ranks, boss kill counts and minigame scores.</dd>
       <dt>Progress from RuneLite</dt><dd>What the hiscores don't show, synced by <a href="/projects/ronovos-sync-tool/">Ronovo's Sync Tool</a>: quests with type and membership filters, diary tiers by area, combat achievements and points, the collection log obtained and missing, and completed Leagues tasks from the <a href="/projects/leagues-task-plugin/">Leagues Tasks</a> plugin.</dd>
-      <dt>Grand Exchange</dt><dd>OSRS Wiki market data: 24-hour risers and fallers, price, volume and freshness filters, and item pages with a price history chart, margins and alch values.</dd>
-      <dt>Flip Helper</dt><dd>Scans the market for buy-low, sell-high opportunities with after-tax profit, ROI, GP/hr and confidence, plus presets, filters, a per-character watchlist and a calculator for any item.</dd>
+      <dt>Grand Exchange</dt><dd>OSRS Wiki market data: 24-hour risers and fallers, High Volume and Random quick views, an F2P toggle, price, volume and freshness filters, item search that links into the Flip Helper, and item pages with a price history chart, margins and alch values.</dd>
+      <dt>Flip Helper</dt><dd>Scans the market for buy-low, sell-high opportunities with after-tax profit, ROI, GP/hr and confidence, plus presets (Penny Arcade, High Margin, Best ROI, GP / Hour, Best Overall and Fits My Bankroll), filters, a per-character watchlist and a calculator for any item.</dd>
     </dl>
     <p class="note">Prices come from completed trades, not live offers. Always check the in-game GE offer box before committing money.</p>
   </div>
@@ -101,7 +101,7 @@
   <div class="wrap">
     <h2>Run it</h2>
     <p class="lede">
-      A small Node server you host yourself; there is no shared public instance. Needs <a href="https://nodejs.org/">Node.js</a> 24 or newer.
+      A small Node server you can host yourself. Needs <a href="https://nodejs.org/">Node.js</a> 24 or newer.
     </p>
     <div class="panel-box">
       <pre><code>npm ci
@@ -121,6 +121,17 @@ docker run -d --name osrs-tracker --restart unless-stopped \
   osrs-tracker</code></pre>
         <p>Keep the <code>-v</code> volume: it holds every synced character and watchlist, and is lost with the container
           otherwise. <code>docker logs osrs-tracker</code> shows the LAN token.</p>
+        <p>On every start the container runs <code>docker/git-sync.sh</code>, which pulls the latest commit on GitHub
+          <code>main</code> and rebuilds it if needed, so a pushed commit goes live on the next restart.</p>
+      </div>
+    </details>
+    <details class="more">
+      <summary>Accounts and portfolio login</summary>
+      <div class="more-body">
+        <p>On a public host each player registers with a username, password and security question; <b>Forgot password?</b>
+          resets the password with the answer. With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code>
+          set, the header also offers to log in with a portfolio account. The first portfolio login links an existing
+          tracker account or makes a new one.</p>
       </div>
     </details>
     <details class="more">
@@ -132,7 +143,7 @@ docker run -d --name osrs-tracker --restart unless-stopped \
           </thead>
           <tbody>
             <tr><td><code>JWT_SECRET</code> + <code>LAN_MODE=1</code></td><td>You or friends on a home network</td><td>One shared token, printed when the server starts</td></tr>
-            <tr><td><code>JWT_SECRET</code> only</td><td>A site on the internet (use HTTPS)</td><td>Each player registers and copies a personal token</td></tr>
+            <tr><td><code>JWT_SECRET</code> only</td><td>A site on the internet (use HTTPS)</td><td>Each player registers (or logs in with a portfolio account) and copies a personal token</td></tr>
             <tr><td>Neither</td><td>Just hiscores and the GE</td><td>Syncing is turned off</td></tr>
           </tbody>
         </table>

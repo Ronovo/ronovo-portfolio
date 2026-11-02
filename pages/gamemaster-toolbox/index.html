@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GM Toolbox - a toolkit for tabletop gamemasters</title>
-<meta name="description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, and share them as JSON.">
+<meta name="description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, keep character sheet PDFs, and share them as JSON.">
 <meta name="color-scheme" content="dark">
 <meta property="og:title" content="GM Toolbox - a toolkit for tabletop gamemasters">
-<meta property="og:description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, and share them as JSON.">
+<meta property="og:description" content="A self-hosted web toolkit for tabletop gamemasters: build dice and card oracles, chain them into flows that ask questions and branch, keep character sheet PDFs, and share them as JSON.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ronovo.github.io/projects/gamemaster-toolbox/">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
@@ -53,7 +53,7 @@
     </div>
     <dl class="facts">
       <div><dt>Stack</dt><dd>ASP.NET Core on .NET 10</dd></div>
-      <div><dt>Saves</dt><dd>SQLite, one file</dd></div>
+      <div><dt>Saves</dt><dd>SQLite + sheet PDFs</dd></div>
       <div><dt>Runs in</dt><dd>Docker</dd></div>
       <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
     </dl>
@@ -74,7 +74,11 @@
       <li><b>Oracle builder</b><p>Dice oracles use any die from d4 to d100, or several dice such as 2d6. Card oracles use a playing-card or tarot deck.</p></li>
       <li><b>Rolling and drawing</b><p>Roll a table, or draw from a deck shuffled for your session. Which cards are left is per person and per sitting.</p></li>
       <li><b>Flows</b><p>Chain oracles together and run them a step at a time, with questions and branches along the way.</p></li>
-      <li><b>Export and import</b><p>Download every game system, oracle and flow as one versioned JSON file, and read it back in elsewhere.</p></li>
+      <li><b>Sheets</b><p>Upload character sheet PDFs, with a version history when you upload a new copy under the same name. Export All zips them.</p></li>
+      <li><b>Export and import</b><p>Download everything, or just the oracles or flows you pick, as one versioned JSON file, and import it into another account or instance. The Import page has an example file to try.</p></li>
+      <li><b>Accounts</b><p>A username and password plus a security question for resets. Logged out, only the About and login pages open.</p></li>
+      <li><b>Private by design</b><p>Every game system, oracle, flow and sheet belongs to the account that made it. To share, export the file and send it. Deleting your account deletes everything in it.</p></li>
+      <li><b>Portfolio login</b><p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the login page offers to log in with a portfolio account.</p></li>
       <li><b>Color themes</b><p>Pick a theme from the dropdown in the top right.</p></li>
     </ul>
   </div>
@@ -97,6 +101,7 @@
           <tr><td><code>Choice</code></td><td>Asks a question with a dropdown of options you write. An option can name an oracle.</td></tr>
           <tr><td><code>Text</code></td><td>Asks a question and takes a typed answer.</td></tr>
           <tr><td><code>RollChosen</code></td><td>Rolls whichever oracle an earlier step picked.</td></tr>
+          <tr><td><code>Loop</code></td><td>Asks how many times (1-50) to roll the next step. The last roll decides branches and picked tables.</td></tr>
         </tbody>
       </table>
       <p class="note">
@@ -112,14 +117,17 @@
   <div class="wrap">
     <h2>Run it</h2>
     <p class="lede">
-      There's no database server to install; the whole toolbox lives in one SQLite file. It is meant for a machine
-      on your own network, shared with the people at your table. There are no permissions yet, so it isn't set up
-      to be exposed to the internet.
+      There's no database server to install; everything lives in <code>App_Data/</code>: one SQLite file plus the
+      uploaded sheet PDFs. It is meant for a machine on your own network, shared with the people at your table.
+      Every account's items are private to it, but it still isn't set up to be exposed to the internet.
     </p>
     <div class="panel-box">
       <pre><code>docker compose up -d</code></pre>
       <p class="note">Open <code>http://localhost:9000</code>, or <code>http://&lt;your-machine's-ip&gt;:9000</code> from
         elsewhere on the network. <code>docker compose down</code> stops it; your data stays in its volume.</p>
+      <p class="note">Windows will likely ask to allow it through the firewall the first time; if you dismiss that, other
+        machines can't reach it. On every start the container pulls the latest commit on GitHub <code>main</code> and
+        republishes it if needed, so a pushed commit goes live on the next restart.</p>
     </div>
     <details class="more">
       <summary>With the .NET SDK instead</summary>

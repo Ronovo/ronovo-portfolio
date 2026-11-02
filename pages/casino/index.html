@@ -55,7 +55,7 @@
     <dl class="facts">
       <div><dt>Stack</dt><dd>Python 3.10+</dd></div>
       <div><dt>Saves</dt><dd>SQLite</dd></div>
-      <div><dt>Server</dt><dd>Flask</dd></div>
+      <div><dt>Server</dt><dd>Flask (gunicorn in Docker)</dd></div>
       <div><dt>License</dt><dd>BSD 2-Clause</dd></div>
     </dl>
   </div>
@@ -67,7 +67,7 @@
   <div class="wrap">
     <h2>The tables</h2>
     <p class="lede">
-      Each table is a JSON file in <code>Data/Tables</code>, and several tables can share one game engine. Around
+      Each game has one table, a JSON file in <code>Data/Tables</code>, played by Vegas rules. Around
       them: accounts, achievements, per-game win and loss records, a chip exchange, and a fresh start for broke
       characters.
     </p>
@@ -77,12 +77,11 @@
           <tr><th>Table</th><th>Game</th><th>Highlights</th></tr>
         </thead>
         <tbody>
-          <tr><td>Blackjack: Ronovo Classic</td><td>Blackjack</td><td>Any winning 21 pays 2:1, natural with a black Jack pays 3:1, double, split, surrender</td></tr>
-          <tr><td>Blackjack: High Roller</td><td>Blackjack</td><td>6 decks, dealer hits soft 17, blackjack 3:2, 100 cr minimum</td></tr>
-          <tr><td>Ultimate Texas Hold'em (+ High Roller)</td><td>Poker</td><td>Ante/Blind/Play, Trips and Pairs Bonus side bets, full kicker comparison</td></tr>
+          <tr><td>Blackjack</td><td>Blackjack</td><td>Vegas rules: 6 decks, dealer hits soft 17, blackjack 3:2, double, split up to 4 hands including any two ten-value cards, surrender, insurance</td></tr>
+          <tr><td>Ultimate Texas Hold'em</td><td>Poker</td><td>Ante/Blind/Play, Trips and Pairs Bonus side bets, full kicker comparison</td></tr>
           <tr><td>EZ Baccarat</td><td>Baccarat</td><td>Commission-free, Dragon 7 and Panda 8 bonus bets</td></tr>
           <tr><td>Guess the Number</td><td>Guess the Number</td><td>Easy to Impossible, five bet types</td></tr>
-          <tr><td>Roulette: European / American</td><td>Roulette</td><td>Straight up, red/black, odd/even, low/high, dozens, columns</td></tr>
+          <tr><td>Roulette</td><td>Roulette</td><td>American double-zero wheel: straight up, red/black, odd/even, low/high, dozens, columns</td></tr>
           <tr><td>Ronovo Downs: Horse Racing</td><td>Horse Racing</td><td>Win/Place/Show on any number of horses, 40-race season, standings, handicapping</td></tr>
         </tbody>
       </table>
@@ -118,8 +117,9 @@
       <div class="more-body">
         <p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the login page offers to log in
           with a portfolio account, and reads <b>Log in as</b> plus the portfolio username when this browser is logged in
-          there. The first such login links a casino account you already have, or makes a new one named after the
-          portfolio username.</p>
+          there. The first such login links a casino account you already have, by logging in to it once, or makes a new
+          one named after the portfolio username, with a number added if that name is taken. Later portfolio logins from
+          any device open the linked account.</p>
         <p>A new account has no password of its own, so the portfolio is the only way into it. Without those two settings
           the app runs on its own.</p>
       </div>
@@ -146,13 +146,30 @@ python main.py</code></pre>
       </div>
     </details>
     <details class="more">
+      <summary>Docker</summary>
+      <div class="more-body">
+        <p>The image runs the casino with gunicorn on port 8000, one worker and 8 threads. Mount a volume at
+          <code>/app/data</code> to keep <code>casino.db</code>. A health check asks <code>/api/session</code> every 30
+          seconds. Building the image runs both test suites and serves the coverage reports at <code>/coverage/</code>.
+          Settings: <code>CASINO_DB</code>, <code>SECURE_COOKIES</code>, <code>FORWARDED_ALLOW_IPS</code>,
+          <code>PORTFOLIO_SSO_URL</code>, <code>PORTFOLIO_SSO_PUBLIC_KEY</code>.</p>
+      </div>
+    </details>
+    <details class="more">
       <summary>Tests</summary>
       <div class="more-body">
         <pre><code>python -m unittest discover -s Tests -t .</code></pre>
-        <p>Game rules are pure functions in <code>casino/rules</code>. Full rounds run through each game's
-          <code>start</code>/<code>act</code> interface with stacked decks, thousands of random rounds check that no credit
-          is ever created or lost (<code>CASINO_SOAK=1</code>), and the edge cases that turned up are kept. The browser
-          client's tests live in <code>Tests/js</code>; both suites cover every line and branch.</p>
+        <p>The tests need the requirements installed. Game rules are pure functions in <code>casino/rules</code>. Full
+          rounds run through each game's <code>start</code>/<code>act</code> interface with stacked decks, thousands of
+          random rounds check that no credit is ever created or lost (the longest only run with <code>CASINO_SOAK=1</code>),
+          and the edge cases that turned up are kept. The browser client's tests live in <code>Tests/js</code>; both suites
+          cover every line and branch.</p>
+        <pre><code>python -m coverage run -m unittest discover -s Tests -t .
+python -m coverage report
+npm test
+npm run coverage</code></pre>
+        <p>The coverage commands fail if either suite drops below 100%. Reports go to <code>coverage/python</code> and
+          <code>coverage/js</code>.</p>
       </div>
     </details>
     <details class="more">
@@ -173,7 +190,11 @@ Data/
   achievements.json     achievement definitions (edits reach existing saves)
   Money/chips.json      starting chips per difficulty
 Tests/                  Python tests; js/ holds the browser client's tests
-requirements-dev.txt    the requirements plus coverage
+coverage-index/         the coverage landing page and its tools (ronovos-coverage-index, as a submodule)
+coverage-reports.json   this repo's entry for that page
+Dockerfile
+requirements.txt        Flask, PyJWT and ronovo-portfolio-auth
+requirements-dev.txt    the requirements plus coverage, for measuring the tests
 package.json            the browser client's test tools (Vitest, jsdom)</code></pre>
       </div>
     </details>
@@ -189,7 +210,8 @@ package.json            the browser client's test tools (Vitest, jsdom)</code></
           <code>start</code>), taking later bets with <code>take</code>, paying with <code>settle</code> and ending with
           <code>finish</code>; register the class in <code>casino/games/__init__.py</code> with a table JSON naming it; and add
           <code>casino/web/static/js/games/&lt;game&gt;.js</code> exporting <code>render(ctx, mount)</code>, listed in
-          <code>GAMES</code> in <code>js/app.js</code>.</p>
+          <code>GAMES</code> in <code>js/app.js</code>. <code>Game</code> also has optional hooks: <code>layout</code>,
+          <code>betting_view</code>, <code>leave</code> and <code>min_buy_in</code>.</p>
       </div>
     </details>
   </div>

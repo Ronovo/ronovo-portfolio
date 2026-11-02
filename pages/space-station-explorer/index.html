@@ -49,6 +49,7 @@
     <div class="cta">
       <a class="btn btn-primary" href="#run">How to run it</a>
       <a class="btn btn-ghost" href="https://github.com/Ronovo/online-space-station" rel="noopener">Source on GitHub</a>
+      <a class="btn btn-ghost" href="https://space.ronovo.io/wiki/" rel="noopener">Player Guide</a>
       <a class="btn btn-ghost" href="https://space.ronovo.io/coverage/" rel="noopener">Coverage</a>
     </div>
     <dl class="facts">
@@ -66,12 +67,13 @@
   <div class="wrap">
     <h2>Core features</h2>
     <ul class="features">
-      <li><b>Accounts</b><p>Register with a username, a password and a security question; each account owns exactly one character, saved after every action. <b>Forgot password?</b> resets with the answer; five wrong answers lock resets for 15 minutes.</p></li>
+      <li><b>Accounts</b><p>Register with a username, a password and a security question; each account owns exactly one character, saved after every action. <b>Forgot password?</b> resets with the answer; five wrong answers lock resets for 15 minutes. A reset logs the account out of every other browser. A security question can't be changed once set, and five wrong passwords in a row lock a username's logins for a minute.</p></li>
       <li><b>Jobs</b><p>Create a character with a job from Staff Assistant to Captain, each with its own access and starting credits.</p></li>
       <li><b>The station</b><p>A hollow-square ring of hallways with Quarters at the junction and Bridge, MedBay, Security, Engineering Bay, Bar and Botany Lab branching off, with random events on the way.</p></li>
-      <li><b>Inventory</b><p>Carry items, store them in your quarters locker, and examine, read, drop or drink them.</p></li>
+      <li><b>Inventory</b><p>Carry items, store them in your quarters locker, hold them in your hands, and examine, read, use, eat, drink or drop them.</p></li>
       <li><b>Health</b><p>Limb damage plus burns, poison and oxygen, treated in MedBay.</p></li>
       <li><b>Crew</b><p>Start alongside procedurally staffed NPC department heads and assistants. Deleting your character erases its progress so you can roll a new one.</p></li>
+      <li><b>Player Guide</b><p>A wiki-style guide at <code>/wiki/</code>, readable without logging in, with pages for the basics, each system and each job. Its prices and numbers are read from the game.</p></li>
     </ul>
   </div>
 </section>
@@ -80,15 +82,16 @@
   <div class="wrap">
     <h2>Station systems</h2>
     <dl class="kv">
-      <dt>Power</dt><dd>Battery levels, power allocation to life support, lighting, security and communications, solar charging, and emergency modes. The Engineering panel is for Engineers and the Captain.</dd>
-      <dt>Life support</dt><dd>Oxygen follows power allocation. Underpowered life support damages the player and crew, with an emergency revive if it reaches critical levels.</dd>
-      <dt>Medical</dt><dd>Paid treatment and assessments in MedBay; Doctors treat themselves for free and monitor crew vitals.</dd>
-      <dt>Security</dt><dd>Access control for restricted areas, door locking for authorised staff, and a crew manifest for Security.</dd>
-      <dt>Stock market</dt><dd>A live simulation traded from your quarters computer, with price history, portfolio and profit tracking, filters and a transaction history.</dd>
-      <dt>Bar</dt><dd>Order from the menu, mix drinks as the Bartender, and watch the alcohol tally on your character sheet.</dd>
-      <dt>Botany</dt><dd>Collect seeds at the botanist station and plant across several planters, with status monitoring and Botanist-only access.</dd>
-      <dt>Bridge and personnel</dt><dd>Talk to the ship's leadership, a crew manifest and NPC job assignment for the Head of Personnel, a public terminal for job-change requests, and Bridge door control for the Captain and HoP.</dd>
-      <dt>Engineering</dt><dd>A fabricator for tools, books and components, and the full power panel for authorised staff.</dd>
+      <dt>Power</dt><dd>Battery levels, power allocation to life support, lighting, security and communications, solar charging, and emergency modes. The Engineering panel is for Engineers, the Captain and the Head of Personnel. System faults knock out lighting, security or communications until they are repaired from that panel with Basic Tools or a Repair Tool.</dd>
+      <dt>Life support</dt><dd>Oxygen follows power allocation. Switching life support off sends a station-wide emergency announcement, with a short grace period before oxygen damage starts. Underpowered life support damages the player and crew, with an emergency revive if it reaches critical levels.</dd>
+      <dt>Medical</dt><dd>Paid treatment and assessments in MedBay. Doctors, the Captain and the Head of Personnel get free full treatment and a crew vitals monitor, where injured crew can be treated and pay from their own credits.</dd>
+      <dt>Security</dt><dd>Access control for restricted areas, door locking and unlocking for authorized staff, and a crew manifest for Security. Guards arrest crew with warrants; wanted crew sometimes offer a bribe, unpaid fines are settled with a guard, and the Security station can pardon prisoners. A petty crime a guard witnesses puts out a warrant.</dd>
+      <dt>Stock market</dt><dd>A live simulation traded from your quarters computer, with a price history chart, a holdings view of what your shares are worth, filters and a transaction history.</dd>
+      <dt>Bar</dt><dd>Order from the menu, mix drinks from the recipe list as the Bartender, and watch the alcohol tally on your character sheet. Drinks are free for the Bartender, and crew drink orders pay the Bartender.</dd>
+      <dt>Botany</dt><dd>A vending machine at the botanist station sells seeds, liquids and tools, restocking one item every 5 minutes. Plant across several planters and water before each growth stage or the plant dies. Miracle Grow, Plentiful Harvest, Aloe for burns, harvesting at the station, and a Trowel or Chainsaw to clear dead plants. The Bartender pays the Botanist 50-150 credits for requested produce.</dd>
+      <dt>Bridge and personnel</dt><dd>Talk to the ship's leadership, a crew manifest and NPC job assignment for the Head of Personnel, a public terminal for job-change requests, and Bridge door control for the Captain and HoP. Command requests the Captain approves or denies: powering life support, a sector lockdown, Power Saving mode, or a warrant.</dd>
+      <dt>Engineering</dt><dd>A fabricator for tools and books, and the full power panel for authorized staff.</dd>
+      <dt>Jobs and errands</dt><dd>Every job has its own hallway events. One errand at a time, shown in the station status: Staff Assistants help or bring items to crew for 25-75 credits, the Botanist delivers produce, the Bartender serves drink orders, and the Doctor treats injured crew.</dd>
     </dl>
     <details class="more">
       <summary>Job access levels</summary>
@@ -145,6 +148,7 @@ python run_server.py</code></pre>
           <dt><code>HOST</code></dt><dd>Interface to bind, default <code>127.0.0.1</code>. Use <code>0.0.0.0</code> so other machines on your network can connect.</dd>
           <dt><code>PORT</code></dt><dd>Port to listen on, default <code>5000</code>.</dd>
           <dt><code>SPACE_ONLINE_SECRET_KEY</code></dt><dd>Session signing key. If unset, one is generated once into <code>instance/secret_key</code>.</dd>
+          <dt><code>SECURE_COOKIES</code></dt><dd><code>1</code> marks the login cookie Secure, for a site served over HTTPS. Off by default.</dd>
         </dl>
       </div>
     </details>
@@ -156,6 +160,11 @@ docker run -d -p 5000:5000 -v space-online-data:/app/instance space-station-expl
         <p>The <code>Dockerfile</code> runs the game under gunicorn on port 5000, with the data in a volume at
           <code>/app/instance</code>. Set <code>SPACE_ONLINE_SECRET_KEY</code> with <code>-e</code> so logins survive the key
           file being lost.</p>
+        <p>On every start the container runs <code>docker/git-sync.sh</code>, which pulls the latest commit on <code>main</code>
+          and reinstalls <code>requirements.txt</code> when that commit is new, so a pushed commit goes live on the next
+          restart. If GitHub can't be reached it starts on the code it has. <code>REPO_URL</code> empty runs exactly what is
+          in the image; <code>REPO_BRANCH</code>, <code>SYNC_DIR</code> and <code>BUILD_CMD</code> change the branch, folder
+          and install step.</p>
       </div>
     </details>
     <details class="more">
@@ -164,7 +173,8 @@ docker run -d -p 5000:5000 -v space-online-data:/app/instance space-station-expl
         <p>With <code>PORTFOLIO_SSO_URL</code> and <code>PORTFOLIO_SSO_PUBLIC_KEY</code> set, the login page offers to log in
           with a portfolio account, and reads <b>Log In as</b> plus the portfolio username when this browser is logged in
           there. The first such login links an account you already have, or makes a new one named after the portfolio
-          username.</p>
+          username, with a number added if that name is taken. Every later portfolio login from any device opens the
+          linked account.</p>
         <p>A new account has no password of its own, so the portfolio is the only way into it. Without those two settings
           the app runs on its own.</p>
       </div>
@@ -173,14 +183,25 @@ docker run -d -p 5000:5000 -v space-online-data:/app/instance space-station-expl
       <summary>Tests and project layout</summary>
       <div class="more-body">
         <pre><code>pip install -r requirements-dev.txt
-python -m pytest</code></pre>
-        <p>The tests cover accounts, character creation, playing and saving, and the core game rules: jobs, door access,
-          inventory.</p>
+python -m pytest
+npm install
+npm test</code></pre>
+        <p>The tests cover accounts, password resets, portfolio login, character creation, playing and saving, and the
+          game itself: every room and station, items and hands, crew movement, jail, power, oxygen, the stock market,
+          botany and the hallway events. Coverage commands fail below 100%; the Docker image serves both reports at
+          <code>/coverage/</code>.</p>
         <pre><code>run_server.py            Starts the game with Flask's built-in server
 space_online/webapp/     Flask app: routes, accounts, SQLite storage, templates, static files
 space_online/game/       The game itself: station map, rooms, items, crew, jobs, power, market
-tests/                   pytest suite
-instance/                Created on first run: the database and secret key (not committed)</code></pre>
+tests/                   pytest suite; js/ holds the page scripts' Vitest tests
+coverage-index/          The test coverage landing page, the ronovos-coverage-index submodule
+coverage-reports.json    This repo's entry for that page: its name and reports
+instance/                Created on first run: the database and secret key (not committed)
+docker/git-sync.sh       Updates the container from GitHub on start
+Dockerfile
+requirements.txt         Flask, PyJWT and ronovo-portfolio-auth
+requirements-dev.txt     Adds pytest and coverage
+package.json             The page scripts' test tools (Vitest, jsdom)</code></pre>
       </div>
     </details>
   </div>
