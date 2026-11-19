@@ -8,8 +8,10 @@ RUN npm run build
 
 # The coverage reports only show what the tests reach, so failing tests or low coverage still build the image.
 FROM frontend AS js-coverage
-COPY coverage-index/istanbul.css /coverage-index/
-RUN npx vitest run --coverage ; mkdir -p /coverage/js ; cat /coverage-index/istanbul.css >> /coverage/js/base.css
+COPY coverage-index/istanbul.css coverage-index/istanbul-tests.js /coverage-index/
+COPY coverage-index/tools/vitest-tests-setup.mjs coverage-index/tools/vitest-tests-reporter.mjs coverage-index/tools/tests-json.mjs /coverage-index/tools/
+RUN npx vitest run --coverage ; mkdir -p /coverage/js ; cat /coverage-index/istanbul.css >> /coverage/js/base.css ; \
+    cat /coverage-index/istanbul-tests.js >> /coverage/js/block-navigation.js
 
 FROM python:3.12-slim@sha256:aa943ce411423c7582288f18707ff66eddcbaeb510502d747a72aeb34f30d159 AS python-coverage
 WORKDIR /src

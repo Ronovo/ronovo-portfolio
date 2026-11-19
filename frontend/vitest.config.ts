@@ -3,13 +3,15 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  server: { fs: { allow: [".", "../coverage-index"] } },
   test: {
     environment: "jsdom",
     include: ["tests/**/*.test.{ts,tsx}"],
-    setupFiles: ["tests/setup.ts"],
+    setupFiles: ["tests/setup.ts", "../coverage-index/tools/vitest-tests-setup.mjs"],
+    reporters: ["default", "../coverage-index/tools/vitest-tests-reporter.mjs"],
     coverage: {
       reportOnFailure: true,
-      provider: "v8",
+      provider: "istanbul",
       include: ["src/**"],
       reporter: ["text", "html", "json-summary"],
       reportsDirectory: "../coverage/js",
