@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 import App from "../src/App";
@@ -43,7 +43,7 @@ describe("App", () => {
     expect(screen.getByText("booting...")).toBeTruthy();
     expect(await screen.findByText("Browse by category")).toBeTruthy();
     expect(fetch).toHaveBeenCalledWith("/api/site");
-    expect(document.title).toBe("Ronovo");
+    await waitFor(() => expect(document.title).toBe("Ronovo"));
     const featured = screen.getByText("Featured").closest("section")!;
     expect(within(featured).getByText("Casino")).toBeTruthy();
     expect(within(featured).queryByText("Chat")).toBeNull();
@@ -63,7 +63,7 @@ describe("App", () => {
     serve();
     renderAt(path);
     expect(await screen.findByText(text)).toBeTruthy();
-    expect(document.title).toBe(title);
+    await waitFor(() => expect(document.title).toBe(title));
   });
 });
 
